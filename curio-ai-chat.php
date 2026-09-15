@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Curio AI Chat
- * Description:       An AI chat widget that answers only from knowledge you control, and says it does not know rather than inventing a price, date or phone number. Bring your own Anthropic, OpenAI or Google Gemini key.
+ * Description:       Answers visitors only from knowledge you control, and says it does not know rather than inventing a price, a date or a phone number.
  * Version:           1.0.0
  * Requires at least: 6.5
  * Requires PHP:      7.4
