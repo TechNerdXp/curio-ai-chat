@@ -1,0 +1,1897 @@
+# Copyright (C) 2026 TechNerdXp
+# This file is distributed under the GPLv2 or later license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Curio AI Chat 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/curio-ai-chat/\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-15T08:03:04Z\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: curio-ai-chat\n"
+
+#: includes/admin/views/appearance.php:81
+msgid "\"Match the visitor\" follows their operating system light or dark setting."
+msgstr ""
+
+#. translators: %s: provider name. */
+#: includes/admin/views/connection.php:152
+msgid "%s API key"
+msgstr ""
+
+#. translators: %s: human readable time difference, e.g. "2 hours". */
+#: includes/admin/views/insights.php:82
+msgid "%s ago"
+msgstr ""
+
+#. translators: %s: number of published items. */
+#: includes/admin/views/sources.php:62
+msgid "%s published item"
+msgid_plural "%s published items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/widget.php:131
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: includes/admin/views/assistant.php:136
+msgid "A button inside the chat, shown the first time the assistant has to say no. The hand-off line above tells somebody how to reach you; this saves them writing the address down and starting again somewhere else."
+msgstr ""
+
+#: includes/admin/views/assistant.php:181
+msgid "A help desk, a booking calendar, a messaging link — anywhere a real person is waiting."
+msgstr ""
+
+#: includes/admin/views/assistant.php:124
+msgid "A page on this site"
+msgstr ""
+
+#: includes/class-curio-rest.php:383
+msgid "A question or title is required."
+msgstr ""
+
+#: includes/admin/views/connection.php:137
+msgid "A saved key is never printed back into this page. Note that this server has no OpenSSL support, so keys are stored as plain text in the database — ask your host to enable the OpenSSL PHP extension if that matters to you."
+msgstr ""
+
+#: includes/admin/views/connection.php:34
+msgid "AI provider"
+msgstr ""
+
+#: includes/admin/views/insights.php:27
+msgid "API calls made"
+msgstr ""
+
+#: includes/admin/views/header.php:70
+msgid "API calls this month"
+msgstr ""
+
+#: includes/admin/views/connection.php:131
+msgid "API keys"
+msgstr ""
+
+#: includes/admin/views/appearance.php:86
+msgid "Accent colour"
+msgstr ""
+
+#: includes/admin/views/insights.php:67
+msgid "Actions"
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:84
+#: includes/providers/class-curio-gemini.php:95
+#: includes/providers/class-curio-openai.php:90
+msgid "Add an API key first."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:20
+msgid "Add an answer"
+msgstr ""
+
+#: includes/admin/views/help.php:27
+msgid "Add the things that are not written anywhere: prices you quote by email, opening hours, your cancellation policy, how long delivery takes. Ten entries covers most of what a small business gets asked."
+msgstr ""
+
+#: includes/admin/views/help.php:103
+msgid "Add your own provider — a self-hosted model, an OpenAI-compatible gateway, an internal endpoint. Implement the provider interface and add it to the array."
+msgstr ""
+
+#: includes/admin/views/connection.php:282
+msgid "Adds a small link under the reply pointing at the page it was drawn from. It is what makes a grounded answer checkable rather than merely asserted, and it sends people to your content."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:122
+msgid "All sources"
+msgstr ""
+
+#: includes/admin/views/appearance.php:236
+msgid "Also read out by screen readers, so keep it descriptive whichever style you choose."
+msgstr ""
+
+#: includes/class-curio-rest.php:380
+msgid "An answer is required."
+msgstr ""
+
+#: includes/admin/views/assistant.php:101
+msgid "An assistant that will not guess declines more often than one that will. That is the trade this plugin is built around, and it makes the moment straight after a decline the most valuable screen in the widget. Two settings cover it: what the assistant says, and what the customer can press."
+msgstr ""
+
+#: includes/admin/views/assistant.php:125
+msgid "An email address"
+msgstr ""
+
+#: includes/admin/views/assistant.php:126
+msgid "Another web address"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:34
+#: includes/class-curio-privacy.php:103
+msgid "Answer"
+msgstr ""
+
+#: includes/admin/views/insights.php:94
+msgid "Answer this"
+msgstr ""
+
+#: includes/admin/views/connection.php:50
+msgid "Answers straight from the knowledge base with no rewriting and no API call. Perfect for checking what it knows before you spend anything."
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:34
+msgid "Anthropic (Claude)"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:55
+msgid "Appearance"
+msgstr ""
+
+#: includes/admin/views/assistant.php:214
+msgid "Appears a few seconds after the page settles, and only until the visitor dismisses it or opens the chat."
+msgstr ""
+
+#: includes/admin/views/appearance.php:300
+#: includes/admin/views/assistant.php:92
+#: includes/class-curio-widget.php:145
+#: templates/widget.php:146
+msgid "Ask a question…"
+msgstr ""
+
+#: includes/admin/views/appearance.php:291
+#: includes/admin/views/assistant.php:67
+#: includes/class-curio-widget.php:179
+msgid "Ask us anything"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:218
+msgid "Asking the provider…"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:54
+#: includes/admin/views/help.php:30
+msgid "Assistant"
+msgstr ""
+
+#: includes/class-curio-widget.php:126
+#: templates/widget.php:106
+msgid "Assistant is typing"
+msgstr ""
+
+#: includes/class-curio-widget.php:131
+msgid "Assistant said"
+msgstr ""
+
+#: includes/admin/views/connection.php:204
+msgid "At most"
+msgstr ""
+
+#: includes/admin/views/appearance.php:340
+msgid "Audience"
+msgstr ""
+
+#: includes/class-curio-indexer.php:235
+msgid "Availability: in stock."
+msgstr ""
+
+#: includes/class-curio-indexer.php:236
+msgid "Availability: out of stock."
+msgstr ""
+
+#: includes/admin/views/appearance.php:242
+msgid "Avatar"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:36
+msgid "Be specific. The assistant will quote this rather than paraphrase it, and it will never add a figure that is not here."
+msgstr ""
+
+#: includes/admin/views/appearance.php:140
+msgid "Body text"
+msgstr ""
+
+#: includes/admin/views/appearance.php:210
+msgid "Bottom gap"
+msgstr ""
+
+#: includes/admin/views/appearance.php:197
+msgid "Bottom left"
+msgstr ""
+
+#: includes/admin/views/appearance.php:196
+msgid "Bottom right"
+msgstr ""
+
+#: includes/admin/views/sources.php:105
+msgid "Build the index"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:167
+msgid "Built by TechNerdXp."
+msgstr ""
+
+#: includes/admin/views/assistant.php:57
+msgid "Business name"
+msgstr ""
+
+#: includes/admin/views/assistant.php:186
+msgid "Button text"
+msgstr ""
+
+#: includes/admin/views/connection.php:237
+msgid "Caching"
+msgstr ""
+
+#: includes/admin/views/help.php:53
+msgid "Can I move it, resize it, or match my brand?"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:53
+msgid "Cancel edit"
+msgstr ""
+
+#: includes/class-curio-indexer.php:238
+msgid "Categories"
+msgstr ""
+
+#: includes/admin/views/appearance.php:290
+#: includes/class-curio-widget.php:169
+msgid "Chat"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:100
+msgid "Chat Assistant"
+msgstr ""
+
+#: includes/admin/views/header.php:78
+msgid "Chat assistant settings"
+msgstr ""
+
+#: includes/class-curio-privacy.php:91
+msgid "Chat assistant transcripts"
+msgstr ""
+
+#: templates/widget.php:163
+msgid "Chat by Curio"
+msgstr ""
+
+#. translators: %d: number of days transcripts are kept. */
+#: includes/class-curio-privacy.php:178
+msgid "Chat messages and replies are stored on this site for %d days so that we can improve the answers, and are then deleted automatically. No IP addresses are recorded."
+msgstr ""
+
+#: includes/class-curio-privacy.php:182
+msgid "Chat messages are not stored on this site."
+msgstr ""
+
+#: includes/admin/views/assistant.php:20
+msgid "Choose a page…"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:224
+msgid "Choose an avatar"
+msgstr ""
+
+#: includes/admin/views/appearance.php:253
+msgid "Choose image"
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:49
+msgid "Claude Haiku 4.5 — fastest and cheapest"
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:51
+msgid "Claude Opus 5 — most capable"
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:50
+msgid "Claude Sonnet 5 — balanced"
+msgstr ""
+
+#: templates/widget.php:63
+msgid "Clear this conversation"
+msgstr ""
+
+#: includes/class-curio-widget.php:132
+msgid "Clear this conversation? It cannot be brought back."
+msgstr ""
+
+#: includes/class-curio-widget.php:123
+#: templates/widget.php:78
+msgid "Close chat"
+msgstr ""
+
+#: includes/class-curio-widget.php:125
+msgid "Collapse chat"
+msgstr ""
+
+#: includes/admin/views/appearance.php:62
+#: includes/admin/views/appearance.php:65
+msgid "Colour scheme"
+msgstr ""
+
+#: includes/admin/views/appearance.php:334
+msgid "Comma separated. The ID is in the URL when you edit a page."
+msgstr ""
+
+#: includes/admin/views/help.php:45
+msgid "Common questions"
+msgstr ""
+
+#: includes/admin/views/appearance.php:175
+msgid "Compact"
+msgstr ""
+
+#. translators: %s: provider name. */
+#: includes/class-curio-rest.php:594
+msgid "Connected. %s answered normally."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:56
+#: includes/admin/views/help.php:38
+msgid "Connection"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:151
+msgid "Connection: paste an API key when you are happy with what it knows. Until then it runs in demo mode and costs nothing."
+msgstr ""
+
+#: includes/admin/views/assistant.php:142
+msgid "Contact page"
+msgstr ""
+
+#: includes/admin/views/sources.php:33
+msgid "Content to index"
+msgstr ""
+
+#. translators: %s: a contrast ratio, such as 1.9. */
+#: includes/admin/class-curio-admin.php:241
+msgid "Contrast %s:1 — fails WCAG AA. Pick a darker or lighter accent."
+msgstr ""
+
+#. translators: %s: a contrast ratio, such as 3.4. */
+#: includes/admin/class-curio-admin.php:239
+msgid "Contrast %s:1 — large text only. Small text will be hard to read."
+msgstr ""
+
+#. translators: %s: a contrast ratio, such as 7.4. */
+#: includes/admin/class-curio-admin.php:237
+msgid "Contrast %s:1 — passes WCAG AA."
+msgstr ""
+
+#: templates/widget.php:90
+msgid "Conversation"
+msgstr ""
+
+#: includes/class-curio-widget.php:133
+msgid "Conversation cleared."
+msgstr ""
+
+#: includes/admin/views/insights.php:56
+msgid "Conversation logging is switched off, so there is nothing to show. Turn it on below if you want this list — it is the only reason the log exists."
+msgstr ""
+
+#: includes/admin/views/connection.php:269
+msgid "Conversation turns remembered"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:227
+msgid "Copied to the clipboard."
+msgstr ""
+
+#: includes/admin/views/appearance.php:190
+msgid "Corner"
+msgstr ""
+
+#: includes/admin/views/appearance.php:151
+msgid "Corner style"
+msgstr ""
+
+#: includes/admin/views/appearance.php:148
+msgid "Corners"
+msgstr ""
+
+#: includes/admin/views/connection.php:195
+msgid "Cost and abuse controls"
+msgstr ""
+
+#. translators: %s: the underlying network error reported by WordPress. */
+#: includes/providers/class-curio-provider-base.php:161
+msgid "Could not reach the AI provider: %s"
+msgstr ""
+
+#. translators: 1: link to the provider's key console, 2: link to the provider's pricing page. */
+#: includes/admin/views/connection.php:179
+msgid "Create a key at %1$s. Costs are billed by the provider; see %2$s."
+msgstr ""
+
+#: includes/admin/views/connection.php:118
+msgid "Creativity"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:166
+msgid "Curio"
+msgstr ""
+
+#: includes/class-curio-privacy.php:44
+#: includes/class-curio-privacy.php:58
+msgid "Curio chat transcripts"
+msgstr ""
+
+#. translators: %s: link to the developer's freelance profile. */
+#: includes/admin/views/footer.php:27
+msgid "Curio is built and maintained by TechNerdXp. %s"
+msgstr ""
+
+#: includes/admin/views/help.php:134
+msgid "Curio is free and GPL licensed. Bugs and questions are best raised on the WordPress.org support forum so the answers help the next person too."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:99
+#: includes/class-curio-privacy.php:193
+msgid "Curio — Grounded AI Chat"
+msgstr ""
+
+#: includes/admin/views/appearance.php:71
+msgid "Custom"
+msgstr ""
+
+#: includes/admin/views/appearance.php:359
+msgid "Custom CSS"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:93
+msgid "Danger zone"
+msgstr ""
+
+#: includes/admin/views/appearance.php:69
+msgid "Dark"
+msgstr ""
+
+#: includes/class-curio-privacy.php:95
+msgid "Date"
+msgstr ""
+
+#: includes/admin/views/help.php:115
+msgid "Decide per request whether the widget renders — hide it on checkout, restrict it to a role, limit it to one language."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:232
+msgid "Delete"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:214
+msgid "Delete every stored conversation? There is no undo."
+msgstr ""
+
+#: includes/admin/views/insights.php:142
+msgid "Delete everything when the plugin is deleted"
+msgstr ""
+
+#. translators: %s: number of hand-written entries. */
+#: includes/admin/views/knowledge.php:102
+msgid "Delete my %s written answers"
+msgstr ""
+
+#: includes/admin/views/insights.php:121
+msgid "Delete stored conversations after"
+msgstr ""
+
+#: includes/admin/views/insights.php:148
+msgid "Delete stored conversations now"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:212
+msgid "Delete this entry?"
+msgstr ""
+
+#: includes/providers/class-curio-demo.php:45
+msgid "Demo mode — no API key, no cost"
+msgstr ""
+
+#: includes/admin/views/sources.php:80
+msgid "Descriptions, price, SKU, stock status, categories and tags. Prices are written out as sentences so the assistant can quote them, and are refreshed whenever a product is saved."
+msgstr ""
+
+#: templates/widget.php:32
+msgid "Dismiss message"
+msgstr ""
+
+#: includes/admin/views/appearance.php:296
+msgid "Do you cover weekends?"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:76
+msgid "Do you travel?"
+msgstr ""
+
+#: includes/admin/views/help.php:56
+msgid "Does it slow my site down?"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:231
+msgid "Edit"
+msgstr ""
+
+#: includes/admin/views/help.php:48
+msgid "Either that page type is not ticked on the Sources tab, or the index has not been run since you wrote it, or the wording is different enough that retrieval missed it. Add the question as a written answer on the Knowledge tab — hand-written entries are weighted above indexed page text on purpose."
+msgstr ""
+
+#: includes/admin/views/assistant.php:170
+msgid "Email address"
+msgstr ""
+
+#: includes/admin/views/assistant.php:108
+msgid "Email hello@example.com or call 01234 567890 and we will come straight back to you."
+msgstr ""
+
+#: includes/admin/views/insights.php:124
+msgid "Enforced by a daily scheduled task, not by you remembering."
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:172
+#: includes/providers/class-curio-gemini.php:213
+#: includes/providers/class-curio-openai.php:235
+msgid "Enter an API key first."
+msgstr ""
+
+#: includes/admin/views/help.php:121
+msgid "Essential behind Cloudflare, a load balancer or any reverse proxy: return the real client address, or every visitor is rate limited as though they were one person."
+msgstr ""
+
+#: includes/admin/views/appearance.php:55
+msgid "Every value here becomes a CSS variable scoped to the widget. Nothing it produces can reach your theme, and nothing in the widget stylesheet hard-codes a colour — so a skin either works everywhere or nowhere, never halfway."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:114
+msgid "Everything it knows"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:22
+msgid "Everything the assistant is allowed to say that is not already written on the site: prices, opening hours, turnaround times, policies. Write the answer the way you would say it to a customer."
+msgstr ""
+
+#: includes/admin/views/appearance.php:320
+msgid "Everywhere"
+msgstr ""
+
+#: includes/admin/views/appearance.php:322
+msgid "Everywhere except these"
+msgstr ""
+
+#: includes/class-curio-widget.php:124
+#: templates/widget.php:74
+msgid "Expand chat"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:87
+msgid "Export mine"
+msgstr ""
+
+#: includes/admin/views/help.php:99
+msgid "Extension points, so you can change behaviour without forking anything."
+msgstr ""
+
+#: includes/admin/views/help.php:31
+msgid "Fill in your business name and — most importantly — the hand-off line. That is what it says when it cannot help, and it is the difference between a dead end and a lead."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:120
+msgid "Filter by source"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:242
+msgid "Finish the colour to see its contrast."
+msgstr ""
+
+#: includes/admin/views/help.php:18
+msgid "Five minutes to a working assistant"
+msgstr ""
+
+#: includes/admin/views/appearance.php:362
+msgid "For anything the controls above do not cover. Scope your rules to #curio-widget so they cannot affect the rest of the page."
+msgstr ""
+
+#: includes/admin/views/help.php:98
+msgid "For developers"
+msgstr ""
+
+#. translators: %d: number of models found. */
+#: includes/class-curio-rest.php:679
+msgid "Found %d model."
+msgid_plural "Found %d models."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/views/appearance.php:93
+msgid "From your theme:"
+msgstr ""
+
+#: includes/providers/class-curio-openai.php:60
+msgid "GPT-4o mini — older, widely available"
+msgstr ""
+
+#: includes/providers/class-curio-openai.php:57
+msgid "GPT-5.6 Luna — fastest and cheapest"
+msgstr ""
+
+#: includes/providers/class-curio-openai.php:59
+msgid "GPT-5.6 Sol — most capable"
+msgstr ""
+
+#: includes/providers/class-curio-openai.php:58
+msgid "GPT-5.6 Terra — balanced"
+msgstr ""
+
+#: includes/providers/class-curio-gemini.php:55
+msgid "Gemini 3.1 Pro — most capable"
+msgstr ""
+
+#: includes/providers/class-curio-gemini.php:53
+msgid "Gemini 3.5 Flash-Lite — fastest and cheapest"
+msgstr ""
+
+#: includes/providers/class-curio-gemini.php:54
+msgid "Gemini 3.7 Flash — balanced"
+msgstr ""
+
+#: includes/admin/views/connection.php:62
+msgid "Get a key"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:147
+msgid "Getting started"
+msgstr ""
+
+#: includes/providers/class-curio-gemini.php:38
+msgid "Google Gemini"
+msgstr ""
+
+#: includes/admin/views/header.php:26
+msgid "Grounded AI chat"
+msgstr ""
+
+#: includes/admin/views/assistant.php:106
+msgid "Hand-off line"
+msgstr ""
+
+#: includes/admin/views/assistant.php:65
+msgid "Header subtitle"
+msgstr ""
+
+#. translators: %s: the business name the site owner configured. */
+#: includes/class-curio-prompt.php:174
+msgid "Hello, and welcome to %s. How can I help?"
+msgstr ""
+
+#: includes/admin/views/appearance.php:295
+#: includes/class-curio-prompt.php:176
+msgid "Hello. How can I help?"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:58
+msgid "Help"
+msgstr ""
+
+#. translators: %s: the matching knowledge base entry, quoted as written. */
+#: includes/providers/class-curio-demo.php:129
+msgid "Here is what I have on that:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: includes/admin/views/appearance.php:344
+msgid "Hide from logged-in users"
+msgstr ""
+
+#: includes/admin/views/help.php:141
+msgid "Hire TechNerdXp on Upwork"
+msgstr ""
+
+#: includes/admin/views/sources.php:87
+msgid "How it keeps up"
+msgstr ""
+
+#: includes/class-curio-plugin.php:187
+msgid "How it works"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:30
+msgid "How much is a wedding shoot?"
+msgstr ""
+
+#. translators: %s: the contact line the site owner configured. */
+#: includes/class-curio-prompt.php:142
+msgid "I do not have that detail. %s"
+msgstr ""
+
+#: includes/admin/views/appearance.php:297
+msgid "I do not have that detail. Drop us a line and someone will come straight back to you."
+msgstr ""
+
+#: includes/class-curio-prompt.php:144
+msgid "I do not have that detail. Please use the contact details on this site and someone will come back to you."
+msgstr ""
+
+#: includes/admin/views/appearance.php:224
+msgid "Icon and label"
+msgstr ""
+
+#: includes/admin/views/appearance.php:223
+msgid "Icon only"
+msgstr ""
+
+#: includes/admin/views/help.php:137
+msgid "If you need something this plugin does not do — a bespoke integration, a different provider, an assistant wired into your booking system or CRM, or a WordPress build of any size — I take that work."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:86
+msgid "Import"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:60
+msgid "Import and export"
+msgstr ""
+
+#. translators: 1: number of entries imported, 2: number skipped. */
+#: includes/class-curio-rest.php:524
+msgid "Imported %1$d entry. %2$d skipped."
+msgid_plural "Imported %1$d entries. %2$d skipped."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/views/sources.php:79
+msgid "Index products"
+msgstr ""
+
+#: includes/admin/views/sources.php:116
+msgid "Index site content now"
+msgstr ""
+
+#. translators: 1: items done, 2: items total. */
+#: includes/admin/class-curio-admin.php:221
+msgid "Indexed %1$d of %2$d"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:124
+msgid "Indexed site content"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:222
+msgid "Indexing finished."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:219
+msgid "Indexing…"
+msgstr ""
+
+#: includes/admin/views/assistant.php:90
+msgid "Input placeholder"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:57
+msgid "Insights"
+msgstr ""
+
+#: includes/admin/views/help.php:109
+msgid "Inspect or replace the passages selected for a question, just before they reach the model."
+msgstr ""
+
+#: includes/admin/views/help.php:47
+msgid "It says it does not know something that is on my site."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:66
+msgid "JSON to import"
+msgstr ""
+
+#: includes/admin/views/connection.php:247
+msgid "Keep for"
+msgstr ""
+
+#: includes/class-curio-rest.php:650
+msgid "Key removed."
+msgstr ""
+
+#: includes/admin/views/connection.php:54
+msgid "Key saved"
+msgstr ""
+
+#: includes/class-curio-rest.php:632
+msgid "Key saved."
+msgstr ""
+
+#: includes/admin/views/connection.php:135
+msgid "Keys are encrypted before they are written to the database, using a key derived from this site's own security salts, and are stored in rows that are not loaded on ordinary page requests. A saved key is never printed back into this page."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:40
+msgid "Keywords"
+msgstr ""
+
+#. translators: %s: the keywords stored against one knowledge entry. Written as one string rather than a label joined to a value, because the punctuation between them is not a colon in every language. */
+#: includes/admin/class-curio-admin.php:230
+msgid "Keywords: %s"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:52
+#: includes/admin/views/help.php:26
+msgid "Knowledge"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:150
+msgid "Knowledge: add the answers that are not written down anywhere on the site — prices, hours, policies."
+msgstr ""
+
+#: includes/admin/views/appearance.php:234
+msgid "Label"
+msgstr ""
+
+#: includes/admin/views/appearance.php:177
+msgid "Large"
+msgstr ""
+
+#: includes/admin/views/insights.php:66
+msgid "Last asked"
+msgstr ""
+
+#: includes/admin/views/appearance.php:217
+msgid "Launcher"
+msgstr ""
+
+#: includes/admin/views/appearance.php:220
+msgid "Launcher style"
+msgstr ""
+
+#: includes/admin/views/help.php:147
+msgid "Leave a review"
+msgstr ""
+
+#: includes/admin/views/appearance.php:114
+msgid "Leave empty and the readable option is picked for you. Only set it if you are sure."
+msgstr ""
+
+#: includes/admin/views/assistant.php:199
+msgid "Left off, it appears the first time the assistant cannot answer, which is when it is worth most. Turn it on if reaching you quickly matters more than trying the assistant first."
+msgstr ""
+
+#: includes/admin/views/appearance.php:68
+msgid "Light"
+msgstr ""
+
+#: includes/admin/views/insights.php:110
+msgid "Logging and data"
+msgstr ""
+
+#: includes/admin/views/connection.php:229
+msgid "Longest question accepted"
+msgstr ""
+
+#: includes/admin/views/connection.php:122
+msgid "Low is correct here. This assistant is meant to repeat what it has been told, not to write something new — anything above about 0.4 buys you variety in the wording and nothing else worth having."
+msgstr ""
+
+#: includes/admin/views/appearance.php:70
+msgid "Match the visitor"
+msgstr ""
+
+#: includes/admin/views/connection.php:110
+msgid "Maximum reply length"
+msgstr ""
+
+#: includes/admin/views/connection.php:76
+msgid "Model"
+msgstr ""
+
+#: includes/admin/views/connection.php:213
+msgid "Monthly ceiling"
+msgstr ""
+
+#: includes/admin/views/footer.php:29
+msgid "Need it customised, integrated, or built into something bigger? Hire me on Upwork."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:169
+msgid "Need this customised, or a bigger build? Hire me on Upwork."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:134
+msgid "Next →"
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:117
+#: includes/providers/class-curio-gemini.php:137
+#: includes/providers/class-curio-openai.php:130
+msgid "No API key is saved for this provider."
+msgstr ""
+
+#: includes/admin/views/assistant.php:123
+msgid "No button"
+msgstr ""
+
+#: includes/admin/views/connection.php:57
+msgid "No key yet"
+msgstr ""
+
+#: includes/admin/views/sources.php:36
+msgid "No public content types were found on this site."
+msgstr ""
+
+#: includes/admin/views/connection.php:87
+msgid "Not applicable in demo mode"
+msgstr ""
+
+#: includes/admin/views/assistant.php:52
+msgid "Nothing here is filled in for you. The plugin names no business anywhere in its code, so if you leave a field blank the widget simply says less rather than claiming something on your behalf."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:228
+msgid "Nothing here yet."
+msgstr ""
+
+#: includes/admin/views/help.php:64
+msgid "Nothing leaves your server until you save an API key and select a provider. In demo mode there is no outbound request of any kind. When a provider is selected, this is exactly what is sent and to whom."
+msgstr ""
+
+#: includes/admin/views/insights.php:59
+msgid "Nothing yet. Either no one has asked something it could not answer, or no one has asked anything at all."
+msgstr ""
+
+#: includes/admin/views/assistant.php:209
+msgid "Nudge"
+msgstr ""
+
+#: includes/admin/views/assistant.php:218
+msgid "Nudge text"
+msgstr ""
+
+#: includes/admin/views/appearance.php:345
+msgid "Off by default and entirely optional. It links to the developer and helps other people find the plugin."
+msgstr ""
+
+#: includes/admin/views/insights.php:116
+msgid "Off by default, because recording what visitors type is a decision with privacy consequences and it is yours to make knowingly. No IP address is ever stored, for anyone."
+msgstr ""
+
+#: includes/admin/views/insights.php:143
+msgid "Off by default. Deactivating to debug a theme conflict should never destroy a knowledge base somebody spent an afternoon writing, so nothing is removed unless you ask for it here."
+msgstr ""
+
+#: includes/admin/views/assistant.php:117
+msgid "Offer a person"
+msgstr ""
+
+#: includes/admin/views/appearance.php:343
+msgid "On small screens the panel takes the whole viewport, as every chat product people already use does."
+msgstr ""
+
+#: includes/admin/views/insights.php:138
+msgid "On uninstall"
+msgstr ""
+
+#: includes/admin/views/help.php:39
+msgid "Once you like what it knows, paste an API key and switch provider. Now it answers in sentences instead of quoting entries."
+msgstr ""
+
+#: includes/admin/views/help.php:57
+msgid "One stylesheet and one deferred script — about 42KB of source, roughly 12KB over the wire once your server compresses them — loaded only on pages the widget actually appears on. No jQuery, no framework, no external CDN, and no request to any AI provider until a visitor sends a message."
+msgstr ""
+
+#: includes/admin/views/assistant.php:202
+msgid "Only applies once the button has somewhere to go."
+msgstr ""
+
+#: includes/admin/views/appearance.php:321
+msgid "Only on these"
+msgstr ""
+
+#: includes/admin/views/help.php:81
+msgid "Only while it is the selected provider, and only when a visitor sends a message or you press Test."
+msgstr ""
+
+#: includes/admin/views/appearance.php:235
+#: includes/class-curio-widget.php:155
+msgid "Open chat"
+msgstr ""
+
+#: includes/admin/views/help.php:35
+msgid "Open your site and ask it things. Demo mode makes no API calls and costs nothing, and it declines exactly where the real thing will decline, so it is an honest rehearsal."
+msgstr ""
+
+#: includes/providers/class-curio-openai.php:42
+msgid "OpenAI (ChatGPT)"
+msgstr ""
+
+#: includes/admin/views/assistant.php:72
+msgid "Opening line"
+msgstr ""
+
+#: includes/admin/views/assistant.php:173
+msgid "Opens the visitor's own mail application with the address already filled in."
+msgstr ""
+
+#: includes/admin/views/assistant.php:84
+msgid "Optional instructions about voice and style. The rules that stop the assistant inventing prices, dates and contact details are added on top of whatever you write here and cannot be edited away — a tone box that can accidentally delete \"never invent a price\" would be a trap, not a feature."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:42
+msgid "Optional, comma separated. Words a customer might use that do not appear in the answer itself. Leave blank and they will be worked out for you."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:48
+msgid "Optional. Shown as a source chip under the answer so the visitor can check it."
+msgstr ""
+
+#: includes/class-curio-privacy.php:107
+msgid "Page"
+msgstr ""
+
+#: includes/admin/views/appearance.php:332
+msgid "Page or post IDs"
+msgstr ""
+
+#: includes/admin/views/appearance.php:314
+msgid "Pages"
+msgstr ""
+
+#: includes/admin/views/appearance.php:132
+msgid "Panel background"
+msgstr ""
+
+#: includes/admin/views/connection.php:266
+msgid "Pass at most"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:62
+msgid "Paste a JSON array to load answers in bulk. Both title/content and question/answer key names are accepted, so an export from most FAQ tools will import without editing."
+msgstr ""
+
+#: includes/class-curio-rest.php:622
+msgid "Paste a key first."
+msgstr ""
+
+#: includes/class-curio-rest.php:457
+msgid "Paste some JSON first."
+msgstr ""
+
+#: includes/admin/views/connection.php:164
+msgid "Paste your key"
+msgstr ""
+
+#: includes/admin/views/connection.php:202
+msgid "Per visitor"
+msgstr ""
+
+#: includes/class-curio-chat.php:39
+msgid "Please type a question."
+msgstr ""
+
+#: includes/admin/views/appearance.php:282
+msgid "Preview"
+msgstr ""
+
+#. translators: %s: product price, already formatted by WooCommerce. */
+#: includes/class-curio-indexer.php:225
+msgid "Price: %s"
+msgstr ""
+
+#: includes/admin/views/connection.php:63
+msgid "Pricing"
+msgstr ""
+
+#: includes/admin/views/connection.php:65
+#: includes/admin/views/help.php:85
+msgid "Privacy"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:235
+msgid "Product"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:125
+msgid "Products"
+msgstr ""
+
+#: includes/admin/views/insights.php:64
+#: includes/class-curio-privacy.php:99
+msgid "Question"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:29
+msgid "Question or topic"
+msgstr ""
+
+#: includes/admin/views/assistant.php:219
+msgid "Questions about pricing or availability? Ask away."
+msgstr ""
+
+#: includes/admin/views/insights.php:49
+msgid "Questions it could not answer"
+msgstr ""
+
+#: includes/admin/views/appearance.php:354
+msgid "Raise this only if something on your site sits on top of the widget. Lower it if the widget sits on top of your own cookie banner or menu."
+msgstr ""
+
+#: includes/admin/views/sources.php:91
+msgid "Re-index automatically when content is saved"
+msgstr ""
+
+#: includes/admin/views/sources.php:27
+msgid "Read from the site"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:46
+msgid "Read more link"
+msgstr ""
+
+#: includes/admin/views/connection.php:243
+msgid "Real visitors ask the same handful of questions. Every repeat served from cache is a call you do not pay for. Cleared automatically whenever the knowledge base or your settings change."
+msgstr ""
+
+#: includes/admin/views/sources.php:92
+msgid "Recommended. An edited page is current within seconds, and an unpublished one stops being quoted immediately."
+msgstr ""
+
+#: includes/admin/views/connection.php:100
+msgid "Refresh model list"
+msgstr ""
+
+#: includes/admin/views/appearance.php:254
+#: includes/admin/views/connection.php:169
+msgid "Remove"
+msgstr ""
+
+#: includes/admin/views/sources.php:117
+msgid "Remove indexed content"
+msgstr ""
+
+#: includes/admin/views/connection.php:264
+msgid "Retrieval"
+msgstr ""
+
+#: includes/admin/views/help.php:124
+msgid "Retune retrieval for another language, change what counts as a greeting, or post-process the finished reply."
+msgstr ""
+
+#: includes/admin/views/connection.php:242
+msgid "Reuse answers to repeat questions"
+msgstr ""
+
+#: includes/admin/views/appearance.php:156
+msgid "Round"
+msgstr ""
+
+#. translators: %s: product SKU. */
+#: includes/class-curio-indexer.php:231
+msgid "SKU: %s"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:52
+msgid "Save answer"
+msgstr ""
+
+#: includes/admin/views/appearance.php:368
+msgid "Save appearance"
+msgstr ""
+
+#: includes/admin/views/assistant.php:223
+msgid "Save assistant settings"
+msgstr ""
+
+#: includes/admin/views/connection.php:127
+msgid "Save connection"
+msgstr ""
+
+#: includes/admin/views/insights.php:152
+msgid "Save data settings"
+msgstr ""
+
+#: includes/admin/views/connection.php:166
+msgid "Save key"
+msgstr ""
+
+#: includes/admin/views/connection.php:289
+msgid "Save limits"
+msgstr ""
+
+#: includes/admin/views/sources.php:101
+msgid "Save source settings"
+msgstr ""
+
+#: includes/admin/views/sources.php:107
+msgid "Save your choices above first, then run this once. It works through the site in small batches so nothing times out, and you can leave the page when the bar finishes."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:216
+#: includes/class-curio-rest.php:422
+msgid "Saved."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:215
+msgid "Saving…"
+msgstr ""
+
+#: includes/admin/views/appearance.php:193
+msgid "Screen position"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:117
+msgid "Search the knowledge base"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:118
+msgid "Search…"
+msgstr ""
+
+#: includes/class-curio-widget.php:121
+msgid "Send"
+msgstr ""
+
+#: templates/widget.php:148
+msgid "Send message"
+msgstr ""
+
+#. translators: %s: number of cached answers served this month. */
+#: includes/admin/views/connection.php:254
+msgid "Served free this month: %s"
+msgstr ""
+
+#: includes/admin/views/help.php:70
+msgid "Service"
+msgstr ""
+
+#: includes/class-curio-plugin.php:150
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/views/appearance.php:154
+msgid "Sharp"
+msgstr ""
+
+#: includes/admin/views/appearance.php:345
+msgid "Show a small \"Chat by Curio\" credit in the widget"
+msgstr ""
+
+#: includes/admin/views/assistant.php:213
+msgid "Show a small message beside the launcher"
+msgstr ""
+
+#: includes/admin/views/appearance.php:343
+msgid "Show on phones"
+msgstr ""
+
+#: includes/admin/views/assistant.php:198
+msgid "Show the button from the start"
+msgstr ""
+
+#: includes/admin/views/appearance.php:58
+msgid "Show the chat widget on the site"
+msgstr ""
+
+#: includes/admin/views/connection.php:281
+msgid "Show where the answer came from"
+msgstr ""
+
+#: includes/admin/views/assistant.php:60
+msgid "Shown in the chat header and used in the greeting. Leave blank and the header just says \"Chat\"."
+msgstr ""
+
+#: includes/admin/views/appearance.php:207
+msgid "Side gap"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:234
+msgid "Site content"
+msgstr ""
+
+#: includes/admin/views/appearance.php:169
+msgid "Size"
+msgstr ""
+
+#: includes/admin/views/appearance.php:53
+msgid "Skin"
+msgstr ""
+
+#: includes/admin/views/sources.php:97
+msgid "Smaller knowledge base and cheaper prompts, at the cost of detail. Useful on sites with very long posts."
+msgstr ""
+
+#: includes/class-curio-privacy.php:188
+msgid "So that the conversation is not lost if you reload the page, it is kept in your own browser for the rest of the visit, using session storage rather than a cookie. It is never sent to this site and is discarded when you close the tab. You can clear it at any time from the button in the chat window."
+msgstr ""
+
+#: includes/admin/views/appearance.php:155
+msgid "Soft"
+msgstr ""
+
+#. translators: %s: the contact line the site owner configured. */
+#: includes/class-curio-prompt.php:156
+msgid "Sorry, I am having trouble responding right now. %s"
+msgstr ""
+
+#: includes/class-curio-prompt.php:158
+msgid "Sorry, I am having trouble responding right now. Please use the contact details on this site and someone will come back to you."
+msgstr ""
+
+#: includes/class-curio-widget.php:127
+msgid "Source"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:53
+#: includes/admin/views/connection.php:276
+#: includes/admin/views/help.php:22
+msgid "Sources"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:149
+msgid "Sources: tick the pages and posts the assistant may read, then run the index."
+msgstr ""
+
+#: includes/admin/views/appearance.php:351
+msgid "Stacking order"
+msgstr ""
+
+#: includes/admin/views/appearance.php:176
+msgid "Standard"
+msgstr ""
+
+#: includes/admin/views/insights.php:115
+msgid "Store questions and answers"
+msgstr ""
+
+#. translators: %s: number of stored conversations. */
+#: includes/admin/views/insights.php:131
+msgid "Stored right now: %s."
+msgstr ""
+
+#: includes/class-curio-plugin.php:201
+msgid "Support"
+msgstr ""
+
+#: includes/admin/views/help.php:132
+msgid "Support and custom work"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:172
+#: includes/admin/views/help.php:144
+msgid "Support forum"
+msgstr ""
+
+#: includes/admin/views/appearance.php:267
+msgid "System font"
+msgstr ""
+
+#: includes/class-curio-indexer.php:238
+msgid "Tags"
+msgstr ""
+
+#: includes/admin/views/assistant.php:188
+#: includes/class-curio-handoff.php:75
+msgid "Talk to a person"
+msgstr ""
+
+#: includes/admin/views/connection.php:64
+#: includes/admin/views/help.php:84
+msgid "Terms"
+msgstr ""
+
+#: includes/admin/views/connection.php:167
+msgid "Test"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:217
+msgid "Testing…"
+msgstr ""
+
+#: includes/admin/views/appearance.php:111
+msgid "Text on the accent"
+msgstr ""
+
+#: includes/class-curio-rest.php:396
+msgid "That entry comes from indexed site content. Edit the page it came from instead."
+msgstr ""
+
+#: includes/class-curio-rest.php:415
+msgid "That entry could not be saved."
+msgstr ""
+
+#: includes/class-curio-rest.php:391
+#: includes/class-curio-rest.php:437
+msgid "That entry no longer exists."
+msgstr ""
+
+#. translators: %s: the JSON parser's own error message. */
+#: includes/class-curio-rest.php:466
+msgid "That is not valid JSON: %s"
+msgstr ""
+
+#: includes/admin/views/header.php:44
+msgid "That is the correct starting state — it will never invent an answer. Give it something to work from on the Sources or Knowledge tab."
+msgstr ""
+
+#: includes/providers/class-curio-provider-base.php:209
+msgid "That model does not exist on this account. Use \"Refresh model list\" to pull the models your key can actually reach."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:223
+msgid "That request did not get through. Check your connection and try again."
+msgstr ""
+
+#: includes/providers/class-curio-provider-base.php:197
+msgid "The API key was rejected. Check that you pasted the whole key, that it belongs to this provider, and that it has not been revoked."
+msgstr ""
+
+#: includes/admin/views/help.php:54
+msgid "The Appearance tab covers colour, corners, size, position, launcher style, avatar and font, with a live preview, and it can read the palette straight out of a block theme. Anything beyond that goes in the custom CSS box."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:161
+msgid "The Insights tab lists every question it could not answer. That list is your to-do list."
+msgstr ""
+
+#: includes/class-curio-rest.php:473
+msgid "The JSON must be an array of entries."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:160
+msgid "The assistant answers only from the knowledge base. When nothing in it matches a question, it says so rather than guessing — no request is even sent to the AI provider. That is deliberate: a chat widget that invents a price costs a business more than one that occasionally says \"I do not have that detail\"."
+msgstr ""
+
+#: includes/admin/views/header.php:43
+msgid "The assistant knows nothing yet, so it will decline every question."
+msgstr ""
+
+#: includes/class-curio-rest.php:275
+msgid "The chat assistant is switched off."
+msgstr ""
+
+#: includes/admin/views/connection.php:197
+msgid "The chat endpoint is public and sits in front of a metered service. Without ceilings, one visitor with a script is an unbounded charge on your card — so there are two, and they are on by default."
+msgstr ""
+
+#: includes/admin/views/connection.php:104
+msgid "The cheapest model in each family is the right one for answering from a short knowledge base — the hard part is retrieval, which happens on your server. \"Refresh model list\" asks your provider what your key can actually reach, so this dropdown never goes stale when they rename things."
+msgstr ""
+
+#: includes/admin/views/help.php:112
+msgid "The complete assembled prompt, grounding rules included."
+msgstr ""
+
+#: includes/admin/views/assistant.php:75
+msgid "The first thing a visitor reads, and what the assistant says back to somebody who opens with \"hello\" rather than a question. Leave blank for a plain greeting that uses your business name if you set one."
+msgstr ""
+
+#: includes/admin/views/appearance.php:89
+msgid "The launcher, the header and the visitor's own message bubbles. Text on top of it is chosen automatically for contrast unless you override it below."
+msgstr ""
+
+#. translators: 1: provider name, 2: URL of the provider's privacy policy. */
+#: includes/class-curio-privacy.php:169
+msgid "The provider currently in use is %1$s. Their privacy policy is at %2$s."
+msgstr ""
+
+#: includes/providers/class-curio-gemini.php:183
+msgid "The provider declined to answer that message under its own content policy."
+msgstr ""
+
+#: includes/providers/class-curio-provider-base.php:215
+msgid "The provider is rate limiting this key. Wait a minute and try again, or lower the traffic reaching the widget."
+msgstr ""
+
+#: includes/providers/class-curio-provider-base.php:203
+msgid "The provider refused the request for billing reasons. The account most likely has no credit or has hit its spending limit."
+msgstr ""
+
+#: includes/providers/class-curio-openai.php:197
+msgid "The provider rejected the request repeatedly."
+msgstr ""
+
+#: includes/providers/class-curio-provider-base.php:221
+msgid "The provider returned a server error. This is at their end; try again shortly."
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:157
+#: includes/providers/class-curio-gemini.php:198
+#: includes/providers/class-curio-openai.php:153
+msgid "The provider returned an empty reply."
+msgstr ""
+
+#. translators: 1: HTTP status code, 2: error message returned by the provider. */
+#: includes/providers/class-curio-provider-base.php:230
+msgid "The provider returned an error (%1$d): %2$s"
+msgstr ""
+
+#. translators: %d: HTTP status code. */
+#: includes/providers/class-curio-provider-base.php:241
+msgid "The provider returned an unexpected response (HTTP %d)."
+msgstr ""
+
+#: includes/providers/class-curio-openai.php:117
+msgid "The provider returned no chat models for this key."
+msgstr ""
+
+#: includes/providers/class-curio-anthropic.php:105
+msgid "The provider returned no models for this key."
+msgstr ""
+
+#: includes/providers/class-curio-gemini.php:124
+msgid "The provider returned no usable models for this key."
+msgstr ""
+
+#: includes/providers/class-curio-gemini.php:196
+msgid "The reply hit the maximum length before any text was produced. Raise \"Maximum reply length\" on the Connection tab."
+msgstr ""
+
+#: includes/admin/views/help.php:106
+msgid "The score a passage needs before it counts as context. Raise it and the assistant declines more; lower it and it answers from weaker matches. The one dial that trades safety against helpfulness."
+msgstr ""
+
+#: includes/admin/views/assistant.php:110
+msgid "The single most valuable field on this page."
+msgstr ""
+
+#: includes/admin/views/help.php:82
+msgid "The visitor's message, the recent turns of that conversation, and the knowledge passages retrieved for it. No IP address, no visitor identity, no site credentials."
+msgstr ""
+
+#: includes/admin/views/header.php:53
+msgid "The widget is currently switched off and is not appearing on the site. Turn it back on from the Appearance tab."
+msgstr ""
+
+#: includes/admin/views/help.php:73
+msgid "Their terms"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:95
+msgid "There is no \"restore defaults\" here, and that is deliberate: the only safe thing for an assistant that answers customers to know by default is nothing at all."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:226
+msgid "There is nothing to export yet."
+msgstr ""
+
+#: includes/admin/views/insights.php:135
+msgid "These records are wired into WordPress's own privacy tools, so a data export or erasure request for a registered user picks them up automatically."
+msgstr ""
+
+#: includes/admin/views/insights.php:51
+msgid "This is the most useful screen in the plugin. Because the assistant declines anything it has not been told, every line here is a real customer asking something your site does not answer yet. Work down the list, add the answers on the Knowledge tab, and the bot gets better every week without anyone tuning a model."
+msgstr ""
+
+#: includes/admin/views/assistant.php:111
+msgid "This is what the assistant says when it cannot help. Without it, a customer with a question you have not covered gets a dead end instead of your phone number."
+msgstr ""
+
+#: includes/admin/views/insights.php:22
+msgid "This month"
+msgstr ""
+
+#: includes/admin/views/help.php:93
+msgid "This plugin sends nothing to its developer, contains no analytics, no tracking and no phone-home of any kind, and asks WordPress.org for updates the same way every other plugin does."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:213
+msgid "This removes every entry in this group. There is no undo. Continue?"
+msgstr ""
+
+#: includes/admin/views/assistant.php:164
+msgid "This site has no published pages yet. Publish your contact page, or use an email address instead."
+msgstr ""
+
+#: includes/class-curio-privacy.php:161
+msgid "This site runs a chat assistant. When you send it a message, the text of that message, along with excerpts of this site's own content selected as context, is sent to a third-party AI provider so that a reply can be generated. Do not enter personal or sensitive information into the chat."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:148
+msgid "Three steps, in this order:"
+msgstr ""
+
+#: includes/admin/views/sources.php:29
+msgid "Tick what the assistant may read. Each item is split into passages and stored, so a question can be matched against a paragraph rather than a whole page. Nothing is read that you do not tick here."
+msgstr ""
+
+#: includes/admin/views/help.php:23
+msgid "Tick your pages, and your products if you sell any. Press \"Index site content now\" and wait for the bar. The assistant can now answer from everything you have already written."
+msgstr ""
+
+#: includes/admin/views/insights.php:65
+msgid "Times asked"
+msgstr ""
+
+#: includes/admin/views/insights.php:44
+msgid "Token counts are reported by the provider itself, so they are what you are actually billed for. Multiply by your provider's per-million rate for the month's cost — on the cheapest model of any of the three, a busy small-business month is usually well under the price of a coffee."
+msgstr ""
+
+#: includes/admin/views/assistant.php:80
+msgid "Tone"
+msgstr ""
+
+#: includes/class-curio-rest.php:249
+msgid "Too many requests. Please wait a moment."
+msgstr ""
+
+#. translators: %s: number of API calls used this month. */
+#: includes/admin/views/connection.php:220
+msgid "Total API calls allowed per calendar month. Zero means no ceiling. Used so far this month: %s."
+msgstr ""
+
+#: includes/admin/views/help.php:34
+msgid "Try it in demo mode"
+msgstr ""
+
+#: includes/admin/views/appearance.php:260
+#: includes/admin/views/appearance.php:263
+msgid "Typeface"
+msgstr ""
+
+#: includes/class-curio-rest.php:581
+#: includes/class-curio-rest.php:611
+#: includes/class-curio-rest.php:665
+msgid "Unknown provider."
+msgstr ""
+
+#: includes/admin/views/assistant.php:162
+msgid "Unpublish that page later and the button quietly stops appearing, rather than sending somebody who has already been told \"I cannot help\" to a missing page."
+msgstr ""
+
+#: includes/admin/views/appearance.php:58
+msgid "Untick to hide it everywhere without deactivating the plugin or losing anything."
+msgstr ""
+
+#: includes/admin/views/appearance.php:283
+msgid "Updates as you change colours. Save to apply it to the site."
+msgstr ""
+
+#: includes/admin/views/sources.php:96
+msgid "Use excerpts only, where one exists"
+msgstr ""
+
+#: includes/admin/views/appearance.php:266
+msgid "Use my theme's font"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:225
+msgid "Use this image"
+msgstr ""
+
+#: includes/admin/views/appearance.php:143
+msgid "Used only by the Custom scheme."
+msgstr ""
+
+#: includes/admin/views/appearance.php:135
+msgid "Used only by the Custom scheme. Light, Dark and \"Match the visitor\" bring their own."
+msgstr ""
+
+#: includes/admin/views/appearance.php:344
+msgid "Useful on membership sites, and while you are still testing."
+msgstr ""
+
+#: includes/admin/views/help.php:118
+msgid "Veto individual posts during indexing."
+msgstr ""
+
+#: includes/admin/views/assistant.php:82
+msgid "Warm and unfussy. Use British spelling. Never use exclamation marks."
+msgstr ""
+
+#: includes/admin/views/assistant.php:178
+msgid "Web address"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:35
+msgid "Wedding coverage starts at £1,200 for six hours, including an online gallery within three weeks."
+msgstr ""
+
+#: includes/admin/views/help.php:72
+msgid "What is sent"
+msgstr ""
+
+#: includes/admin/views/help.php:62
+msgid "What this plugin sends outside your site"
+msgstr ""
+
+#: includes/admin/views/help.php:71
+msgid "When"
+msgstr ""
+
+#: includes/admin/views/assistant.php:99
+msgid "When it cannot help"
+msgstr ""
+
+#: includes/admin/views/help.php:51
+msgid "When retrieval finds nothing relevant, no request is sent to the AI at all — the decline is written by this plugin, not by a model asked nicely to behave. When retrieval does find something, the model is given those passages and a set of rules it cannot edit away, including an explicit ban on estimating any figure not in front of it."
+msgstr ""
+
+#: includes/admin/views/assistant.php:193
+msgid "When to show it"
+msgstr ""
+
+#: includes/admin/views/appearance.php:310
+msgid "Where it appears"
+msgstr ""
+
+#: includes/admin/views/assistant.php:120
+msgid "Where the button goes"
+msgstr ""
+
+#: includes/admin/views/appearance.php:317
+msgid "Where the widget appears"
+msgstr ""
+
+#: includes/admin/views/connection.php:28
+msgid "Which AI answers"
+msgstr ""
+
+#: includes/admin/views/assistant.php:50
+msgid "Who the assistant is"
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:159
+msgid "Why it declines"
+msgstr ""
+
+#: includes/admin/views/appearance.php:172
+msgid "Widget size"
+msgstr ""
+
+#: includes/admin/views/help.php:50
+msgid "Will it ever make up a price?"
+msgstr ""
+
+#: includes/admin/views/sources.php:75
+msgid "WooCommerce"
+msgstr ""
+
+#: includes/admin/views/sources.php:84
+msgid "WooCommerce is not active on this site, so product indexing is unavailable."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:233
+#: includes/admin/views/knowledge.php:123
+msgid "Written by you"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:77
+msgid "Yes, anywhere in the country. Travel beyond 50 miles is charged per mile."
+msgstr ""
+
+#: includes/class-curio-widget.php:129
+msgid "You appear to be offline. Check your connection and try again."
+msgstr ""
+
+#. translators: %s: the business name the site owner configured, or a neutral fallback. */
+#: includes/class-curio-prompt.php:78
+msgid "You are the customer service assistant for %s. You are warm, brief and practical. Answer in two or three sentences unless the question genuinely needs more."
+msgstr ""
+
+#: includes/admin/views/connection.php:30
+msgid "You bring your own key and pay the provider directly. Nothing routes through the developer, and no usage data is sent anywhere except to the provider you pick."
+msgstr ""
+
+#: includes/admin/class-curio-admin.php:255
+msgid "You do not have permission to manage this plugin."
+msgstr ""
+
+#: includes/class-curio-chat.php:52
+msgid "You have sent a lot of messages just now. Please wait a moment and try again."
+msgstr ""
+
+#: includes/class-curio-widget.php:130
+msgid "You said"
+msgstr ""
+
+#: includes/class-curio-rest.php:282
+msgid "Your chat session expired. Please reload the page and try again."
+msgstr ""
+
+#: templates/widget.php:138
+msgid "Your message"
+msgstr ""
+
+#: includes/admin/views/header.php:74
+msgid "answered free from cache"
+msgstr ""
+
+#: includes/admin/views/insights.php:31
+msgid "answered from cache, free"
+msgstr ""
+
+#: includes/admin/views/header.php:66
+msgid "answering"
+msgstr ""
+
+#: includes/admin/views/sources.php:131
+msgid "answers you wrote"
+msgstr ""
+
+#: includes/admin/views/connection.php:232
+msgid "characters"
+msgstr ""
+
+#: includes/admin/views/insights.php:123
+msgid "days"
+msgstr ""
+
+#: includes/admin/views/connection.php:249
+msgid "hours"
+msgstr ""
+
+#: includes/admin/views/insights.php:35
+msgid "input tokens"
+msgstr ""
+
+#: includes/admin/views/connection.php:206
+msgid "messages every"
+msgstr ""
+
+#: includes/admin/views/insights.php:39
+msgid "output tokens"
+msgstr ""
+
+#: includes/admin/views/sources.php:127
+msgid "passages from products"
+msgstr ""
+
+#: includes/admin/views/sources.php:123
+msgid "passages from site content"
+msgstr ""
+
+#: includes/admin/views/connection.php:268
+msgid "passages, and remember"
+msgstr ""
+
+#: includes/admin/views/connection.php:271
+msgid "previous exchanges."
+msgstr ""
+
+#: includes/admin/views/knowledge.php:41
+msgid "price, cost, wedding, package"
+msgstr ""
+
+#: includes/admin/views/connection.php:208
+msgid "seconds"
+msgstr ""
+
+#: includes/admin/views/connection.php:181
+msgid "their pricing page"
+msgstr ""
+
+#: includes/admin/views/header.php:62
+msgid "things it knows"
+msgstr ""
+
+#: includes/class-curio-prompt.php:74
+msgid "this business"
+msgstr ""
+
+#: includes/admin/views/connection.php:113
+msgid "tokens — roughly three quarters of a word each"
+msgstr ""
+
+#: includes/admin/views/knowledge.php:133
+msgid "← Previous"
+msgstr ""
+

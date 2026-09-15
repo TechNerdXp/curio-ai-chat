@@ -1,0 +1,728 @@
+/**
+ * Curio settings screen.
+ *
+ * Built on WordPress's own admin classes wherever they exist — .wrap, .button,
+ * .form-table, .widefat — so the screen inherits core's colour scheme, its dark
+ * mode, its focus styles and its responsive behaviour instead of fighting them.
+ * The rules here are only for the parts core has no component for.
+ */
+
+.curio-wrap {
+	--curio-gap: 20px;
+
+	max-width: 1180px;
+}
+
+/* Identity -------------------------------------------------------------- */
+
+/*
+ * The same lockup as the directory listing: bracketed ellipsis, the wordmark
+ * letter-spaced, the tagline in the accent. A plugin whose settings screen
+ * looks nothing like the page somebody installed it from feels like a
+ * different piece of software, and it is the cheapest kind of doubt to remove.
+ */
+
+.curio-heading {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	margin-bottom: 0.2rem;
+}
+
+.curio-mark {
+	/* Two colours, named the same way the source artwork in assets-wporg
+	   names them, so the mark can be recoloured wherever it is placed without
+	   editing the SVG: currentColor draws the brackets and the outer dots,
+	   --curio-mark-accent the one in the middle. */
+	--curio-mark-accent: #e9622d;
+
+	display: inline-flex;
+	width: 2.1rem;
+	height: 2.1rem;
+	flex: none;
+	color: #1d2327;
+}
+
+.curio-mark-svg {
+	width: 100%;
+	height: 100%;
+}
+
+.curio-wordmark {
+	display: flex;
+	flex-direction: column;
+	gap: 0.1rem;
+	line-height: 1.1;
+}
+
+.curio-wordmark-name {
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.curio-wordmark-tag {
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: #c2410c;
+}
+
+/* Banners ---------------------------------------------------------------- */
+
+.curio-banner {
+	margin: 1rem 0;
+	padding: 0.85rem 1rem;
+	border-left: 4px solid #2271b1;
+	border-radius: 3px;
+	background: #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.curio-banner p {
+	margin: 0;
+}
+
+.curio-banner-attention {
+	border-left-color: #dba617;
+}
+
+.curio-banner-muted {
+	border-left-color: #8c8f94;
+}
+
+/* Stat strip ------------------------------------------------------------- */
+
+.curio-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.5rem;
+	margin: 0.75rem 0 1rem;
+}
+
+.curio-stat {
+	display: flex;
+	align-items: baseline;
+	gap: 0.4rem;
+	font-size: 13px;
+	color: #50575e;
+}
+
+.curio-stat strong {
+	font-size: 15px;
+	color: #1d2327;
+}
+
+.curio-tabs {
+	margin-bottom: var(--curio-gap);
+}
+
+/* Layout ----------------------------------------------------------------- */
+
+.curio-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--curio-gap);
+}
+
+.curio-grid {
+	display: grid;
+	gap: var(--curio-gap);
+}
+
+@media (width >= 1100px) {
+	.curio-grid-split {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.curio-grid-preview {
+		grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+		align-items: start;
+	}
+}
+
+.curio-card {
+	padding: 1.1rem 1.25rem 1.35rem;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.curio-card > h2:first-child,
+.curio-card-header h2 {
+	margin-top: 0;
+}
+
+.curio-card-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+}
+
+.curio-lede {
+	max-width: 68ch;
+	color: #50575e;
+}
+
+.curio-hint {
+	display: block;
+	margin-top: 0.2rem;
+	color: #646970;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.curio-field {
+	margin: 0 0 1rem;
+}
+
+.curio-field > label {
+	display: block;
+	margin-bottom: 0.25rem;
+	font-weight: 600;
+}
+
+.curio-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 1rem 0 0;
+}
+
+.curio-inline-fields {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.curio-inline-fields input[type="number"] {
+	width: 6rem;
+}
+
+.curio-feedback {
+	font-size: 13px;
+	color: #50575e;
+}
+
+.curio-feedback.curio-is-good {
+	color: #007017;
+}
+
+.curio-feedback.curio-is-bad {
+	color: #b32d2e;
+}
+
+/* Checkboxes ------------------------------------------------------------- */
+
+.curio-check {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	margin: 0 0 0.75rem;
+	max-width: 68ch;
+}
+
+.curio-check input {
+	margin-top: 0.2rem;
+	flex: none;
+}
+
+.curio-checkgrid {
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.curio-fieldset {
+	margin: 0 0 1rem;
+	padding: 0;
+	border: 0;
+}
+
+/* Segmented radio groups ------------------------------------------------- */
+
+.curio-segmented {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0;
+	padding: 0;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	overflow: hidden;
+	background: #f6f7f7;
+}
+
+.curio-segmented label {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	padding: 0.35rem 0.8rem;
+	border-right: 1px solid #c3c4c7;
+	cursor: pointer;
+	font-size: 13px;
+}
+
+.curio-segmented label:last-child {
+	border-right: 0;
+}
+
+.curio-segmented input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.curio-segmented label:has(input:checked) {
+	background: #2271b1;
+	color: #fff;
+}
+
+.curio-segmented label:has(input:focus-visible) {
+	outline: 2px solid #2271b1;
+	outline-offset: -2px;
+}
+
+/* Rows whose controls cannot do anything right now ----------------------- */
+
+/*
+ * Only the label is muted. Fading the whole row would fade the sentence that
+ * explains why the control is off, which is the thing in that row most worth
+ * reading — and would take it below the AA contrast ratio while doing it. The
+ * control itself is genuinely disabled, and the browser greys that on its own.
+ */
+
+.curio-is-inactive > th {
+	color: #787c82;
+}
+
+.curio-is-inactive :disabled {
+	cursor: not-allowed;
+}
+
+/* Colour swatches -------------------------------------------------------- */
+
+.curio-swatches {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.3rem;
+	margin-top: 0.5rem;
+}
+
+.curio-swatch-label {
+	font-size: 12px;
+	color: #646970;
+}
+
+.curio-swatch {
+	width: 1.5rem;
+	height: 1.5rem;
+	padding: 0;
+	border: 1px solid rgba(0, 0, 0, 0.18);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.curio-swatch:hover,
+.curio-swatch:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 1px;
+}
+
+.curio-contrast {
+	margin: 0.4rem 0 0;
+	font-size: 12px;
+}
+
+/* Providers -------------------------------------------------------------- */
+
+.curio-providers {
+	display: grid;
+	gap: 0.6rem;
+	margin: 0 0 1.25rem;
+	padding: 0;
+	border: 0;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.curio-provider {
+	display: flex;
+	gap: 0.6rem;
+	padding: 0.8rem;
+	border: 1px solid #dcdcde;
+	border-radius: 5px;
+	cursor: pointer;
+	background: #fff;
+}
+
+.curio-provider.curio-is-active,
+.curio-provider:has(input:checked) {
+	border-color: #2271b1;
+	box-shadow: inset 0 0 0 1px #2271b1;
+}
+
+.curio-provider-body {
+	display: block;
+	min-width: 0;
+}
+
+.curio-provider-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	margin-top: 0.35rem;
+	font-size: 12px;
+}
+
+.curio-pill {
+	display: inline-block;
+	padding: 0.05rem 0.45rem;
+	border-radius: 999px;
+	background: #f0f0f1;
+	font-size: 11px;
+	color: #50575e;
+}
+
+.curio-pill-good {
+	background: #edfaef;
+	color: #007017;
+}
+
+.curio-key-row {
+	padding: 0.9rem 0;
+	border-top: 1px solid #f0f0f1;
+}
+
+.curio-key-row h3 {
+	margin: 0 0 0.5rem;
+}
+
+/* Knowledge list --------------------------------------------------------- */
+
+.curio-list {
+	display: grid;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.curio-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.7rem 0.85rem;
+	border: 1px solid #e5e5e5;
+	border-radius: 5px;
+	background: #fdfdfd;
+}
+
+.curio-item-main {
+	min-width: 0;
+	flex: 1 1 24rem;
+}
+
+.curio-item-title {
+	margin: 0 0 0.2rem;
+	font-weight: 600;
+}
+
+.curio-item-body {
+	margin: 0;
+	color: #50575e;
+	font-size: 13px;
+}
+
+.curio-item-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	margin-top: 0.35rem;
+}
+
+.curio-item-actions {
+	display: flex;
+	gap: 0.35rem;
+	flex: none;
+}
+
+.curio-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+}
+
+.curio-empty {
+	padding: 1.5rem;
+	border: 1px dashed #dcdcde;
+	border-radius: 5px;
+	text-align: center;
+	color: #646970;
+}
+
+/* Progress --------------------------------------------------------------- */
+
+.curio-progress {
+	margin: 1rem 0;
+}
+
+.curio-progress-bar {
+	height: 0.6rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: #f0f0f1;
+}
+
+.curio-progress-bar span {
+	display: block;
+	height: 100%;
+	background: #2271b1;
+	transition: width 0.25s ease;
+}
+
+.curio-inline-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.25rem;
+	margin: 1rem 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: 13px;
+	color: #50575e;
+}
+
+.curio-inline-stats strong {
+	color: #1d2327;
+}
+
+.curio-metrics {
+	display: grid;
+	gap: 0.75rem;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	margin: 1rem 0;
+}
+
+.curio-metric {
+	padding: 0.85rem 1rem;
+	border: 1px solid #e5e5e5;
+	border-radius: 5px;
+	background: #fbfbfc;
+}
+
+.curio-metric strong {
+	display: block;
+	font-size: 1.5rem;
+	line-height: 1.2;
+}
+
+.curio-metric span {
+	font-size: 12px;
+	color: #646970;
+}
+
+.curio-table {
+	margin-top: 1rem;
+}
+
+.curio-numeric {
+	text-align: right;
+	width: 8rem;
+}
+
+.curio-steps {
+	max-width: 68ch;
+	margin: 0;
+	padding-left: 1.2rem;
+}
+
+.curio-steps li {
+	margin-bottom: 0.75rem;
+}
+
+.curio-steps strong {
+	display: block;
+}
+
+.curio-hooks dt {
+	margin-top: 0.75rem;
+	font-weight: 600;
+}
+
+.curio-hooks dd {
+	margin: 0.15rem 0 0;
+	color: #50575e;
+	max-width: 68ch;
+}
+
+.curio-card-author {
+	border-color: #2271b1;
+}
+
+.curio-colophon {
+	margin-top: 1.5rem;
+	padding-top: 1rem;
+	border-top: 1px solid #dcdcde;
+	color: #646970;
+	font-size: 13px;
+}
+
+/* Avatar picker ---------------------------------------------------------- */
+
+.curio-avatar-picker {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.curio-avatar-preview {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 3rem;
+	height: 3rem;
+	overflow: hidden;
+	border: 1px dashed #c3c4c7;
+	border-radius: 999px;
+	background: #f6f7f7;
+}
+
+.curio-avatar-preview img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Live preview ----------------------------------------------------------- */
+
+.curio-preview {
+	--curio-accent: #1a1d21;
+	--curio-accent-text: #fff;
+	--curio-surface: #fff;
+	--curio-text: #1a1d21;
+	--curio-radius: 16px;
+	--curio-radius-bubble: 14px;
+	--curio-radius-field: 10px;
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.6rem;
+	padding: 1rem;
+	border-radius: 8px;
+	background: repeating-linear-gradient(45deg, #f6f7f7, #f6f7f7 10px, #f0f0f1 10px, #f0f0f1 20px);
+}
+
+.curio-preview.curio-is-left {
+	align-items: flex-start;
+}
+
+.curio-preview-panel {
+	width: 100%;
+	max-width: 320px;
+	overflow: hidden;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: var(--curio-radius);
+	background: var(--curio-surface);
+	color: var(--curio-text);
+	box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
+	font-size: 13px;
+}
+
+.curio-preview-header {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.6rem 0.7rem;
+	background: var(--curio-accent);
+	color: var(--curio-accent-text);
+}
+
+.curio-preview-header strong {
+	display: block;
+	line-height: 1.2;
+}
+
+.curio-preview-header small {
+	opacity: 0.8;
+	font-size: 11px;
+}
+
+.curio-preview-avatar {
+	width: 1.7rem;
+	height: 1.7rem;
+	flex: none;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.25);
+}
+
+.curio-preview-log {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+	padding: 0.7rem;
+	background: color-mix(in srgb, var(--curio-surface) 94%, #000);
+}
+
+.curio-preview-bubble {
+	max-width: 85%;
+	margin: 0;
+	padding: 0.4rem 0.6rem;
+	border-radius: var(--curio-radius-bubble);
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+.curio-preview-bot {
+	align-self: flex-start;
+	border: 1px solid rgba(0, 0, 0, 0.09);
+	background: var(--curio-surface);
+	color: var(--curio-text);
+}
+
+.curio-preview-user {
+	align-self: flex-end;
+	background: var(--curio-accent);
+	color: var(--curio-accent-text);
+}
+
+.curio-preview-composer {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.5rem;
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+	background: var(--curio-surface);
+	color: color-mix(in srgb, var(--curio-text) 55%, transparent);
+	font-size: 12px;
+}
+
+.curio-preview-composer span:first-child {
+	flex: 1;
+	padding: 0.3rem 0.5rem;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: var(--curio-radius-field);
+}
+
+.curio-preview-send {
+	width: 1.7rem;
+	height: 1.7rem;
+	flex: none;
+	border-radius: var(--curio-radius-field);
+	background: var(--curio-accent);
+}
+
+.curio-preview-launcher {
+	width: 2.9rem;
+	height: 2.9rem;
+	border-radius: 999px;
+	background: var(--curio-accent);
+	box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+}
