@@ -2,7 +2,7 @@
 Contributors: technerdxp
 Tags: ai chatbot, chatbot, knowledge base, customer support, live chat
 Requires at least: 6.5
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -172,7 +172,7 @@ Yes — colour scheme, accent colour, corners, size, position, launcher style, a
 
 = Will it slow my site down? =
 
-One stylesheet and one deferred script — about 42KB of readable, unminified source, roughly 12KB over the wire once your server compresses them — and only on pages where the widget actually appears. No jQuery, no framework, no external CDN, and no request to any AI provider until a visitor sends a message.
+One stylesheet and one deferred script — about 45KB of readable, unminified source, roughly 13KB over the wire once your server compresses them — and only on pages where the widget actually appears. No jQuery, no framework, no external CDN, and no request to any AI provider until a visitor sends a message.
 
 = Is it accessible? =
 
