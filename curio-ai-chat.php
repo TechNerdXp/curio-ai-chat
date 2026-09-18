@@ -49,6 +49,20 @@ define( 'CURIO_SLUG', 'curio-ai-chat' );
  */
 define( 'CURIO_AUTHOR_URL', 'https://technerdxp.com/upwork' );
 
+/*
+ * Where "Chat by Curio" goes, which is the only link this plugin can put in
+ * front of somebody else's visitor. It used to share CURIO_AUTHOR_URL with the
+ * admin screens, so a visitor who tapped the credit on a client's site landed
+ * on a freelancer profile: an answer to "who do I hire", when the question
+ * they asked was "what is this thing". It now goes to the plugin's own page,
+ * where that question is answered and the widget is there to be tried.
+ *
+ * CURIO_AUTHOR_URL keeps the hiring link, and stays where hiring is the
+ * question: the admin footer, the help tab and the "I take that work" button,
+ * all of which are read by the site owner and never by a visitor.
+ */
+define( 'CURIO_HOME_URL', 'https://technerdxp.com/curio/' );
+
 require_once CURIO_DIR . 'includes/class-curio-autoloader.php';
 Autoloader::register();
 

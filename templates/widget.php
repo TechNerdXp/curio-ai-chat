@@ -159,7 +159,7 @@ $curio_handoff  = Handoff::url();
 		if ( Options::flag( 'show_credit' ) ) :
 			?>
 			<p class="curio-credit">
-				<a href="<?php echo esc_url( CURIO_AUTHOR_URL ); ?>" target="_blank" rel="noopener nofollow">
+				<a href="<?php echo esc_url( CURIO_HOME_URL ); ?>" target="_blank" rel="noopener nofollow">
 					<?php esc_html_e( 'Chat by Curio', 'curio-ai-chat' ); ?>
 				</a>
 			</p>

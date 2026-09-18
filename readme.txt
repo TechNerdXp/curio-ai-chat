@@ -204,15 +204,16 @@ That is the expected behaviour when PHP only ever sees your proxy's address. Use
 
 == Screenshots ==
 
-1. Answering from indexed site content, with a link to the page the answer came from.
-2. Both layers of the guarantee in one exchange: the first decline is written by the plugin because nothing matched, with no AI request made at all; the second comes from the model, which is instructed never to estimate a figure it has not been given. Then it offers a person.
-3. The same widget re-skinned: dark scheme, custom accent, rounded corners. Every skin is CSS variables scoped to the widget, so nothing can leak into your theme.
+1. Answering from the knowledge base, in a chat headed with the name of the site it is installed on rather than the name of the plugin.
+2. The guarantee, demonstrated rather than described: nothing in the knowledge base covers the question, so the plugin writes the decline itself and no request reaches the AI at all. A person is offered in the same breath.
+3. On a phone the panel takes the screen, and it takes the part of the screen that can be seen: with the keyboard up it sits above the keys, header and message box included.
 
 == Changelog ==
 
 = 1.0.1 =
 * On phones the open panel now fits the part of the screen that can be seen: with the keyboard up it sits above the keys, header and all, instead of sliding half off the top.
 * Short conversations now rest on the message box instead of hanging from the top of an otherwise empty panel.
+* The optional "Chat by Curio" credit now links to the plugin's own page rather than to the author's profile, so a visitor who taps it is told what the widget is.
 * Every dash in the settings screens, the readme and the command line output rewritten as a comma, a colon or a full stop.
 
 = 1.0.0 =
