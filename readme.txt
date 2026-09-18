@@ -212,6 +212,7 @@ That is the expected behaviour when PHP only ever sees your proxy's address. Use
 
 = 1.0.1 =
 * On phones the open panel now fits the part of the screen that can be seen: with the keyboard up it sits above the keys, header and all, instead of sliding half off the top.
+* Short conversations now rest on the message box instead of hanging from the top of an otherwise empty panel.
 * Every dash in the settings screens, the readme and the command line output rewritten as a comma, a colon or a full stop.
 
 = 1.0.0 =

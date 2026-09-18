@@ -403,6 +403,25 @@
 	scrollbar-width: thin;
 }
 
+/* The conversation rests on the composer rather than hanging from the top.
+ *
+ * A flex column fills from the top, which is right once there is a screenful
+ * to read and wrong before that: a greeting and one answer sat against the
+ * ceiling with the rest of the panel empty below them, and on a phone, where
+ * the panel is the whole screen, that is most of the screen showing nothing.
+ * It read as a broken widget rather than a quiet one.
+ *
+ * An auto top margin on the first bubble absorbs whatever space is going
+ * spare, so a short conversation is pushed down to sit on the composer where
+ * the eye already is. The moment the messages are taller than the log there
+ * is no spare space, the margin resolves to nothing, and the log scrolls
+ * normally with its first bubble still reachable. That is the whole reason
+ * for a margin here instead of `justify-content: flex-end`, which in a
+ * scrolling flex container puts the top of the content out of reach. */
+#curio-widget .curio-log > *:first-child {
+	margin-top: auto;
+}
+
 #curio-widget .curio-log:focus-visible {
 	outline: 2px solid var(--curio-accent);
 	outline-offset: -2px;
