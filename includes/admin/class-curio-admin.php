@@ -96,7 +96,7 @@ final class Admin {
 	 */
 	public static function menu(): void {
 		$hook = add_options_page(
-			__( 'Curio — Grounded AI Chat', 'curio-ai-chat' ),
+			__( 'Curio: Grounded AI Chat', 'curio-ai-chat' ),
 			__( 'Chat Assistant', 'curio-ai-chat' ),
 			'manage_options',
 			CURIO_SLUG,
@@ -147,7 +147,7 @@ final class Admin {
 				'title'   => __( 'Getting started', 'curio-ai-chat' ),
 				'content' => '<p>' . esc_html__( 'Three steps, in this order:', 'curio-ai-chat' ) . '</p><ol>'
 					. '<li>' . esc_html__( 'Sources: tick the pages and posts the assistant may read, then run the index.', 'curio-ai-chat' ) . '</li>'
-					. '<li>' . esc_html__( 'Knowledge: add the answers that are not written down anywhere on the site — prices, hours, policies.', 'curio-ai-chat' ) . '</li>'
+					. '<li>' . esc_html__( 'Knowledge: add the answers that are not written down anywhere on the site, such as prices, hours and policies.', 'curio-ai-chat' ) . '</li>'
 					. '<li>' . esc_html__( 'Connection: paste an API key when you are happy with what it knows. Until then it runs in demo mode and costs nothing.', 'curio-ai-chat' ) . '</li>'
 					. '</ol>',
 			)
@@ -157,7 +157,7 @@ final class Admin {
 			array(
 				'id'      => 'curio-grounding',
 				'title'   => __( 'Why it declines', 'curio-ai-chat' ),
-				'content' => '<p>' . esc_html__( 'The assistant answers only from the knowledge base. When nothing in it matches a question, it says so rather than guessing — no request is even sent to the AI provider. That is deliberate: a chat widget that invents a price costs a business more than one that occasionally says "I do not have that detail".', 'curio-ai-chat' ) . '</p>'
+				'content' => '<p>' . esc_html__( 'The assistant answers only from the knowledge base. When nothing in it matches a question, it says so rather than guessing, and no request is even sent to the AI provider. That is deliberate: a chat widget that invents a price costs a business more than one that occasionally says "I do not have that detail".', 'curio-ai-chat' ) . '</p>'
 					. '<p>' . esc_html__( 'The Insights tab lists every question it could not answer. That list is your to-do list.', 'curio-ai-chat' ) . '</p>',
 			)
 		);
@@ -234,11 +234,12 @@ final class Admin {
 					'sourcePost'       => __( 'Site content', 'curio-ai-chat' ),
 					'sourceProduct'    => __( 'Product', 'curio-ai-chat' ),
 					/* translators: %s: a contrast ratio, such as 7.4. */
-					'contrastPass'     => __( 'Contrast %s:1 — passes WCAG AA.', 'curio-ai-chat' ),
+					'untitled'         => __( 'Untitled', 'curio-ai-chat' ),
+					'contrastPass'     => __( 'Contrast %s:1. Passes WCAG AA.', 'curio-ai-chat' ),
 					/* translators: %s: a contrast ratio, such as 3.4. */
-					'contrastLarge'    => __( 'Contrast %s:1 — large text only. Small text will be hard to read.', 'curio-ai-chat' ),
+					'contrastLarge'    => __( 'Contrast %s:1. Large text only. Small text will be hard to read.', 'curio-ai-chat' ),
 					/* translators: %s: a contrast ratio, such as 1.9. */
-					'contrastFail'     => __( 'Contrast %s:1 — fails WCAG AA. Pick a darker or lighter accent.', 'curio-ai-chat' ),
+					'contrastFail'     => __( 'Contrast %s:1. Fails WCAG AA. Pick a darker or lighter accent.', 'curio-ai-chat' ),
 					'contrastUnknown'  => __( 'Finish the colour to see its contrast.', 'curio-ai-chat' ),
 				),
 			)

@@ -46,9 +46,9 @@ final class Anthropic extends Provider_Base {
 	 */
 	protected function fallback_models(): array {
 		return array(
-			'claude-haiku-4-5-20251001' => __( 'Claude Haiku 4.5 — fastest and cheapest', 'curio-ai-chat' ),
-			'claude-sonnet-5'           => __( 'Claude Sonnet 5 — balanced', 'curio-ai-chat' ),
-			'claude-opus-5'             => __( 'Claude Opus 5 — most capable', 'curio-ai-chat' ),
+			'claude-haiku-4-5-20251001' => __( 'Claude Haiku 4.5 (fastest and cheapest)', 'curio-ai-chat' ),
+			'claude-sonnet-5'           => __( 'Claude Sonnet 5 (balanced)', 'curio-ai-chat' ),
+			'claude-opus-5'             => __( 'Claude Opus 5 (most capable)', 'curio-ai-chat' ),
 		);
 	}
 

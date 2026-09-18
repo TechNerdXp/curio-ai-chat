@@ -698,6 +698,58 @@
 		}
 
 		writeStore();
+		fitViewport();
+	}
+
+	// ---------------------------------------------------------------------
+	// Fitting the visible screen on a phone
+	// ---------------------------------------------------------------------
+
+	/**
+	 * Below 600px the stylesheet makes the panel the whole screen with
+	 * `position: fixed; inset: 0`. That is the whole *layout* viewport, and on
+	 * a phone the layout viewport is not what the visitor can see. When the
+	 * keyboard comes up, Chrome and Safari leave the layout viewport alone,
+	 * cover its lower half with keys, and pan the *visual* viewport down until
+	 * the focused field sits just above them. So the header and the first
+	 * bubbles slide off the top of the screen, the composer rests on the
+	 * keyboard, and the visitor is looking at a cut-off answer above a field
+	 * of nothing. That was the demo page on an Android phone, 18 September.
+	 *
+	 * The visualViewport API reports the part that is actually visible, so
+	 * while the panel is open on a small screen it is pinned to that: the top
+	 * follows the pan and the height follows the keyboard, as two custom
+	 * properties the small-screen rules read. Everywhere else, and wherever
+	 * the API is missing, the properties are absent and the CSS means "the
+	 * whole screen", which is what it meant before.
+	 */
+	var viewport = window.visualViewport || null;
+	var smallScreen = window.matchMedia ? window.matchMedia( '(max-width: 600px)' ) : null;
+
+	function fitViewport() {
+		if ( ! viewport || ! state.open || ! smallScreen || ! smallScreen.matches ) {
+			root.style.removeProperty( '--curio-vv-top' );
+			root.style.removeProperty( '--curio-vv-height' );
+			return;
+		}
+		root.style.setProperty( '--curio-vv-top', Math.round( viewport.offsetTop ) + 'px' );
+		root.style.setProperty( '--curio-vv-height', Math.round( viewport.height ) + 'px' );
+	}
+
+	if ( viewport ) {
+		// The keyboard opening or closing changes the height; the log is
+		// scrolled back to the newest bubble so what the visitor was reading
+		// stays in view rather than disappearing under the keys.
+		viewport.addEventListener( 'resize', function () {
+			fitViewport();
+			scrollToEnd();
+		} );
+		// A pan (the keyboard pushing the field into view, a pinch-zoom)
+		// changes only where the visible part starts.
+		viewport.addEventListener( 'scroll', fitViewport );
+	}
+	if ( smallScreen && typeof smallScreen.addEventListener === 'function' ) {
+		smallScreen.addEventListener( 'change', fitViewport );
 	}
 
 	/**

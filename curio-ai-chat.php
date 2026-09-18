@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Curio AI Chat
  * Description:       Answers visitors only from knowledge you control, and says it does not know rather than inventing a price, a date or a phone number.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            TechNerdXp
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * predecessor of this plugin used `GCA_`, which is three, so every constant,
  * class, option key, table name, hook, script handle and CSS class was renamed.
  */
-define( 'CURIO_VERSION', '1.0.0' );
+define( 'CURIO_VERSION', '1.0.1' );
 define( 'CURIO_DB_VERSION', 1 );
 define( 'CURIO_FILE', __FILE__ );
 define( 'CURIO_DIR', plugin_dir_path( __FILE__ ) );

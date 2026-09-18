@@ -50,9 +50,9 @@ final class Gemini extends Provider_Base {
 	 */
 	protected function fallback_models(): array {
 		return array(
-			'gemini-3.5-flash-lite' => __( 'Gemini 3.5 Flash-Lite — fastest and cheapest', 'curio-ai-chat' ),
-			'gemini-3.7-flash'      => __( 'Gemini 3.7 Flash — balanced', 'curio-ai-chat' ),
-			'gemini-3.1-pro'        => __( 'Gemini 3.1 Pro — most capable', 'curio-ai-chat' ),
+			'gemini-3.5-flash-lite' => __( 'Gemini 3.5 Flash-Lite (fastest and cheapest)', 'curio-ai-chat' ),
+			'gemini-3.7-flash'      => __( 'Gemini 3.7 Flash (balanced)', 'curio-ai-chat' ),
+			'gemini-3.1-pro'        => __( 'Gemini 3.1 Pro (most capable)', 'curio-ai-chat' ),
 		);
 	}
 

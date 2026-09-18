@@ -42,7 +42,7 @@ final class Demo extends Provider_Base {
 	 * {@inheritDoc}
 	 */
 	public function label(): string {
-		return __( 'Demo mode — no API key, no cost', 'curio-ai-chat' );
+		return __( 'Demo mode (no API key, no cost)', 'curio-ai-chat' );
 	}
 
 	/**

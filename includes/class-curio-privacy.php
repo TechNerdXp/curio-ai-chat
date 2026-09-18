@@ -190,6 +190,6 @@ final class Privacy {
 			'curio-ai-chat'
 		) . '</p>';
 
-		wp_add_privacy_policy_content( __( 'Curio — Grounded AI Chat', 'curio-ai-chat' ), $text );
+		wp_add_privacy_policy_content( __( 'Curio: Grounded AI Chat', 'curio-ai-chat' ), $text );
 	}
 }

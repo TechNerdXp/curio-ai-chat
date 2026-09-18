@@ -81,7 +81,7 @@ $curio_pages = wp_dropdown_pages(
 				<td>
 					<textarea id="curio-persona" class="large-text" rows="4" name="<?php echo esc_attr( Admin::name( 'persona' ) ); ?>" maxlength="1500" placeholder="<?php esc_attr_e( 'Warm and unfussy. Use British spelling. Never use exclamation marks.', 'curio-ai-chat' ); ?>"><?php echo esc_textarea( Options::text( 'persona' ) ); ?></textarea>
 					<p class="description">
-						<?php esc_html_e( 'Optional instructions about voice and style. The rules that stop the assistant inventing prices, dates and contact details are added on top of whatever you write here and cannot be edited away — a tone box that can accidentally delete "never invent a price" would be a trap, not a feature.', 'curio-ai-chat' ); ?>
+						<?php esc_html_e( 'Optional instructions about voice and style. The rules that stop the assistant inventing prices, dates and contact details are added on top of whatever you write here and cannot be edited away. A tone box that could accidentally delete "never invent a price" would be a trap, not a feature.', 'curio-ai-chat' ); ?>
 					</p>
 				</td>
 			</tr>
@@ -178,7 +178,7 @@ $curio_pages = wp_dropdown_pages(
 				<th scope="row"><label for="curio-handoff-url"><?php esc_html_e( 'Web address', 'curio-ai-chat' ); ?></label></th>
 				<td>
 					<input type="url" id="curio-handoff-url" class="large-text" name="<?php echo esc_attr( Admin::name( 'handoff_url' ) ); ?>" value="<?php echo esc_attr( Options::text( 'handoff_url' ) ); ?>" placeholder="https://" />
-					<p class="description"><?php esc_html_e( 'A help desk, a booking calendar, a messaging link — anywhere a real person is waiting.', 'curio-ai-chat' ); ?></p>
+					<p class="description"><?php esc_html_e( 'A help desk, a booking calendar, a messaging link: anywhere a real person is waiting.', 'curio-ai-chat' ); ?></p>
 				</td>
 			</tr>
 

@@ -194,7 +194,7 @@
 				var row = el( 'div', 'curio-item' );
 				var main = el( 'div', 'curio-item-main' );
 
-				main.appendChild( el( 'p', 'curio-item-title', item.title || '—' ) );
+				main.appendChild( el( 'p', 'curio-item-title', item.title || strings.untitled || '' ) );
 
 				var body = String( item.content || '' );
 				main.appendChild(

@@ -754,8 +754,20 @@
 	#curio-widget[data-curio-state="expanded"] .curio-panel {
 		position: fixed;
 		inset: 0;
+
+		/* "The screen" on a phone is the visual viewport, not the layout one:
+		   with the keyboard up, the layout viewport keeps its full height, the
+		   keys cover the bottom of it and the browser pans to the focused
+		   field, which carries the header and the first bubbles off the top.
+		   While the panel is open the script sets these two properties from
+		   the visualViewport API, so the panel is exactly the part of the
+		   screen that can be seen and the whole of it: header, log and
+		   composer, keyboard or not. Absent, the fallbacks are the layout
+		   viewport, which is right whenever the keyboard is down. */
+		top: var(--curio-vv-top, 0);
+		bottom: auto;
 		width: 100%;
-		height: 100%;
+		height: var(--curio-vv-height, 100%);
 		max-width: none;
 		margin: 0;
 		border: 0;

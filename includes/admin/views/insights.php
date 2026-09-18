@@ -41,7 +41,7 @@ $curio_gaps   = Conversation_Log::enabled() ? Conversation_Log::gaps( 25 ) : arr
 	</div>
 
 	<p class="curio-hint">
-		<?php esc_html_e( 'Token counts are reported by the provider itself, so they are what you are actually billed for. Multiply by your provider\'s per-million rate for the month\'s cost — on the cheapest model of any of the three, a busy small-business month is usually well under the price of a coffee.', 'curio-ai-chat' ); ?>
+		<?php esc_html_e( 'Token counts are reported by the provider itself, so they are what you are actually billed for. Multiply by your provider\'s per-million rate for the month\'s cost. On the cheapest model of any of the three, a busy small-business month is usually well under the price of a coffee.', 'curio-ai-chat' ); ?>
 	</p>
 </section>
 
@@ -53,7 +53,7 @@ $curio_gaps   = Conversation_Log::enabled() ? Conversation_Log::gaps( 25 ) : arr
 
 	<?php if ( ! Conversation_Log::enabled() ) : ?>
 		<div class="curio-banner curio-banner-muted">
-			<p><?php esc_html_e( 'Conversation logging is switched off, so there is nothing to show. Turn it on below if you want this list — it is the only reason the log exists.', 'curio-ai-chat' ); ?></p>
+			<p><?php esc_html_e( 'Conversation logging is switched off, so there is nothing to show. Turn it on below if you want this list. It is the only reason the log exists.', 'curio-ai-chat' ); ?></p>
 		</div>
 	<?php elseif ( array() === $curio_gaps ) : ?>
 		<p><?php esc_html_e( 'Nothing yet. Either no one has asked something it could not answer, or no one has asked anything at all.', 'curio-ai-chat' ); ?></p>
@@ -82,7 +82,7 @@ $curio_gaps   = Conversation_Log::enabled() ? Conversation_Log::gaps( 25 ) : arr
 										__( '%s ago', 'curio-ai-chat' ),
 										human_time_diff( $curio_when )
 									)
-									: '—'
+									: ''
 							);
 							?>
 						</td>

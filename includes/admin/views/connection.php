@@ -101,7 +101,7 @@ $curio_usage     = Rate_Limiter::month_usage();
 					<span class="curio-feedback" data-curio-models-feedback role="status" aria-live="polite"></span>
 				</span>
 				<p class="description">
-					<?php esc_html_e( 'The cheapest model in each family is the right one for answering from a short knowledge base — the hard part is retrieval, which happens on your server. "Refresh model list" asks your provider what your key can actually reach, so this dropdown never goes stale when they rename things.', 'curio-ai-chat' ); ?>
+					<?php esc_html_e( 'The cheapest model in each family is the right one for answering from a short knowledge base. The hard part is retrieval, and that happens on your server. "Refresh model list" asks your provider what your key can actually reach, so this dropdown never goes stale when they rename things.', 'curio-ai-chat' ); ?>
 				</p>
 			</td>
 		</tr>
@@ -110,7 +110,7 @@ $curio_usage     = Rate_Limiter::month_usage();
 			<th scope="row"><label for="curio-max-tokens"><?php esc_html_e( 'Maximum reply length', 'curio-ai-chat' ); ?></label></th>
 			<td>
 				<input type="number" id="curio-max-tokens" min="64" max="4000" step="1" name="<?php echo esc_attr( Admin::name( 'max_tokens' ) ); ?>" value="<?php echo esc_attr( (string) Options::number( 'max_tokens' ) ); ?>" />
-				<span class="curio-hint"><?php esc_html_e( 'tokens — roughly three quarters of a word each', 'curio-ai-chat' ); ?></span>
+				<span class="curio-hint"><?php esc_html_e( 'tokens, roughly three quarters of a word each', 'curio-ai-chat' ); ?></span>
 			</td>
 		</tr>
 
@@ -119,7 +119,7 @@ $curio_usage     = Rate_Limiter::month_usage();
 			<td>
 				<input type="range" id="curio-temperature" min="0" max="1" step="0.05" name="<?php echo esc_attr( Admin::name( 'temperature' ) ); ?>" value="<?php echo esc_attr( (string) Options::get( 'temperature', 0.2 ) ); ?>" data-curio-range />
 				<output data-curio-range-out><?php echo esc_html( (string) Options::get( 'temperature', 0.2 ) ); ?></output>
-				<p class="description"><?php esc_html_e( 'Low is correct here. This assistant is meant to repeat what it has been told, not to write something new — anything above about 0.4 buys you variety in the wording and nothing else worth having.', 'curio-ai-chat' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Low is correct here. This assistant is meant to repeat what it has been told, not to write something new. Anything above about 0.4 buys you variety in the wording and nothing else worth having.', 'curio-ai-chat' ); ?></p>
 			</td>
 		</tr>
 	</table>
@@ -134,7 +134,7 @@ $curio_usage     = Rate_Limiter::month_usage();
 		if ( Secret::is_encrypted() ) {
 			esc_html_e( 'Keys are encrypted before they are written to the database, using a key derived from this site\'s own security salts, and are stored in rows that are not loaded on ordinary page requests. A saved key is never printed back into this page.', 'curio-ai-chat' );
 		} else {
-			esc_html_e( 'A saved key is never printed back into this page. Note that this server has no OpenSSL support, so keys are stored as plain text in the database — ask your host to enable the OpenSSL PHP extension if that matters to you.', 'curio-ai-chat' );
+			esc_html_e( 'A saved key is never printed back into this page. Note that this server has no OpenSSL support, so keys are stored as plain text in the database. Ask your host to enable the OpenSSL PHP extension if that matters to you.', 'curio-ai-chat' );
 		}
 		?>
 	</p>
@@ -194,7 +194,7 @@ $curio_usage     = Rate_Limiter::month_usage();
 
 	<h2><?php esc_html_e( 'Cost and abuse controls', 'curio-ai-chat' ); ?></h2>
 	<p class="curio-lede">
-		<?php esc_html_e( 'The chat endpoint is public and sits in front of a metered service. Without ceilings, one visitor with a script is an unbounded charge on your card — so there are two, and they are on by default.', 'curio-ai-chat' ); ?>
+		<?php esc_html_e( 'The chat endpoint is public and sits in front of a metered service. Without ceilings, one visitor with a script is an unbounded charge on your card, so there are two, and they are on by default.', 'curio-ai-chat' ); ?>
 	</p>
 
 	<table class="form-table" role="presentation">

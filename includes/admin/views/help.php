@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 			</li>
 			<li>
 				<strong><?php esc_html_e( 'Assistant', 'curio-ai-chat' ); ?></strong>
-				<span><?php esc_html_e( 'Fill in your business name and — most importantly — the hand-off line. That is what it says when it cannot help, and it is the difference between a dead end and a lead.', 'curio-ai-chat' ); ?></span>
+				<span><?php esc_html_e( 'Fill in your business name and, most importantly, the hand-off line. That is what it says when it cannot help, and it is the difference between a dead end and a lead.', 'curio-ai-chat' ); ?></span>
 			</li>
 			<li>
 				<strong><?php esc_html_e( 'Try it in demo mode', 'curio-ai-chat' ); ?></strong>
@@ -45,16 +45,16 @@ defined( 'ABSPATH' ) || exit;
 		<h2><?php esc_html_e( 'Common questions', 'curio-ai-chat' ); ?></h2>
 
 		<h3><?php esc_html_e( 'It says it does not know something that is on my site.', 'curio-ai-chat' ); ?></h3>
-		<p><?php esc_html_e( 'Either that page type is not ticked on the Sources tab, or the index has not been run since you wrote it, or the wording is different enough that retrieval missed it. Add the question as a written answer on the Knowledge tab — hand-written entries are weighted above indexed page text on purpose.', 'curio-ai-chat' ); ?></p>
+		<p><?php esc_html_e( 'Either that page type is not ticked on the Sources tab, or the index has not been run since you wrote it, or the wording is different enough that retrieval missed it. Add the question as a written answer on the Knowledge tab. Hand-written entries are weighted above indexed page text on purpose.', 'curio-ai-chat' ); ?></p>
 
 		<h3><?php esc_html_e( 'Will it ever make up a price?', 'curio-ai-chat' ); ?></h3>
-		<p><?php esc_html_e( 'When retrieval finds nothing relevant, no request is sent to the AI at all — the decline is written by this plugin, not by a model asked nicely to behave. When retrieval does find something, the model is given those passages and a set of rules it cannot edit away, including an explicit ban on estimating any figure not in front of it.', 'curio-ai-chat' ); ?></p>
+		<p><?php esc_html_e( 'When retrieval finds nothing relevant, no request is sent to the AI at all. The decline is written by this plugin, not by a model asked nicely to behave. When retrieval does find something, the model is given those passages and a set of rules it cannot edit away, including an explicit ban on estimating any figure not in front of it.', 'curio-ai-chat' ); ?></p>
 
 		<h3><?php esc_html_e( 'Can I move it, resize it, or match my brand?', 'curio-ai-chat' ); ?></h3>
 		<p><?php esc_html_e( 'The Appearance tab covers colour, corners, size, position, launcher style, avatar and font, with a live preview, and it can read the palette straight out of a block theme. Anything beyond that goes in the custom CSS box.', 'curio-ai-chat' ); ?></p>
 
 		<h3><?php esc_html_e( 'Does it slow my site down?', 'curio-ai-chat' ); ?></h3>
-		<p><?php esc_html_e( 'One stylesheet and one deferred script — about 42KB of source, roughly 12KB over the wire once your server compresses them — loaded only on pages the widget actually appears on. No jQuery, no framework, no external CDN, and no request to any AI provider until a visitor sends a message.', 'curio-ai-chat' ); ?></p>
+		<p><?php esc_html_e( 'One stylesheet and one deferred script, about 42KB of source and roughly 12KB over the wire once your server compresses them, loaded only on pages the widget actually appears on. No jQuery, no framework, no external CDN, and no request to any AI provider until a visitor sends a message.', 'curio-ai-chat' ); ?></p>
 	</section>
 </div>
 
@@ -100,7 +100,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<dl class="curio-hooks">
 		<dt><code>curio_providers</code></dt>
-		<dd><?php esc_html_e( 'Add your own provider — a self-hosted model, an OpenAI-compatible gateway, an internal endpoint. Implement the provider interface and add it to the array.', 'curio-ai-chat' ); ?></dd>
+		<dd><?php esc_html_e( 'Add your own provider: a self-hosted model, an OpenAI-compatible gateway, an internal endpoint. Implement the provider interface and add it to the array.', 'curio-ai-chat' ); ?></dd>
 
 		<dt><code>curio_relevance_threshold</code></dt>
 		<dd><?php esc_html_e( 'The score a passage needs before it counts as context. Raise it and the assistant declines more; lower it and it answers from weaker matches. The one dial that trades safety against helpfulness.', 'curio-ai-chat' ); ?></dd>
@@ -112,7 +112,7 @@ defined( 'ABSPATH' ) || exit;
 		<dd><?php esc_html_e( 'The complete assembled prompt, grounding rules included.', 'curio-ai-chat' ); ?></dd>
 
 		<dt><code>curio_should_display</code></dt>
-		<dd><?php esc_html_e( 'Decide per request whether the widget renders — hide it on checkout, restrict it to a role, limit it to one language.', 'curio-ai-chat' ); ?></dd>
+		<dd><?php esc_html_e( 'Decide per request whether the widget renders: hide it on checkout, restrict it to a role, limit it to one language.', 'curio-ai-chat' ); ?></dd>
 
 		<dt><code>curio_should_index_post</code></dt>
 		<dd><?php esc_html_e( 'Veto individual posts during indexing.', 'curio-ai-chat' ); ?></dd>
@@ -134,7 +134,7 @@ defined( 'ABSPATH' ) || exit;
 		<?php esc_html_e( 'Curio is free and GPL licensed. Bugs and questions are best raised on the WordPress.org support forum so the answers help the next person too.', 'curio-ai-chat' ); ?>
 	</p>
 	<p>
-		<?php esc_html_e( 'If you need something this plugin does not do — a bespoke integration, a different provider, an assistant wired into your booking system or CRM, or a WordPress build of any size — I take that work.', 'curio-ai-chat' ); ?>
+		<?php esc_html_e( 'If you need something this plugin does not do, whether a bespoke integration, a different provider, an assistant wired into your booking system or CRM, or a WordPress build of any size, I take that work.', 'curio-ai-chat' ); ?>
 	</p>
 	<p class="curio-actions">
 		<a class="button button-primary" href="<?php echo esc_url( CURIO_AUTHOR_URL ); ?>" target="_blank" rel="noopener noreferrer">

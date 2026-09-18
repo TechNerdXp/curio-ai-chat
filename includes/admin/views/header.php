@@ -41,7 +41,7 @@ $curio_ready = $curio_stats['total'] > 0;
 		<div class="curio-banner curio-banner-attention">
 			<p>
 				<strong><?php esc_html_e( 'The assistant knows nothing yet, so it will decline every question.', 'curio-ai-chat' ); ?></strong>
-				<?php esc_html_e( 'That is the correct starting state — it will never invent an answer. Give it something to work from on the Sources or Knowledge tab.', 'curio-ai-chat' ); ?>
+				<?php esc_html_e( 'That is the correct starting state: it will never invent an answer. Give it something to work from on the Sources or Knowledge tab.', 'curio-ai-chat' ); ?>
 			</p>
 		</div>
 		<?php

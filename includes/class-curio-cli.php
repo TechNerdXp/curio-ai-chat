@@ -96,7 +96,7 @@ final class CLI {
 		);
 
 		if ( 0 === Knowledge_Store::count() ) {
-			\WP_CLI::warning( 'The knowledge base is empty, so the assistant will decline every question. That is the correct default, not a fault — give it something with `wp curio import`.' );
+			\WP_CLI::warning( 'The knowledge base is empty, so the assistant will decline every question. That is the correct default, not a fault. Give it something with `wp curio import`.' );
 		}
 	}
 
@@ -199,7 +199,7 @@ final class CLI {
 		}
 
 		if ( $placeholders > 0 ) {
-			\WP_CLI::warning( "Skipped {$placeholders} entr" . ( 1 === $placeholders ? 'y' : 'ies' ) . " still containing a [[ FILL IN ]] placeholder. Fill them in or delete them — an assistant that reads a placeholder to a customer is worse than one that declines." );
+			\WP_CLI::warning( "Skipped {$placeholders} entr" . ( 1 === $placeholders ? 'y' : 'ies' ) . " still containing a [[ FILL IN ]] placeholder. Fill them in or delete them: an assistant that reads a placeholder to a customer is worse than one that declines." );
 		}
 
 		\WP_CLI::success( "Imported {$imported}, skipped {$skipped}. The knowledge base now holds " . Knowledge_Store::count() . ' passages.' );
@@ -497,7 +497,7 @@ final class CLI {
 		if ( ! empty( $result['sources'] ) ) {
 			\WP_CLI::line( '' );
 			foreach ( $result['sources'] as $source ) {
-				\WP_CLI::line( '    source: ' . $source['title'] . ' — ' . $source['url'] );
+				\WP_CLI::line( '    source: ' . $source['title'] . ' <' . $source['url'] . '>' );
 			}
 		}
 
@@ -507,9 +507,9 @@ final class CLI {
 		// declined, and reporting it as a decline would send somebody looking
 		// for a hole in a knowledge base that has none.
 		if ( ! empty( $result['declined'] ) ) {
-			$verdict = '    (declined — nothing in the knowledge base matched, so no AI request was made)';
+			$verdict = '    (declined: nothing in the knowledge base matched, so no AI request was made)';
 		} elseif ( empty( $result['grounded'] ) ) {
-			$verdict = '    (greeted — recognised as a greeting, so no retrieval and no AI request)';
+			$verdict = '    (greeted: recognised as a greeting, so no retrieval and no AI request)';
 		} else {
 			$verdict = '    (grounded in retrieved knowledge)';
 		}

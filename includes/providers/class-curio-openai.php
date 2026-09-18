@@ -54,10 +54,10 @@ final class OpenAI extends Provider_Base {
 	 */
 	protected function fallback_models(): array {
 		return array(
-			'gpt-5.6-luna'  => __( 'GPT-5.6 Luna — fastest and cheapest', 'curio-ai-chat' ),
-			'gpt-5.6-terra' => __( 'GPT-5.6 Terra — balanced', 'curio-ai-chat' ),
-			'gpt-5.6-sol'   => __( 'GPT-5.6 Sol — most capable', 'curio-ai-chat' ),
-			'gpt-4o-mini'   => __( 'GPT-4o mini — older, widely available', 'curio-ai-chat' ),
+			'gpt-5.6-luna'  => __( 'GPT-5.6 Luna (fastest and cheapest)', 'curio-ai-chat' ),
+			'gpt-5.6-terra' => __( 'GPT-5.6 Terra (balanced)', 'curio-ai-chat' ),
+			'gpt-5.6-sol'   => __( 'GPT-5.6 Sol (most capable)', 'curio-ai-chat' ),
+			'gpt-4o-mini'   => __( 'GPT-4o mini (older, widely available)', 'curio-ai-chat' ),
 		);
 	}
 

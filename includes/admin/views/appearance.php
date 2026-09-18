@@ -52,7 +52,7 @@ $curio_avatar  = Options::number( 'avatar_id' );
 		<div class="curio-card">
 			<h2><?php esc_html_e( 'Skin', 'curio-ai-chat' ); ?></h2>
 			<p class="curio-lede">
-				<?php esc_html_e( 'Every value here becomes a CSS variable scoped to the widget. Nothing it produces can reach your theme, and nothing in the widget stylesheet hard-codes a colour — so a skin either works everywhere or nowhere, never halfway.', 'curio-ai-chat' ); ?>
+				<?php esc_html_e( 'Every value here becomes a CSS variable scoped to the widget. Nothing it produces can reach your theme, and nothing in the widget stylesheet hard-codes a colour, so a skin either works everywhere or nowhere, never halfway.', 'curio-ai-chat' ); ?>
 			</p>
 
 			<?php Admin::checkbox( 'enabled', __( 'Show the chat widget on the site', 'curio-ai-chat' ), __( 'Untick to hide it everywhere without deactivating the plugin or losing anything.', 'curio-ai-chat' ) ); ?>
@@ -97,7 +97,7 @@ $curio_avatar  = Options::number( 'avatar_id' );
 										class="curio-swatch"
 										data-curio-swatch="<?php echo esc_attr( $curio_colour['color'] ); ?>"
 										style="background-color: <?php echo esc_attr( $curio_colour['color'] ); ?>"
-										title="<?php echo esc_attr( $curio_colour['name'] . ' — ' . $curio_colour['color'] ); ?>"
+										title="<?php echo esc_attr( $curio_colour['name'] . ': ' . $curio_colour['color'] ); ?>"
 									>
 										<span class="screen-reader-text"><?php echo esc_html( $curio_colour['name'] ); ?></span>
 									</button>
