@@ -36,7 +36,7 @@ And it does not decline the easy one: somebody who opens with "hello" gets your 
 
 = Where its knowledge comes from =
 
-* **Your existing content.** Tick which post types it may read — pages, posts, any custom post type — and it indexes them, splitting each one into passages so a question can be matched against a paragraph rather than a whole page. Edits are picked up the moment you save.
+* **Your existing content.** Tick which post types it may read, whether pages, posts or any custom post type, and it indexes them, splitting each one into passages so a question can be matched against a paragraph rather than a whole page. Edits are picked up the moment you save.
 * **Your WooCommerce products.** Descriptions, price, SKU, stock status, categories. Prices are written out as sentences the assistant can quote, and refresh whenever a product changes.
 * **Answers you write.** The things that are not on your site anywhere: what you charge, your opening hours, your cancellation policy, how long delivery takes. Type them in, or paste a JSON array to load an FAQ export in one go.
 
@@ -206,7 +206,7 @@ That is the expected behaviour when PHP only ever sees your proxy's address. Use
 
 1. Answering from the knowledge base, in a chat headed with the name of the site it is installed on rather than the name of the plugin.
 2. The guarantee, demonstrated rather than described: nothing in the knowledge base covers the question, so the plugin writes the decline itself and no request reaches the AI at all. A person is offered in the same breath.
-3. On a phone the panel takes the screen, and it takes the part of the screen that can be seen: with the keyboard up it sits above the keys, header and message box included.
+3. Answering a second question in the same conversation, which survives a reload, a link followed and come back from, and a trip through a payment gateway.
 
 == Changelog ==
 
@@ -214,6 +214,7 @@ That is the expected behaviour when PHP only ever sees your proxy's address. Use
 * On phones the open panel now fits the part of the screen that can be seen: with the keyboard up it sits above the keys, header and all, instead of sliding half off the top.
 * Short conversations now rest on the message box instead of hanging from the top of an otherwise empty panel.
 * The optional "Chat by Curio" credit now links to the plugin's own page rather than to the author's profile, so a visitor who taps it is told what the widget is.
+* Fixed: a visitor who reached the per-visitor rate limit was told their chat session had expired and to reload the page, which was neither true nor any help. They are now told there have been too many requests and to wait a moment, which is what the server actually said.
 * Every dash in the settings screens, the readme and the command line output rewritten as a comma, a colon or a full stop.
 
 = 1.0.0 =

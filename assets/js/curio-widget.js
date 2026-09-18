@@ -580,10 +580,30 @@
 			credentials: 'same-origin'
 		} )
 			.then( function ( response ) {
-				return response.json();
+				return response.json().then( function ( data ) {
+					return { ok: response.ok, data: data || {} };
+				} );
 			} )
-			.then( function ( data ) {
-				state.token = ( data && data.token ) || '';
+			.then( function ( result ) {
+				if ( ! result.ok || ! result.data.token ) {
+					// Opening a session counts against the visitor's rate
+					// limit, so the endpoint that hands out tokens is the
+					// first thing a visitor who has been clicking too fast
+					// runs into, and it answers 429 with no token. Reading
+					// the body without looking at the status stored an empty
+					// token, sent it, and let the message endpoint reject it
+					// as a bad session: the visitor was told "your chat
+					// session expired, please reload the page", which is not
+					// what happened and not something reloading fixes.
+					//
+					// The server's own words are carried out to the catch
+					// instead, so "Too many requests. Please wait a moment."
+					// is what the visitor reads.
+					var failure = new Error( 'curio_session' );
+					failure.curioMessage = typeof result.data.message === 'string' ? result.data.message : '';
+					throw failure;
+				}
+				state.token = result.data.token;
 				writeStore();
 				return state.token;
 			} );
@@ -650,14 +670,18 @@
 					showHandoff();
 				}
 			} )
-			.catch( function () {
+			.catch( function ( failure ) {
 				setBusy( false );
-				addMessage(
-					navigator.onLine === false
+				// A refusal the server explained in words of its own beats
+				// the generic apology, which is for the case where nothing
+				// came back at all.
+				var said = failure && failure.curioMessage ? failure.curioMessage : '';
+				if ( '' === said ) {
+					said = navigator.onLine === false
 						? strings.offline || strings.error || ''
-						: strings.error || '',
-					'error'
-				);
+						: strings.error || '';
+				}
+				addMessage( said, 'error' );
 				showHandoff();
 			} );
 	}
