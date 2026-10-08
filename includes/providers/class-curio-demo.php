@@ -123,12 +123,14 @@ final class Demo extends Provider_Base {
 
 		// Returned as written. Rephrasing is the exact point at which a
 		// keyword-matching responder starts inventing, so it does not rephrase.
+		//
+		// And returned bare. 1.0.x put "Here is what I have on that:" in front
+		// of every reply, so a conversation read as the same canned line ten
+		// times over, and a reply the owner had written as a natural answer
+		// ("Yes, two clients...") arrived sounding like a filing system. The
+		// passage is already the answer; announcing it adds nothing.
 		return array(
-			'text'       => sprintf(
-				/* translators: %s: the matching knowledge base entry, quoted as written. */
-				__( "Here is what I have on that:\n\n%s", 'curio-ai-chat' ),
-				trim( (string) $rows[0]['content'] )
-			),
+			'text'       => trim( (string) $rows[0]['content'] ),
 			'tokens_in'  => 0,
 			'tokens_out' => 0,
 			'matched'    => array( (int) $rows[0]['id'] ),

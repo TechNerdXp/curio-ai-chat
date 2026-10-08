@@ -390,7 +390,10 @@
    Message log
    ------------------------------------------------------------------------- */
 
+/* Positioned so a bubble's offsetTop is measured from the log, which is how
+ * the script scrolls a long reply in from its first line. */
 #curio-widget .curio-log {
+	position: relative;
 	flex: 1 1 auto;
 	min-height: 0;
 	padding: 1rem;
@@ -728,6 +731,21 @@
 	to {
 		opacity: 1;
 		transform: translateY(0) scale(1);
+	}
+}
+
+/* A fresh reply inks in a word at a time; the script staggers the delays.
+ * Opacity only, so nothing reflows and the text is in the page all along. */
+#curio-widget .curio-word {
+	animation: curio-ink 0.24s ease both;
+}
+
+@keyframes curio-ink {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
 	}
 }
 

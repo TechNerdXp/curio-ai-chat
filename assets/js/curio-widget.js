@@ -316,12 +316,13 @@
 	 * Drawing and remembering are separate because a restored conversation has
 	 * to be drawn without being remembered a second time.
 	 *
-	 * @param {string} text    Message text.
-	 * @param {string} role    'user', 'assistant' or 'error'.
-	 * @param {Array}  sources Optional source links.
+	 * @param {string}  text    Message text.
+	 * @param {string}  role    'user', 'assistant' or 'error'.
+	 * @param {Array}   sources Optional source links.
+	 * @param {boolean} fresh   A reply arriving now, to be inked in.
 	 * @return {HTMLElement} The bubble.
 	 */
-	function renderMessage( text, role, sources ) {
+	function renderMessage( text, role, sources, fresh ) {
 		var bubble = document.createElement( 'div' );
 		bubble.className = 'curio-message curio-message-' + role;
 
@@ -357,21 +358,110 @@
 			}
 		}
 
+		// Before the bubble joins the log, not after: the log is a live
+		// region, so rewriting it once it is there would be announced again.
+		if ( fresh ) {
+			inkIn( bubble );
+		}
+
 		log.appendChild( bubble );
-		scrollToEnd();
+
+		if ( fresh ) {
+			scrollToReply( bubble );
+		} else {
+			scrollToEnd();
+		}
 		return bubble;
+	}
+
+	/**
+	 * Let a fresh reply arrive at a reading pace instead of all at once.
+	 *
+	 * Every word is wrapped in a span that fades in after the one before it,
+	 * with a breath between paragraphs. It is opacity and nothing else, so the
+	 * whole reply is in the page, and in the accessibility tree, from the first
+	 * frame: a screen reader hears it once and in full, as before, and the
+	 * reduced-motion rule in the stylesheet zeroes every delay, so a visitor who
+	 * asked for less motion gets the whole reply at once. Only the visible text
+	 * is wrapped; the "Assistant said" label stays as it is.
+	 *
+	 * @param {HTMLElement} bubble A bubble not yet in the log.
+	 */
+	function inkIn( bubble ) {
+		var walker = document.createTreeWalker( bubble, NodeFilter.SHOW_TEXT );
+		var nodes = [];
+		while ( walker.nextNode() ) {
+			if ( ! walker.currentNode.parentNode.closest( '.curio-visually-hidden' ) ) {
+				nodes.push( walker.currentNode );
+			}
+		}
+
+		var words = [];
+		nodes.forEach( function ( node ) {
+			var fragment = document.createDocumentFragment();
+			node.nodeValue.split( /(\s+)/ ).forEach( function ( part ) {
+				if ( '' === part ) {
+					return;
+				}
+				if ( /^\s+$/.test( part ) ) {
+					fragment.appendChild( document.createTextNode( part ) );
+					return;
+				}
+				var word = document.createElement( 'span' );
+				word.className = 'curio-word';
+				word.textContent = part;
+				fragment.appendChild( word );
+				words.push( word );
+			} );
+			node.parentNode.replaceChild( fragment, node );
+		} );
+
+		// A short reply at about 25 words a second; a long one is held to two
+		// seconds overall, because nobody waits longer than that to start
+		// reading.
+		var step = Math.min( 40, 2000 / Math.max( 1, words.length ) );
+		var at = 0;
+		var block = null;
+		words.forEach( function ( word ) {
+			var parent = word.parentNode.closest( 'p, li, .curio-sources' );
+			if ( block && parent !== block ) {
+				at += 180;
+			}
+			block = parent;
+			word.style.animationDelay = Math.round( at ) + 'ms';
+			at += step;
+		} );
+	}
+
+	/**
+	 * Bring a fresh reply into view from its first line.
+	 *
+	 * Everything else scrolls to the very end, which for a reply taller than
+	 * the log puts its last line at the bottom and its opening off the top: the
+	 * visitor would watch it finish before they could read how it began. So the
+	 * log goes to the end, but never past the point where the reply's first
+	 * line would leave the top. `offsetTop` rather than a bounding box, because
+	 * the bubble is mid-way through its entrance transform and a bounding box
+	 * would include it.
+	 *
+	 * @param {HTMLElement} bubble The reply, already in the log.
+	 */
+	function scrollToReply( bubble ) {
+		var end = log.scrollHeight - log.clientHeight;
+		log.scrollTop = Math.max( 0, Math.min( end, bubble.offsetTop - 12 ) );
 	}
 
 	/**
 	 * Add a message to the conversation, and remember it.
 	 *
-	 * @param {string} text    Message text.
-	 * @param {string} role    'user', 'assistant' or 'error'.
-	 * @param {Array}  sources Optional source links.
+	 * @param {string}  text    Message text.
+	 * @param {string}  role    'user', 'assistant' or 'error'.
+	 * @param {Array}   sources Optional source links.
+	 * @param {boolean} fresh   A reply arriving now, to be inked in.
 	 * @return {HTMLElement} The bubble.
 	 */
-	function addMessage( text, role, sources ) {
-		var bubble = renderMessage( text, role, sources );
+	function addMessage( text, role, sources, fresh ) {
+		var bubble = renderMessage( text, role, sources, fresh );
 
 		state.messages.push( {
 			role: normaliseRole( role ),
@@ -620,6 +710,7 @@
 	 * @param {boolean} retried  Whether this is already the retry.
 	 */
 	function send( question, retried ) {
+		var started = Date.now();
 		setBusy( true );
 
 		ensureToken( Boolean( retried ) )
@@ -655,20 +746,22 @@
 					return;
 				}
 
-				setBusy( false );
-
 				var answer = ( result.data && result.data.answer ) || '';
-				addMessage( answer, 'assistant', result.data && result.data.sources );
 
-				state.history.push( { role: 'assistant', content: answer } );
-				trimHistory();
-				writeStore();
+				window.setTimeout( function () {
+					setBusy( false );
+					addMessage( answer, 'assistant', result.data && result.data.sources, true );
 
-				// The server says whether it had anything to ground that reply
-				// in. It did not, so the visitor has just been told no.
-				if ( result.data && result.data.declined ) {
-					showHandoff();
-				}
+					state.history.push( { role: 'assistant', content: answer } );
+					trimHistory();
+					writeStore();
+
+					// The server says whether it had anything to ground that
+					// reply in. It did not, so the visitor has just been told no.
+					if ( result.data && result.data.declined ) {
+						showHandoff();
+					}
+				}, beat( answer, started ) );
 			} )
 			.catch( function ( failure ) {
 				setBusy( false );
@@ -684,6 +777,25 @@
 				addMessage( said, 'error' );
 				showHandoff();
 			} );
+	}
+
+	/**
+	 * How much longer the typing indicator stays up before a reply lands.
+	 *
+	 * Demo mode and a cached answer come back in a few milliseconds, so the
+	 * dots flashed and a paragraph slammed into the log before the visitor's own
+	 * message had settled. A reply now takes at least a moment, a little longer
+	 * for a longer one, the way a person answering would. Only fast replies
+	 * wait: whatever time the server already took counts towards the beat, so a
+	 * model that took two seconds is shown the moment it is done.
+	 *
+	 * @param {string} answer  The reply about to be shown.
+	 * @param {number} started When the question was sent, in ms.
+	 * @return {number} Milliseconds still to wait.
+	 */
+	function beat( answer, started ) {
+		var want = Math.min( 1300, 550 + String( answer ).length * 0.6 );
+		return Math.max( 0, want - ( Date.now() - started ) );
 	}
 
 	/**
