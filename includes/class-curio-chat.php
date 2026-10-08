@@ -23,6 +23,11 @@ defined( 'ABSPATH' ) || exit;
 final class Chat {
 
 	/**
+	 * Where the provider's reason for the last failed reply is kept.
+	 */
+	public const FAILURE_OPTION = 'curio_last_failure';
+
+	/**
 	 * Answer a question.
 	 *
 	 * @param string                          $question Visitor's question.
@@ -149,6 +154,7 @@ final class Chat {
 			// visitor gets a plain apology. Nobody browsing a photography site
 			// should be reading "invalid x-api-key".
 			self::log( $question, $response->get_error_message(), false, $provider->slug(), $model, array(), 0, 0, $page_url );
+			self::record_failure( $provider->slug(), $model, $response->get_error_message() );
 
 			return new \WP_Error(
 				$response->get_error_code(),
@@ -168,6 +174,7 @@ final class Chat {
 				(int) ( $response['tokens_in'] ?? 0 ),
 				(int) ( $response['tokens_out'] ?? 0 )
 			);
+			self::clear_failure();
 		}
 
 		$result = array(
@@ -222,6 +229,57 @@ final class Chat {
 		 * @param string              $question The question asked.
 		 */
 		return (array) apply_filters( 'curio_answer', $result, $question );
+	}
+
+	/**
+	 * Remember why the provider refused, for the owner rather than the visitor.
+	 *
+	 * The visitor is only ever told that something went wrong, which is right
+	 * for them and useless to the person who has to fix it. The provider's own
+	 * reason used to reach the conversation log and nowhere else, and that log
+	 * is off by default, so a site owner whose chat had stopped answering had
+	 * no way to learn whether it was the key, the credit or the model. This
+	 * keeps that one line, whatever the logging setting, and the Connection tab
+	 * shows it. It holds the provider's error and nothing the visitor typed.
+	 *
+	 * Autoloaded, so while it exists the success path reads it for free; while
+	 * it does not, that read is one primary-key lookup beside an API call.
+	 *
+	 * @param string $provider Provider slug.
+	 * @param string $model    Model id.
+	 * @param string $reason   The provider's error, as explained to the owner.
+	 * @return void
+	 */
+	private static function record_failure( string $provider, string $model, string $reason ): void {
+		update_option(
+			self::FAILURE_OPTION,
+			array(
+				'provider' => $provider,
+				'model'    => $model,
+				'reason'   => Text::truncate( $reason, 300 ),
+				'at'       => time(),
+			),
+			true
+		);
+	}
+
+	/**
+	 * Forget the last failure once it no longer describes the chat.
+	 *
+	 * Called after any reply a provider gave normally, and after a passing
+	 * "Test" of the same provider, so the notice only stands while it is true.
+	 *
+	 * @param string $provider Only clear a failure that belongs to this provider; empty clears any.
+	 * @return void
+	 */
+	public static function clear_failure( string $provider = '' ): void {
+		$failure = get_option( self::FAILURE_OPTION );
+		if ( ! is_array( $failure ) ) {
+			return;
+		}
+		if ( '' === $provider || ( $failure['provider'] ?? '' ) === $provider ) {
+			delete_option( self::FAILURE_OPTION );
+		}
 	}
 
 	/**

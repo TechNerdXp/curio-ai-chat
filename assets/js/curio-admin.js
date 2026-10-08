@@ -563,6 +563,34 @@
 			}
 		} );
 
+		// The model list is drawn for the provider that was saved. Choosing a
+		// different one left that list in place, so saving stored a model the
+		// new provider does not have, and every reply failed. Off the saved
+		// provider the list becomes that provider's default, which always
+		// exists, until "Refresh model list" fetches the real choices; back on
+		// it, the original list returns as it was.
+		var modelSelect = document.querySelector( '[data-curio-model]' );
+		var savedRadio = document.querySelector( '[data-curio-provider-radio]:checked' );
+		var savedOptions = modelSelect ? Array.prototype.slice.call( modelSelect.options ) : [];
+		document.querySelectorAll( '[data-curio-provider-radio]' ).forEach( function ( radio ) {
+			radio.addEventListener( 'change', function () {
+				if ( ! modelSelect || ! radio.checked ) {
+					return;
+				}
+				modelSelect.textContent = '';
+				if ( savedRadio && radio.value === savedRadio.value ) {
+					savedOptions.forEach( function ( option ) {
+						modelSelect.appendChild( option );
+					} );
+					return;
+				}
+				var option = document.createElement( 'option' );
+				option.value = '';
+				option.textContent = 'demo' === radio.value ? strings.demoModel : strings.defaultModel;
+				modelSelect.appendChild( option );
+			} );
+		} );
+
 		var refresh = document.querySelector( '[data-curio-refresh-models]' );
 		if ( refresh ) {
 			refresh.addEventListener( 'click', function () {

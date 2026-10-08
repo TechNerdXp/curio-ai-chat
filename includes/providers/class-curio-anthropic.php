@@ -7,12 +7,22 @@
 
 namespace Curio\Providers;
 
+use Curio\Cache;
 use Curio\Options;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Talks to the Anthropic Messages API.
+ *
+ * Every request carries the owner's `temperature`, and the newer Claude models
+ * (the Sonnet 5 line, Opus 4.7 onwards) refuse it with a 400: they take an
+ * `effort` instead. 1.0.x sent it regardless, so choosing a current model from
+ * the refreshed list made every reply fail. `send()` reads the refusal, swaps
+ * the temperature for a low effort, which is the level a short grounded answer
+ * needs, and remembers the model so the next message does not ask twice. Read
+ * from the API's own answer rather than from a list of model names, for the
+ * reason the OpenAI adapter gives: a list is wrong within months.
  */
 final class Anthropic extends Provider_Base {
 
@@ -47,8 +57,8 @@ final class Anthropic extends Provider_Base {
 	protected function fallback_models(): array {
 		return array(
 			'claude-haiku-4-5-20251001' => __( 'Claude Haiku 4.5 (fastest and cheapest)', 'curio-ai-chat' ),
-			'claude-sonnet-5'           => __( 'Claude Sonnet 5 (balanced)', 'curio-ai-chat' ),
-			'claude-opus-5'             => __( 'Claude Opus 5 (most capable)', 'curio-ai-chat' ),
+			'claude-sonnet-5-5'         => __( 'Claude Sonnet 5.5 (balanced)', 'curio-ai-chat' ),
+			'claude-opus-5-5'           => __( 'Claude Opus 5.5 (most capable)', 'curio-ai-chat' ),
 		);
 	}
 
@@ -123,23 +133,17 @@ final class Anthropic extends Provider_Base {
 			'content' => $question,
 		);
 
-		$result = $this->post(
-			self::ENDPOINT,
+		$result = $this->send(
 			array(
-				'model'       => $this->model(),
-				'max_tokens'  => Options::number( 'max_tokens' ),
-				'temperature' => (float) Options::get( 'temperature', 0.2 ),
-				'system'      => $system,
-				'messages'    => $messages,
-			),
-			$this->headers()
+				'model'      => $this->model(),
+				'max_tokens' => Options::number( 'max_tokens' ),
+				'system'     => $system,
+				'messages'   => $messages,
+			)
 		);
 
 		if ( is_wp_error( $result ) ) {
 			return $result;
-		}
-		if ( 200 !== $result['code'] ) {
-			return $this->explain( $result['code'], $result['body'], (string) ( $result['body']['error']['message'] ?? '' ) );
 		}
 
 		// The reply arrives as an array of content blocks. Concatenating every
@@ -172,23 +176,56 @@ final class Anthropic extends Provider_Base {
 			return new \WP_Error( 'curio_no_key', __( 'Enter an API key first.', 'curio-ai-chat' ) );
 		}
 
-		$result = $this->post(
-			self::ENDPOINT,
+		// Through send(), with the same parameters a reply carries. A test that
+		// sent less than a reply would pass for a model every reply fails on.
+		$result = $this->send(
 			array(
 				'model'      => $this->model(),
 				'max_tokens' => 8,
 				'messages'   => array( array( 'role' => 'user', 'content' => 'Reply with the single word OK.' ) ),
 			),
-			$this->headers(),
 			20
 		);
 
-		if ( is_wp_error( $result ) ) {
-			return $result;
+		return is_wp_error( $result ) ? $result : true;
+	}
+
+	/**
+	 * Send a request, trading the temperature for an effort if the model wants one.
+	 *
+	 * @param array<string,mixed> $body    Request body without sampling or effort.
+	 * @param int                 $timeout Seconds to wait.
+	 * @return array<string,mixed>|\WP_Error The decoded 200 response, or the explained failure.
+	 */
+	private function send( array $body, int $timeout = self::TIMEOUT ) {
+		$model = (string) $body['model'];
+		if ( Cache::get( 'effort_only', $model ) ) {
+			$body['output_config'] = array( 'effort' => 'low' );
+		} else {
+			$body['temperature'] = (float) Options::get( 'temperature', 0.2 );
 		}
-		if ( 200 !== $result['code'] ) {
-			return $this->explain( $result['code'], $result['body'], (string) ( $result['body']['error']['message'] ?? '' ) );
+
+		for ( $attempt = 1; $attempt <= 3; $attempt++ ) {
+			$result = $this->post( self::ENDPOINT, $body, $this->headers(), $timeout );
+			if ( is_wp_error( $result ) || 200 === $result['code'] ) {
+				return $result;
+			}
+
+			$message = (string) ( $result['body']['error']['message'] ?? '' );
+			if ( 400 === $result['code'] && isset( $body['temperature'] ) && false !== stripos( $message, 'temperature' ) ) {
+				unset( $body['temperature'] );
+				$body['output_config'] = array( 'effort' => 'low' );
+				Cache::set( 'effort_only', $model, true, WEEK_IN_SECONDS );
+				continue;
+			}
+			if ( 400 === $result['code'] && isset( $body['output_config'] ) && preg_match( '/effort|output_config/i', $message ) ) {
+				unset( $body['output_config'] );
+				continue;
+			}
+
+			return $this->explain( $result['code'], $result['body'], $message );
 		}
-		return true;
+
+		return new \WP_Error( 'curio_api', __( 'The provider rejected the request repeatedly.', 'curio-ai-chat' ) );
 	}
 }

@@ -216,6 +216,8 @@ final class Admin {
 					'saved'            => __( 'Saved.', 'curio-ai-chat' ),
 					'testing'          => __( 'Testing…', 'curio-ai-chat' ),
 					'refreshing'       => __( 'Asking the provider…', 'curio-ai-chat' ),
+					'defaultModel'     => __( 'This provider\'s default model (press "Refresh model list" to choose another)', 'curio-ai-chat' ),
+					'demoModel'        => __( 'Not applicable in demo mode', 'curio-ai-chat' ),
 					'indexing'         => __( 'Indexing…', 'curio-ai-chat' ),
 					/* translators: 1: items done, 2: items total. */
 					'progress'         => __( 'Indexed %1$d of %2$d', 'curio-ai-chat' ),

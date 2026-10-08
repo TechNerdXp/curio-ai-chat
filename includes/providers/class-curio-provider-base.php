@@ -7,7 +7,6 @@
 
 namespace Curio\Providers;
 
-use Curio\Cache;
 use Curio\Options;
 use Curio\Secret;
 
@@ -24,9 +23,9 @@ defined( 'ABSPATH' ) || exit;
 abstract class Provider_Base implements Provider_Interface {
 
 	/**
-	 * How long a fetched model list stays fresh.
+	 * Where a fetched model list is kept, followed by the provider's slug.
 	 */
-	protected const MODEL_TTL = DAY_IN_SECONDS;
+	public const MODELS_OPTION = 'curio_models_';
 
 	/**
 	 * Seconds to wait on a completion request.
@@ -66,22 +65,30 @@ abstract class Provider_Base implements Provider_Interface {
 	 * {@inheritDoc}
 	 */
 	public function models(): array {
-		$cached = Cache::get( 'models', $this->slug() );
-		if ( is_array( $cached ) && array() !== $cached ) {
-			return $cached;
+		$fetched = get_option( self::MODELS_OPTION . $this->slug(), array() );
+		if ( is_array( $fetched ) && array() !== $fetched ) {
+			return $fetched;
 		}
 		return $this->fallback_models();
 	}
 
 	/**
-	 * Store a freshly fetched model list.
+	 * Keep a freshly fetched model list until the next refresh.
+	 *
+	 * In its own option, not the answer cache. 1.0.x kept it in the cache,
+	 * and every settings save flushes the cache, so the list the owner had
+	 * just fetched was gone the moment they saved the model they picked from
+	 * it: the dropdown went back to the three built-in models, the newest one
+	 * they had chosen was no longer in it, and the browser showed the first
+	 * option instead. The list does not depend on any setting, so nothing a
+	 * save changes should touch it.
 	 *
 	 * @param array<string,string> $models Model map.
 	 * @return void
 	 */
 	protected function cache_models( array $models ): void {
 		if ( array() !== $models ) {
-			Cache::set( 'models', $this->slug(), $models, self::MODEL_TTL );
+			update_option( self::MODELS_OPTION . $this->slug(), $models, false );
 		}
 	}
 

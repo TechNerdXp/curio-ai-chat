@@ -586,6 +586,8 @@ final class REST {
 			return self::error( (string) $result->get_error_code(), $result->get_error_message(), 200 );
 		}
 
+		Chat::clear_failure( $provider->slug() );
+
 		return new \WP_REST_Response(
 			array(
 				'ok'      => true,

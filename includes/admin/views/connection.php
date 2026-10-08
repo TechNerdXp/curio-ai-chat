@@ -7,6 +7,7 @@
 
 namespace Curio\Admin;
 
+use Curio\Chat;
 use Curio\Options;
 use Curio\Rate_Limiter;
 use Curio\Secret;
@@ -17,119 +18,53 @@ defined( 'ABSPATH' ) || exit;
 $curio_current   = Options::text( 'provider' );
 $curio_providers = Registry::all();
 $curio_usage     = Rate_Limiter::month_usage();
+$curio_failure   = get_option( Chat::FAILURE_OPTION );
+
+/*
+ * The keys come first because setup runs in this order: a key, then the
+ * provider and model it unlocks, then the limits. With the keys at the bottom,
+ * a site owner picked a provider, pressed "Refresh model list", was told there
+ * was no key, and went looking for where one goes. The key is the step that
+ * gates every other one, so it is the first thing on the tab.
+ */
 ?>
 
-<form method="post" action="options.php" class="curio-card">
+<?php if ( is_array( $curio_failure ) && ! empty( $curio_failure['reason'] ) ) : ?>
 	<?php
-	settings_fields( Admin::GROUP );
-	Admin::fields( array( 'provider', 'model', 'max_tokens', 'temperature' ) );
+	$curio_failed_with = Registry::get( (string) ( $curio_failure['provider'] ?? '' ) );
+	$curio_failed_name = $curio_failed_with ? $curio_failed_with->label() : (string) ( $curio_failure['provider'] ?? '' );
 	?>
-
-	<h2><?php esc_html_e( 'Which AI answers', 'curio-ai-chat' ); ?></h2>
-	<p class="curio-lede">
-		<?php esc_html_e( 'You bring your own key and pay the provider directly. Nothing routes through the developer, and no usage data is sent anywhere except to the provider you pick.', 'curio-ai-chat' ); ?>
-	</p>
-
-	<fieldset class="curio-providers" data-curio-providers>
-		<legend class="screen-reader-text"><?php esc_html_e( 'AI provider', 'curio-ai-chat' ); ?></legend>
-
-		<?php foreach ( $curio_providers as $curio_slug => $curio_provider ) : ?>
-			<?php $curio_links = $curio_provider->links(); ?>
-			<label class="<?php echo esc_attr( 'curio-provider' . ( $curio_current === $curio_slug ? ' curio-is-active' : '' ) ); ?>">
-				<input
-					type="radio"
-					name="<?php echo esc_attr( Admin::name( 'provider' ) ); ?>"
-					value="<?php echo esc_attr( $curio_slug ); ?>"
-					<?php checked( $curio_current, $curio_slug ); ?>
-					data-curio-provider-radio="<?php echo esc_attr( $curio_slug ); ?>"
-				/>
-				<span class="curio-provider-body">
-					<strong><?php echo esc_html( $curio_provider->label() ); ?></strong>
-
-					<?php if ( 'demo' === $curio_slug ) : ?>
-						<span class="curio-hint"><?php esc_html_e( 'Answers straight from the knowledge base with no rewriting and no API call. Perfect for checking what it knows before you spend anything.', 'curio-ai-chat' ); ?></span>
-					<?php else : ?>
-						<span class="curio-hint">
-							<?php if ( Secret::exists( $curio_slug ) ) : ?>
-								<span class="curio-pill curio-pill-good"><?php esc_html_e( 'Key saved', 'curio-ai-chat' ); ?></span>
-								<code><?php echo esc_html( Secret::mask( $curio_slug ) ); ?></code>
-							<?php else : ?>
-								<span class="curio-pill"><?php esc_html_e( 'No key yet', 'curio-ai-chat' ); ?></span>
-							<?php endif; ?>
-						</span>
-						<?php if ( ! empty( $curio_links['pricing'] ) ) : ?>
-							<span class="curio-provider-links">
-								<a href="<?php echo esc_url( $curio_links['console'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Get a key', 'curio-ai-chat' ); ?></a>
-								<a href="<?php echo esc_url( $curio_links['pricing'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Pricing', 'curio-ai-chat' ); ?></a>
-								<a href="<?php echo esc_url( $curio_links['terms'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Terms', 'curio-ai-chat' ); ?></a>
-								<a href="<?php echo esc_url( $curio_links['privacy'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Privacy', 'curio-ai-chat' ); ?></a>
-							</span>
-						<?php endif; ?>
-					<?php endif; ?>
-				</span>
-			</label>
-		<?php endforeach; ?>
-	</fieldset>
-
-	<table class="form-table" role="presentation">
-		<tr>
-			<th scope="row"><label for="curio-model"><?php esc_html_e( 'Model', 'curio-ai-chat' ); ?></label></th>
-			<td>
-				<span class="curio-inline-fields">
-					<select id="curio-model" name="<?php echo esc_attr( Admin::name( 'model' ) ); ?>" data-curio-model>
-						<?php
-						$curio_active = Registry::get( $curio_current ) ?? Registry::get( 'demo' );
-						$curio_models = $curio_active ? $curio_active->models() : array();
-						$curio_chosen = Options::text( 'model' );
-
-						if ( array() === $curio_models ) :
-							?>
-							<option value=""><?php esc_html_e( 'Not applicable in demo mode', 'curio-ai-chat' ); ?></option>
-							<?php
-						else :
-							foreach ( $curio_models as $curio_id => $curio_label ) :
-								?>
-								<option value="<?php echo esc_attr( $curio_id ); ?>" <?php selected( $curio_chosen, $curio_id ); ?>>
-									<?php echo esc_html( $curio_label ); ?>
-								</option>
-								<?php
-							endforeach;
-						endif;
-						?>
-					</select>
-					<button type="button" class="button" data-curio-refresh-models><?php esc_html_e( 'Refresh model list', 'curio-ai-chat' ); ?></button>
-					<span class="curio-feedback" data-curio-models-feedback role="status" aria-live="polite"></span>
-				</span>
-				<p class="description">
-					<?php esc_html_e( 'The cheapest model in each family is the right one for answering from a short knowledge base. The hard part is retrieval, and that happens on your server. "Refresh model list" asks your provider what your key can actually reach, so this dropdown never goes stale when they rename things.', 'curio-ai-chat' ); ?>
-				</p>
-			</td>
-		</tr>
-
-		<tr>
-			<th scope="row"><label for="curio-max-tokens"><?php esc_html_e( 'Maximum reply length', 'curio-ai-chat' ); ?></label></th>
-			<td>
-				<input type="number" id="curio-max-tokens" min="64" max="4000" step="1" name="<?php echo esc_attr( Admin::name( 'max_tokens' ) ); ?>" value="<?php echo esc_attr( (string) Options::number( 'max_tokens' ) ); ?>" />
-				<span class="curio-hint"><?php esc_html_e( 'tokens, roughly three quarters of a word each', 'curio-ai-chat' ); ?></span>
-			</td>
-		</tr>
-
-		<tr>
-			<th scope="row"><label for="curio-temperature"><?php esc_html_e( 'Creativity', 'curio-ai-chat' ); ?></label></th>
-			<td>
-				<input type="range" id="curio-temperature" min="0" max="1" step="0.05" name="<?php echo esc_attr( Admin::name( 'temperature' ) ); ?>" value="<?php echo esc_attr( (string) Options::get( 'temperature', 0.2 ) ); ?>" data-curio-range />
-				<output data-curio-range-out><?php echo esc_html( (string) Options::get( 'temperature', 0.2 ) ); ?></output>
-				<p class="description"><?php esc_html_e( 'Low is correct here. This assistant is meant to repeat what it has been told, not to write something new. Anything above about 0.4 buys you variety in the wording and nothing else worth having.', 'curio-ai-chat' ); ?></p>
-			</td>
-		</tr>
-	</table>
-
-	<?php submit_button( __( 'Save connection', 'curio-ai-chat' ) ); ?>
-</form>
+	<div class="notice notice-error inline">
+		<p>
+			<strong>
+				<?php
+				printf(
+					/* translators: %s: how long ago, such as "5 mins". */
+					esc_html__( 'The chat could not answer a visitor %s ago.', 'curio-ai-chat' ),
+					esc_html( human_time_diff( (int) ( $curio_failure['at'] ?? time() ) ) )
+				);
+				?>
+			</strong>
+			<?php
+			printf(
+				/* translators: 1: provider name, 2: model id. */
+				esc_html__( 'They were shown an apology. The reason %1$s gave, for the model %2$s:', 'curio-ai-chat' ),
+				esc_html( $curio_failed_name ),
+				'<code>' . esc_html( (string) ( $curio_failure['model'] ?? '' ) ) . '</code>'
+			);
+			?>
+		</p>
+		<p><?php echo esc_html( (string) $curio_failure['reason'] ); ?></p>
+		<p><?php esc_html_e( 'Fix the cause, then press "Test" beside that provider\'s key below. This notice goes away after the next reply that works.', 'curio-ai-chat' ); ?></p>
+	</div>
+<?php endif; ?>
 
 <section class="curio-card" aria-labelledby="curio-key-heading">
 	<h2 id="curio-key-heading"><?php esc_html_e( 'API keys', 'curio-ai-chat' ); ?></h2>
 	<p class="curio-lede">
+		<?php esc_html_e( 'Start here to answer with a real AI model; demo mode needs no key. You bring your own key and pay the provider directly. Nothing routes through the developer, and no usage data is sent anywhere except to the provider you pick.', 'curio-ai-chat' ); ?>
+	</p>
+	<p class="curio-hint">
 		<?php
 		if ( Secret::is_encrypted() ) {
 			esc_html_e( 'Keys are encrypted before they are written to the database, using a key derived from this site\'s own security salts, and are stored in rows that are not loaded on ordinary page requests. A saved key is never printed back into this page.', 'curio-ai-chat' );
@@ -185,6 +120,122 @@ $curio_usage     = Rate_Limiter::month_usage();
 		</div>
 	<?php endforeach; ?>
 </section>
+
+<form method="post" action="options.php" class="curio-card">
+	<?php
+	settings_fields( Admin::GROUP );
+	Admin::fields( array( 'provider', 'model', 'max_tokens', 'temperature' ) );
+	?>
+
+	<h2><?php esc_html_e( 'Which AI answers', 'curio-ai-chat' ); ?></h2>
+	<p class="curio-lede">
+		<?php esc_html_e( 'Pick a provider whose key is saved above, press "Refresh model list" to load the models that key can reach, choose one, and save.', 'curio-ai-chat' ); ?>
+	</p>
+
+	<fieldset class="curio-providers" data-curio-providers>
+		<legend class="screen-reader-text"><?php esc_html_e( 'AI provider', 'curio-ai-chat' ); ?></legend>
+
+		<?php foreach ( $curio_providers as $curio_slug => $curio_provider ) : ?>
+			<?php $curio_links = $curio_provider->links(); ?>
+			<label class="<?php echo esc_attr( 'curio-provider' . ( $curio_current === $curio_slug ? ' curio-is-active' : '' ) ); ?>">
+				<input
+					type="radio"
+					name="<?php echo esc_attr( Admin::name( 'provider' ) ); ?>"
+					value="<?php echo esc_attr( $curio_slug ); ?>"
+					<?php checked( $curio_current, $curio_slug ); ?>
+					data-curio-provider-radio="<?php echo esc_attr( $curio_slug ); ?>"
+				/>
+				<span class="curio-provider-body">
+					<strong><?php echo esc_html( $curio_provider->label() ); ?></strong>
+
+					<?php if ( 'demo' === $curio_slug ) : ?>
+						<span class="curio-hint"><?php esc_html_e( 'Answers straight from the knowledge base with no rewriting and no API call. Perfect for checking what it knows before you spend anything.', 'curio-ai-chat' ); ?></span>
+					<?php else : ?>
+						<span class="curio-hint">
+							<?php if ( Secret::exists( $curio_slug ) ) : ?>
+								<span class="curio-pill curio-pill-good"><?php esc_html_e( 'Key saved', 'curio-ai-chat' ); ?></span>
+								<code><?php echo esc_html( Secret::mask( $curio_slug ) ); ?></code>
+							<?php else : ?>
+								<span class="curio-pill"><?php esc_html_e( 'No key yet', 'curio-ai-chat' ); ?></span>
+							<?php endif; ?>
+						</span>
+						<?php if ( ! empty( $curio_links['pricing'] ) ) : ?>
+							<span class="curio-provider-links">
+								<a href="<?php echo esc_url( $curio_links['console'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Get a key', 'curio-ai-chat' ); ?></a>
+								<a href="<?php echo esc_url( $curio_links['pricing'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Pricing', 'curio-ai-chat' ); ?></a>
+								<a href="<?php echo esc_url( $curio_links['terms'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Terms', 'curio-ai-chat' ); ?></a>
+								<a href="<?php echo esc_url( $curio_links['privacy'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Privacy', 'curio-ai-chat' ); ?></a>
+							</span>
+						<?php endif; ?>
+					<?php endif; ?>
+				</span>
+			</label>
+		<?php endforeach; ?>
+	</fieldset>
+
+	<table class="form-table" role="presentation">
+		<tr>
+			<th scope="row"><label for="curio-model"><?php esc_html_e( 'Model', 'curio-ai-chat' ); ?></label></th>
+			<td>
+				<span class="curio-inline-fields">
+					<select id="curio-model" name="<?php echo esc_attr( Admin::name( 'model' ) ); ?>" data-curio-model>
+						<?php
+						$curio_active = Registry::get( $curio_current ) ?? Registry::get( 'demo' );
+						$curio_models = $curio_active ? $curio_active->models() : array();
+						$curio_chosen = Options::text( 'model' );
+
+						// The saved model is always one of the options. If it is
+						// missing from the list, no option is selected, the browser
+						// shows the first one, and the next save quietly replaces
+						// the owner's choice with it.
+						if ( '' !== $curio_chosen && array() !== $curio_models && ! isset( $curio_models[ $curio_chosen ] ) ) {
+							$curio_models = array( $curio_chosen => $curio_chosen ) + $curio_models;
+						}
+
+						if ( array() === $curio_models ) :
+							?>
+							<option value=""><?php esc_html_e( 'Not applicable in demo mode', 'curio-ai-chat' ); ?></option>
+							<?php
+						else :
+							foreach ( $curio_models as $curio_id => $curio_label ) :
+								?>
+								<option value="<?php echo esc_attr( $curio_id ); ?>" <?php selected( $curio_chosen, $curio_id ); ?>>
+									<?php echo esc_html( $curio_label ); ?>
+								</option>
+								<?php
+							endforeach;
+						endif;
+						?>
+					</select>
+					<button type="button" class="button" data-curio-refresh-models><?php esc_html_e( 'Refresh model list', 'curio-ai-chat' ); ?></button>
+					<span class="curio-feedback" data-curio-models-feedback role="status" aria-live="polite"></span>
+				</span>
+				<p class="description">
+					<?php esc_html_e( 'The cheapest model in each family is the right one for answering from a short knowledge base. The hard part is retrieval, and that happens on your server. "Refresh model list" asks your provider what your key can actually reach, so this dropdown never goes stale when they rename things.', 'curio-ai-chat' ); ?>
+				</p>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row"><label for="curio-max-tokens"><?php esc_html_e( 'Maximum reply length', 'curio-ai-chat' ); ?></label></th>
+			<td>
+				<input type="number" id="curio-max-tokens" min="64" max="4000" step="1" name="<?php echo esc_attr( Admin::name( 'max_tokens' ) ); ?>" value="<?php echo esc_attr( (string) Options::number( 'max_tokens' ) ); ?>" />
+				<span class="curio-hint"><?php esc_html_e( 'tokens, roughly three quarters of a word each', 'curio-ai-chat' ); ?></span>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row"><label for="curio-temperature"><?php esc_html_e( 'Creativity', 'curio-ai-chat' ); ?></label></th>
+			<td>
+				<input type="range" id="curio-temperature" min="0" max="1" step="0.05" name="<?php echo esc_attr( Admin::name( 'temperature' ) ); ?>" value="<?php echo esc_attr( (string) Options::get( 'temperature', 0.2 ) ); ?>" data-curio-range />
+				<output data-curio-range-out><?php echo esc_html( (string) Options::get( 'temperature', 0.2 ) ); ?></output>
+				<p class="description"><?php esc_html_e( 'Low is correct here. This assistant is meant to repeat what it has been told, not to write something new. Anything above about 0.4 buys you variety in the wording and nothing else worth having.', 'curio-ai-chat' ); ?></p>
+			</td>
+		</tr>
+	</table>
+
+	<?php submit_button( __( 'Save connection', 'curio-ai-chat' ) ); ?>
+</form>
 
 <form method="post" action="options.php" class="curio-card">
 	<?php

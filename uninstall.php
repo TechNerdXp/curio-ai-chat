@@ -43,6 +43,7 @@ foreach ( array(
 	'curio_fulltext',
 	'curio_cache_version',
 	'curio_activated_at',
+	'curio_last_failure',
 ) as $curio_option ) {
 	delete_option( $curio_option );
 }
@@ -51,15 +52,18 @@ foreach ( array(
 $wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->prefix . 'curio_knowledge`' );
 $wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->prefix . 'curio_log`' );
 
-// Transients this plugin created: session tokens, rate-limit counters, cached
-// answers and cached model lists. They expire on their own, but leaving a few
-// thousand rows behind in the options table is untidy in exactly the way that
-// gets a plugin blamed for a slow site it is no longer even installed on.
+// Transients this plugin created: session tokens, rate-limit counters and
+// cached answers. They expire on their own, but leaving a few thousand rows
+// behind in the options table is untidy in exactly the way that gets a plugin
+// blamed for a slow site it is no longer even installed on. The fetched model
+// lists go with them: one option per provider, including any a site added
+// through the `curio_providers` filter, so they are matched by prefix.
 $wpdb->query(
 	$wpdb->prepare(
-		"DELETE FROM `{$wpdb->options}` WHERE option_name LIKE %s OR option_name LIKE %s",
+		"DELETE FROM `{$wpdb->options}` WHERE option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s",
 		$wpdb->esc_like( '_transient_curio_' ) . '%',
-		$wpdb->esc_like( '_transient_timeout_curio_' ) . '%'
+		$wpdb->esc_like( '_transient_timeout_curio_' ) . '%',
+		$wpdb->esc_like( 'curio_models_' ) . '%'
 	)
 );
 // phpcs:enable

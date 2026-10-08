@@ -61,8 +61,15 @@ $curio_ready = $curio_stats['total'] > 0;
 			<strong><?php echo esc_html( number_format_i18n( $curio_stats['total'] ) ); ?></strong>
 			<span><?php esc_html_e( 'things it knows', 'curio-ai-chat' ); ?></span>
 		</span>
+		<?php
+		/*
+		 * A link, because this is where an owner looks for "why is it in demo
+		 * mode" and "where do I change that", and the tab that answers both is
+		 * fifth in the bar, after everything the assistant needs to know first.
+		 */
+		?>
 		<span class="curio-stat" role="listitem">
-			<strong><?php echo esc_html( $curio_stats['provider']->label() ); ?></strong>
+			<strong><a href="<?php echo esc_url( Admin::tab_url( 'connection' ) ); ?>"><?php echo esc_html( $curio_stats['provider']->label() ); ?></a></strong>
 			<span><?php esc_html_e( 'answering', 'curio-ai-chat' ); ?></span>
 		</span>
 		<span class="curio-stat" role="listitem">
