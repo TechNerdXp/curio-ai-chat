@@ -4,7 +4,7 @@ Tags: ai chatbot, chatbot, knowledge base, customer support, live chat
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -172,7 +172,7 @@ Yes: colour scheme, accent colour, corners, size, position, launcher style, avat
 
 = Will it slow my site down? =
 
-One stylesheet and one deferred script, about 45KB of readable, unminified source and roughly 13KB over the wire once your server compresses them, and only on pages where the widget actually appears. No jQuery, no framework, no external CDN, and no request to any AI provider until a visitor sends a message.
+One stylesheet and one deferred script, about 55KB of readable, unminified source and roughly 14KB over the wire once your server compresses them, and only on pages where the widget actually appears. No jQuery, no framework, no external CDN, and no request to any AI provider until a visitor sends a message.
 
 = Is it accessible? =
 
@@ -210,6 +210,17 @@ That is the expected behaviour when PHP only ever sees your proxy's address. Use
 
 == Changelog ==
 
+= 1.0.2 =
+* Replies arrive the way a person's do. The typing indicator stays up for a moment before a fast reply lands, and the reply then appears a word at a time, with a short pause between paragraphs, instead of dropping in as one block. A long reply is scrolled into view from its first line. Screen readers still hear each reply once and in full, and with reduced motion switched on the whole reply appears at once.
+* Demo mode no longer puts "Here is what I have on that:" in front of every answer. The answer you wrote is the reply, as written.
+* The Connection tab now starts with the API keys. A key is the first thing a real provider needs, and with the keys at the bottom of the page it was the last thing anyone found.
+* Fixed: the newer Claude models (the Sonnet 5 line, and Opus 4.7 onwards) refused every reply, because Curio sent them a temperature they no longer accept. Those models are now given a low effort instead, learned from the provider's own refusal, and "Test" sends exactly what a reply sends, so it can no longer report a connection that every reply then fails on.
+* Fixed: a model list fetched with "Refresh model list" was thrown away by the next settings save, so the newest models vanished from the dropdown and the saved choice was shown, and on the next save stored, as the first built-in model. The fetched list now stays until the next refresh, and the saved model is always shown.
+* Fixed: choosing a different provider left the previous provider's models in the dropdown, so saving could store a model the new provider does not have. The dropdown now switches to the new provider's default until its own list is refreshed.
+* When a reply fails, the Connection tab now says why, in the provider's own words, whether or not conversation logging is on. Visitors still see only an apology.
+* The built-in Claude list offers Claude Sonnet 5.5 and Claude Opus 5.5.
+* The "answering" figure at the top of every tab links to the Connection tab.
+
 = 1.0.1 =
 * On phones the open panel now fits the part of the screen that can be seen: with the keyboard up it sits above the keys, header and all, instead of sliding half off the top.
 * Short conversations now rest on the message box instead of hanging from the top of an otherwise empty panel.
@@ -236,6 +247,9 @@ That is the expected behaviour when PHP only ever sees your proxy's address. Use
 * WP-CLI commands for status, import, export, reindexing, settings, keys and asking a test question.
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+Fixes every reply failing on the newer Claude models, keeps refreshed model lists, shows why a reply failed, and paces replies like a person.
 
 = 1.0.1 =
 Fixes the chat panel on phones when the keyboard is open.
