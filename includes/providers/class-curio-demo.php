@@ -100,13 +100,17 @@ final class Demo extends Provider_Base {
 	public function complete( string $question, array $history, string $system ) {
 		$question = trim( $question );
 
-		// A greeting gets a greeting. Chat::answer() already intercepts these
-		// before a provider is reached; this stays because the provider is a
-		// public interface and has to behave correctly when called directly,
-		// which the test suite does.
-		if ( '' !== $question && Text::is_greeting( $question ) ) {
+		// A greeting gets a greeting, and small talk gets small talk back.
+		// Chat::answer() already intercepts both before a provider is reached;
+		// this stays because the provider is a public interface and has to
+		// behave correctly when called directly, which the test suite does.
+		$reply = '';
+		if ( '' !== $question ) {
+			$reply = Text::is_greeting( $question ) ? Prompt::welcome() : Prompt::small_talk( $question );
+		}
+		if ( '' !== $reply ) {
 			return array(
-				'text'       => Prompt::welcome(),
+				'text'       => $reply,
 				'tokens_in'  => 0,
 				'tokens_out' => 0,
 			);

@@ -21,8 +21,30 @@ defined( 'ABSPATH' ) || exit;
  * It ships switched off because logging what visitors type is a decision with
  * privacy consequences, and that decision belongs to the site owner, made
  * knowingly, not to a default.
+ *
+ * The `answered` column holds how a reply was produced, as one of the three
+ * values below. They are one fact with three answers rather than two flags,
+ * so a row cannot be both declined and answered from general knowledge, and
+ * the column 1.0 created already holds them: every row written before general
+ * knowledge existed is a 0 or a 1 and reads correctly as it is, with nothing to
+ * migrate.
  */
 final class Conversation_Log {
+
+	/**
+	 * Declined: nothing matched, and nobody answered it.
+	 */
+	public const DECLINED = 0;
+
+	/**
+	 * Answered from the knowledge base, or a greeting or other small talk.
+	 */
+	public const ANSWERED = 1;
+
+	/**
+	 * Nothing matched, and the AI answered from general knowledge.
+	 */
+	public const GENERAL = 2;
 
 	/**
 	 * Is logging switched on?
@@ -53,7 +75,7 @@ final class Conversation_Log {
 			'created_at' => current_time( 'mysql', true ),
 			'question'   => Text::truncate( sanitize_textarea_field( (string) ( $entry['question'] ?? '' ) ), 2000 ),
 			'answer'     => Text::truncate( sanitize_textarea_field( (string) ( $entry['answer'] ?? '' ) ), 6000 ),
-			'answered'   => empty( $entry['answered'] ) ? 0 : 1,
+			'answered'   => self::outcome( $entry ),
 			'provider'   => sanitize_key( (string) ( $entry['provider'] ?? '' ) ),
 			'model'      => sanitize_text_field( (string) ( $entry['model'] ?? '' ) ),
 			'matched'    => substr( implode( ',', array_map( 'absint', $matched ) ), 0, 191 ),
@@ -66,6 +88,19 @@ final class Conversation_Log {
 		$wpdb->insert( Installer::log_table(), $data );
 
 		return (int) $wpdb->insert_id;
+	}
+
+	/**
+	 * Which of the three outcomes one exchange had.
+	 *
+	 * @param array<string,mixed> $entry Exchange data, with `answered` and optionally `general`.
+	 * @return int
+	 */
+	private static function outcome( array $entry ): int {
+		if ( ! empty( $entry['general'] ) ) {
+			return self::GENERAL;
+		}
+		return empty( $entry['answered'] ) ? self::DECLINED : self::ANSWERED;
 	}
 
 	/**
@@ -91,14 +126,14 @@ final class Conversation_Log {
 		$offset   = max( 0, ( (int) $args['page'] - 1 ) ) * $per_page;
 
 		if ( ! empty( $args['only_unanswered'] ) ) {
-			$sql    = "SELECT * FROM `{$table}` WHERE answered = 0 ORDER BY created_at DESC LIMIT %d OFFSET %d";
-			$values = array( $per_page, $offset );
+			$sql    = "SELECT * FROM `{$table}` WHERE answered = %d ORDER BY created_at DESC LIMIT %d OFFSET %d";
+			$values = array( self::DECLINED, $per_page, $offset );
 		} else {
 			$sql    = "SELECT * FROM `{$table}` ORDER BY created_at DESC LIMIT %d OFFSET %d";
 			$values = array( $per_page, $offset );
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table name interpolated; both values are bound.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table name interpolated; every value is bound.
 		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $values ), ARRAY_A );
 		return is_array( $rows ) ? $rows : array();
 	}
@@ -111,23 +146,49 @@ final class Conversation_Log {
 	 * @return array<int,array<string,mixed>>
 	 */
 	public static function gaps( int $limit = 30 ): array {
+		return self::grouped( self::DECLINED, $limit );
+	}
+
+	/**
+	 * Questions nothing matched that the AI answered from general knowledge,
+	 * grouped the same way.
+	 *
+	 * Kept apart from the gaps because they were not declined, and listed at
+	 * all because the owner's own answer would beat a general one.
+	 *
+	 * @param int $limit How many to return.
+	 * @return array<int,array<string,mixed>>
+	 */
+	public static function general_answers( int $limit = 30 ): array {
+		return self::grouped( self::GENERAL, $limit );
+	}
+
+	/**
+	 * One outcome's questions, most asked first.
+	 *
+	 * @param int $outcome One of the outcome constants.
+	 * @param int $limit   How many to return.
+	 * @return array<int,array<string,mixed>>
+	 */
+	private static function grouped( int $outcome, int $limit ): array {
 		global $wpdb;
 
 		$table = Installer::log_table();
 		$sql   = "SELECT question, COUNT(*) AS times, MAX(created_at) AS last_asked
 			FROM `{$table}`
-			WHERE answered = 0
+			WHERE answered = %d
 			GROUP BY question
 			ORDER BY times DESC, last_asked DESC
 			LIMIT %d";
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table name interpolated; the limit is bound.
-		$rows = $wpdb->get_results( $wpdb->prepare( $sql, max( 1, min( 200, $limit ) ) ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table name interpolated; both values are bound.
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $outcome, max( 1, min( 200, $limit ) ) ), ARRAY_A );
 		return is_array( $rows ) ? $rows : array();
 	}
 
 	/**
-	 * How many rows are stored, and how many are unanswered.
+	 * How many rows are stored, how many are unanswered, and how many were
+	 * answered from general knowledge.
 	 *
 	 * @return array<string,int>
 	 */
@@ -135,12 +196,15 @@ final class Conversation_Log {
 		global $wpdb;
 		$table = Installer::log_table();
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table name interpolated; no user values in this query.
-		$row = $wpdb->get_row( "SELECT COUNT(*) AS total, SUM(answered = 0) AS unanswered FROM `{$table}`", ARRAY_A );
+		$sql   = "SELECT COUNT(*) AS total, SUM(answered = %d) AS unanswered, SUM(answered = %d) AS general FROM `{$table}`";
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table name interpolated; both values are bound.
+		$row = $wpdb->get_row( $wpdb->prepare( $sql, self::DECLINED, self::GENERAL ), ARRAY_A );
 
 		return array(
 			'total'      => (int) ( $row['total'] ?? 0 ),
 			'unanswered' => (int) ( $row['unanswered'] ?? 0 ),
+			'general'    => (int) ( $row['general'] ?? 0 ),
 		);
 	}
 

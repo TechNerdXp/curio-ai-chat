@@ -19,7 +19,9 @@ Curio will not do that, and not because a model was asked nicely.
 2. **Your site**, not the AI, searches your knowledge base for matching passages.
 3. If nothing matches, **no request is sent to any AI provider at all.** The
    decline is written by the plugin. There is no model in the loop to be creative
-   with.
+   with. The one exception is a switch the owner has to turn on: general
+   questions about their industry, answered as general advice while every fact
+   about the business still comes only from the knowledge base.
 4. If something does match, those passages and only those passages are sent,
    with rules the tone setting cannot edit away: never estimate a price, a date,
    availability, a turnaround, a phone number or an address.
@@ -66,9 +68,9 @@ artwork and the release tooling. Everything there gates on:
 
 | Gate | What it does |
 |---|---|
-| Behavioural suite | 154 checks, mostly on *refusing* correctly |
+| Behavioural suite | 295 checks, mostly on *refusing* correctly |
 | Renderer suite | 50 checks — real XSS payloads fired at the reply renderer |
-| Widget suite | 24 checks driving the real widget in a browser |
+| Widget suite | 33 checks driving the real widget in a browser |
 | Accessibility | axe-core, WCAG 2.1 AA, across all three skins |
 | Escaping and i18n | token-based audit of every PHP file |
 | WordPress.org compliance | the statically decidable half of Plugin Check |
@@ -80,14 +82,14 @@ suite exists to keep that true.
 
 ## Extending it
 
-Ten filters, including `curio_providers` to register your own AI provider — a
+Eleven filters, including `curio_providers` to register your own AI provider — a
 self-hosted model, an OpenAI-compatible gateway, an internal endpoint — without
 forking anything. `curio_relevance_threshold` is the one dial that trades
 caution against helpfulness. The Help tab inside the plugin lists them all.
 
 Everything the settings screen does is also available through WP-CLI, including
 `wp curio ask "..."`, which puts a question through exactly the path a visitor's
-would take and tells you whether it was grounded, greeted or declined.
+would take and tells you whether it was grounded, small talk, general knowledge or declined.
 
 ## Licence
 

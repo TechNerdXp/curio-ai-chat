@@ -13,9 +13,60 @@ use Curio\Rate_Limiter;
 
 defined( 'ABSPATH' ) || exit;
 
-$curio_usage  = Rate_Limiter::month_usage();
-$curio_totals = Conversation_Log::totals();
-$curio_gaps   = Conversation_Log::enabled() ? Conversation_Log::gaps( 25 ) : array();
+$curio_usage   = Rate_Limiter::month_usage();
+$curio_totals  = Conversation_Log::totals();
+$curio_gaps    = Conversation_Log::enabled() ? Conversation_Log::gaps( 25 ) : array();
+$curio_general = Conversation_Log::enabled() ? Conversation_Log::general_answers( 25 ) : array();
+
+/*
+ * Both question lists are the same table with a different heading over it: the
+ * question, how often, how recently, and a button that starts its answer on the
+ * Knowledge tab. One renderer, so the two cannot drift apart.
+ */
+$curio_question_table = static function ( array $rows ): void {
+	?>
+	<table class="widefat striped curio-table">
+		<thead>
+			<tr>
+				<th scope="col"><?php esc_html_e( 'Question', 'curio-ai-chat' ); ?></th>
+				<th scope="col" class="curio-numeric"><?php esc_html_e( 'Times asked', 'curio-ai-chat' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Last asked', 'curio-ai-chat' ); ?></th>
+				<th scope="col"><span class="screen-reader-text"><?php esc_html_e( 'Actions', 'curio-ai-chat' ); ?></span></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ( $rows as $curio_row ) : ?>
+				<tr>
+					<td><?php echo esc_html( (string) $curio_row['question'] ); ?></td>
+					<td class="curio-numeric"><?php echo esc_html( number_format_i18n( (int) $curio_row['times'] ) ); ?></td>
+					<td>
+						<?php
+						$curio_when = strtotime( (string) $curio_row['last_asked'] . ' UTC' );
+						echo esc_html(
+							$curio_when
+								? sprintf(
+									/* translators: %s: human readable time difference, e.g. "2 hours". */
+									__( '%s ago', 'curio-ai-chat' ),
+									human_time_diff( $curio_when )
+								)
+								: ''
+						);
+						?>
+					</td>
+					<td>
+						<a
+							class="button button-small"
+							href="<?php echo esc_url( add_query_arg( 'curio_prefill', rawurlencode( (string) $curio_row['question'] ), Admin::tab_url( 'knowledge' ) ) ); ?>"
+						>
+							<?php esc_html_e( 'Answer this', 'curio-ai-chat' ); ?>
+						</a>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+	<?php
+};
 ?>
 
 <section class="curio-card">
@@ -58,48 +109,33 @@ $curio_gaps   = Conversation_Log::enabled() ? Conversation_Log::gaps( 25 ) : arr
 	<?php elseif ( array() === $curio_gaps ) : ?>
 		<p><?php esc_html_e( 'Nothing yet. Either no one has asked something it could not answer, or no one has asked anything at all.', 'curio-ai-chat' ); ?></p>
 	<?php else : ?>
-		<table class="widefat striped curio-table">
-			<thead>
-				<tr>
-					<th scope="col"><?php esc_html_e( 'Question', 'curio-ai-chat' ); ?></th>
-					<th scope="col" class="curio-numeric"><?php esc_html_e( 'Times asked', 'curio-ai-chat' ); ?></th>
-					<th scope="col"><?php esc_html_e( 'Last asked', 'curio-ai-chat' ); ?></th>
-					<th scope="col"><span class="screen-reader-text"><?php esc_html_e( 'Actions', 'curio-ai-chat' ); ?></span></th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php foreach ( $curio_gaps as $curio_gap ) : ?>
-					<tr>
-						<td><?php echo esc_html( (string) $curio_gap['question'] ); ?></td>
-						<td class="curio-numeric"><?php echo esc_html( number_format_i18n( (int) $curio_gap['times'] ) ); ?></td>
-						<td>
-							<?php
-							$curio_when = strtotime( (string) $curio_gap['last_asked'] . ' UTC' );
-							echo esc_html(
-								$curio_when
-									? sprintf(
-										/* translators: %s: human readable time difference, e.g. "2 hours". */
-										__( '%s ago', 'curio-ai-chat' ),
-										human_time_diff( $curio_when )
-									)
-									: ''
-							);
-							?>
-						</td>
-						<td>
-							<a
-								class="button button-small"
-								href="<?php echo esc_url( add_query_arg( 'curio_prefill', rawurlencode( (string) $curio_gap['question'] ), Admin::tab_url( 'knowledge' ) ) ); ?>"
-							>
-								<?php esc_html_e( 'Answer this', 'curio-ai-chat' ); ?>
-							</a>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
+		<?php $curio_question_table( $curio_gaps ); ?>
 	<?php endif; ?>
 </section>
+
+<?php
+// Shown while general knowledge is on, and afterwards for as long as any of
+// its answers are still in the log: switching it off does not make the
+// questions it answered any less worth writing an answer for.
+if ( Options::flag( 'general_knowledge' ) || $curio_totals['general'] > 0 ) :
+	?>
+	<section class="curio-card">
+		<h2><?php esc_html_e( 'Answered from general knowledge', 'curio-ai-chat' ); ?></h2>
+		<p class="curio-lede">
+			<?php esc_html_e( 'Nothing in your knowledge matched these, so the assistant gave general advice instead, or turned the question down if it was about your business. Either way, an answer of your own would beat it.', 'curio-ai-chat' ); ?>
+		</p>
+
+		<?php if ( ! Conversation_Log::enabled() ) : ?>
+			<div class="curio-banner curio-banner-muted">
+				<p><?php esc_html_e( 'Conversation logging is switched off, so there is nothing to show. Turn it on below if you want this list.', 'curio-ai-chat' ); ?></p>
+			</div>
+		<?php elseif ( array() === $curio_general ) : ?>
+			<p><?php esc_html_e( 'Nothing yet. No one has asked a question that only general knowledge could answer.', 'curio-ai-chat' ); ?></p>
+		<?php else : ?>
+			<?php $curio_question_table( $curio_general ); ?>
+		<?php endif; ?>
+	</section>
+<?php endif; ?>
 
 <form method="post" action="options.php" class="curio-card">
 	<?php

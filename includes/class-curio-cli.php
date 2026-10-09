@@ -78,6 +78,8 @@ final class CLI {
 			array( 'setting' => 'Keys encrypted at rest', 'value' => Secret::is_encrypted() ? 'yes' : 'no (no OpenSSL on this host)' ),
 			array( 'setting' => 'Business name', 'value' => Options::text( 'business_name' ) ?: '(not set)' ),
 			array( 'setting' => 'Hand-off line', 'value' => Options::text( 'contact_line' ) ?: '(not set)' ),
+			array( 'setting' => 'What it can help with', 'value' => Options::text( 'help_topics' ) ?: '(not set)' ),
+			array( 'setting' => 'General knowledge', 'value' => Options::flag( 'general_knowledge' ) ? 'on: unmatched questions are answered from general knowledge' : 'off' ),
 			array( 'setting' => 'Hand-off button', 'value' => Handoff::is_configured() ? Handoff::url() : '(none)' ),
 			array( 'setting' => 'Written answers', 'value' => (string) ( $counts[ Knowledge_Store::SOURCE_MANUAL ] ?? 0 ) ),
 			array( 'setting' => 'Indexed page passages', 'value' => (string) ( $counts[ Knowledge_Store::SOURCE_POST ] ?? 0 ) ),
@@ -87,6 +89,7 @@ final class CLI {
 			array( 'setting' => 'Answered from cache', 'value' => (string) $usage['cached'] ),
 			array( 'setting' => 'Conversations stored', 'value' => (string) $log['total'] ),
 			array( 'setting' => 'Unanswered questions', 'value' => (string) $log['unanswered'] ),
+			array( 'setting' => 'Answered from general knowledge', 'value' => (string) $log['general'] ),
 		);
 
 		\WP_CLI\Utils\format_items(
@@ -503,13 +506,18 @@ final class CLI {
 
 		\WP_CLI::line( '' );
 
-		// Three outcomes, not two. A greeting is ungrounded and yet was not
-		// declined, and reporting it as a decline would send somebody looking
-		// for a hole in a knowledge base that has none.
-		if ( ! empty( $result['declined'] ) ) {
+		// More than two outcomes. A greeting or other small talk is
+		// ungrounded and yet was not declined, and reporting it as a decline
+		// would send somebody looking for a hole in a knowledge base that has
+		// none. A general-knowledge answer is ungrounded too, and is the one
+		// case where nothing matched and the AI was asked all the same; saying
+		// otherwise would be the one lie this command exists to catch.
+		if ( ! empty( $result['general'] ) ) {
+			$verdict = '    (answered from general knowledge, no passage matched)';
+		} elseif ( ! empty( $result['declined'] ) ) {
 			$verdict = '    (declined: nothing in the knowledge base matched, so no AI request was made)';
 		} elseif ( empty( $result['grounded'] ) ) {
-			$verdict = '    (greeted: recognised as a greeting, so no retrieval and no AI request)';
+			$verdict = '    (small talk: recognised as a greeting or small talk, so no retrieval and no AI request)';
 		} else {
 			$verdict = '    (grounded in retrieved knowledge)';
 		}

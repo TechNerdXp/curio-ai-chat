@@ -157,7 +157,8 @@ final class Admin {
 			array(
 				'id'      => 'curio-grounding',
 				'title'   => __( 'Why it declines', 'curio-ai-chat' ),
-				'content' => '<p>' . esc_html__( 'The assistant answers only from the knowledge base. When nothing in it matches a question, it says so rather than guessing, and no request is even sent to the AI provider. That is deliberate: a chat widget that invents a price costs a business more than one that occasionally says "I do not have that detail".', 'curio-ai-chat' ) . '</p>'
+				'content' => '<p>' . esc_html__( 'The assistant answers only from the knowledge base. When nothing in it matches a question, it says so rather than guessing, and no request is even sent to the AI provider. That is deliberate: a chat widget that invents a price costs a business more than one that occasionally says "I cannot find that here".', 'curio-ai-chat' ) . '</p>'
+					. '<p>' . esc_html__( 'The one exception is yours to make. Switch on general questions on the Assistant tab and a question that matches nothing goes to the provider, so it can answer a general question about your industry, while facts about your business still come only from the knowledge base. Those replies are answers, not declines, and the Insights tab lists them under their own heading.', 'curio-ai-chat' ) . '</p>'
 					. '<p>' . esc_html__( 'The Insights tab lists every question it could not answer. That list is your to-do list.', 'curio-ai-chat' ) . '</p>',
 			)
 		);

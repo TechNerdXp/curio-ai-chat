@@ -20,6 +20,15 @@ defined( 'ABSPATH' ) || exit;
 final class Text {
 
 	/**
+	 * What may legitimately follow a greeting and still leave it a greeting.
+	 * Anything else means a question has been asked.
+	 *
+	 * Small talk accepts them too, so "thanks guys" and "bye all" are a
+	 * thank-you and a goodbye rather than two questions.
+	 */
+	private const GREETING_TRAILERS = array( 'there', 'all', 'team', 'everyone', 'everybody', 'guys', 'folks', 'again', 'morning', 'afternoon', 'evening' );
+
+	/**
 	 * Words carrying no retrieval signal, so they neither inflate a score nor
 	 * crowd out the words that do.
 	 *
@@ -262,46 +271,25 @@ final class Text {
 	 *
 	 * Retrieval finds nothing for "hello", because there is nothing to find,
 	 * and the plugin declines whatever retrieval cannot ground. Left alone that
-	 * means the very first thing most visitors type is answered with "I do not
-	 * have that detail", which reads as broken software rather than as caution.
+	 * means the very first thing most visitors type is answered with a
+	 * refusal, which reads as broken software rather than as caution.
 	 *
 	 * A greeting asserts nothing about the business, so greeting back invents
-	 * nothing — this is the one reply that is safe without a source behind it.
+	 * nothing — a reply that is safe without a source behind it, as the small
+	 * talk below is for the same reason.
 	 *
 	 * @param string $message Visitor's message.
 	 * @return bool
 	 */
 	public static function is_greeting( string $message ): bool {
-		// Punctuation and emoji are not part of the comparison, and collapsing
-		// whitespace means "hi   there" is the same message as "hi there".
-		$words = self::lower( trim( $message ) );
-		$words = (string) preg_replace( '/[^\p{L}\s]+/u', ' ', $words );
-		$words = trim( (string) preg_replace( '/\s+/u', ' ', $words ) );
+		$words = self::plain_words( $message );
 
 		if ( '' === $words || self::length( $words ) > 40 ) {
 			return false;
 		}
 
-		$greetings = array( 'hello', 'hi', 'hey', 'yo', 'good morning', 'good afternoon', 'good evening', 'good day', 'howdy', 'hiya' );
-
-		/**
-		 * Filter the openers treated as a greeting rather than as a question.
-		 *
-		 * Adding the greetings of another language is how a non-English site
-		 * stops its visitors' first message being met with a refusal. Add whole
-		 * phrases, not fragments: a greeting only counts when it is the entire
-		 * message, or all that follows it is one of the words in $trailing
-		 * below.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string[] $greetings Lowercase greeting openers.
-		 */
-		$greetings = (array) apply_filters( 'curio_greetings', $greetings );
-
-		// What may legitimately follow a greeting and still leave it a
-		// greeting. Anything else means a question has been asked.
-		$trailing = array( 'there', 'all', 'team', 'everyone', 'everybody', 'guys', 'folks', 'again', 'morning', 'afternoon', 'evening' );
+		$greetings = self::greetings();
+		$trailing  = self::GREETING_TRAILERS;
 
 		foreach ( $greetings as $greeting ) {
 			$greeting = trim( self::lower( (string) $greeting ) );
@@ -336,6 +324,149 @@ final class Text {
 		}
 
 		return false;
+	}
+
+	/**
+	 * The openers that count as a greeting.
+	 *
+	 * @return string[]
+	 */
+	private static function greetings(): array {
+		$greetings = array( 'hello', 'hi', 'hey', 'yo', 'good morning', 'good afternoon', 'good evening', 'good day', 'howdy', 'hiya' );
+
+		/**
+		 * Filter the openers treated as a greeting rather than as a question.
+		 *
+		 * Adding the greetings of another language is how a non-English site
+		 * stops its visitors' first message being met with a refusal. Add whole
+		 * phrases, not fragments: a greeting only counts when it is the entire
+		 * message, or all that follows it is one of a short list of words such
+		 * as "there", "all" and "everyone".
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string[] $greetings Lowercase greeting openers.
+		 */
+		return (array) apply_filters( 'curio_greetings', $greetings );
+	}
+
+	/**
+	 * A message reduced to lowercase words and single spaces.
+	 *
+	 * Punctuation and emoji are not part of a greeting or small-talk
+	 * comparison, and collapsing whitespace means "hi   there" is the same
+	 * message as "hi there". An apostrophe becomes a space like any other
+	 * punctuation, so "that's all" is compared as "that s all"; the word lists
+	 * go through here too, which is what lets either spelling match.
+	 *
+	 * @param string $message Visitor's message, or one phrase from a word list.
+	 * @return string
+	 */
+	private static function plain_words( string $message ): string {
+		$words = self::lower( trim( $message ) );
+		$words = (string) preg_replace( '/[^\p{L}\s]+/u', ' ', $words );
+		return trim( (string) preg_replace( '/\s+/u', ' ', $words ) );
+	}
+
+	/**
+	 * Is the whole message small talk, and if it is, which kind?
+	 *
+	 * The greeting fix stopped at "hello". Real visitors also say "thanks",
+	 * "great", "ok", "bye", "how are you" and "are you a bot", and every one of
+	 * those retrieved nothing and was met with a refusal, which on a live site
+	 * read as an assistant that was cold and slightly dim. None of them asks
+	 * anything about the business, so answering them invents nothing.
+	 *
+	 * A message counts only when it is small talk and nothing else: take every
+	 * small-talk phrase out of it, and all that may be left is filler such as
+	 * "so", "really" or "mate", or a greeting. "Thanks, how much is a
+	 * headshot?" and "nice photos?" leave words that are neither, so they are
+	 * questions and go to retrieval as usual, and so is "ok so how much",
+	 * which is a question that has lost its question mark. And a question mark
+	 * means something was asked, so only the kinds that are questions in
+	 * themselves, such as "how are you?" and "are you a bot?", survive one:
+	 * "is it good?" is a question, not a compliment.
+	 *
+	 * The first kind with a phrase in the message wins, so the table lists the
+	 * more particular kinds first: "no thanks" is a goodbye before it is thanks,
+	 * and "thanks, how are you?" is asking after the assistant.
+	 *
+	 * @param string              $message Visitor's message.
+	 * @param array<string,mixed> $talk    The table Prompt::small_talk_table() builds: `kinds`, each with `phrases` and `asks`, and `filler`.
+	 * @return string The kind, or an empty string when the message asks for something.
+	 */
+	public static function small_talk_kind( string $message, array $talk ): string {
+		$words = self::plain_words( $message );
+
+		if ( '' === $words || self::length( $words ) > 60 ) {
+			return '';
+		}
+
+		// The ASCII question mark, and the full-width and Arabic ones, since
+		// the word lists are translatable and so is the punctuation.
+		$asked = (bool) preg_match( '/[?\x{FF1F}\x{061F}]/u', $message );
+
+		$kinds = array();
+		$every = array();
+		foreach ( (array) ( $talk['kinds'] ?? array() ) as $kind => $entry ) {
+			$phrases = array();
+			foreach ( (array) ( $entry['phrases'] ?? array() ) as $phrase ) {
+				$phrase = self::plain_words( (string) $phrase );
+				if ( '' !== $phrase ) {
+					$phrases[] = $phrase;
+					$every[]   = $phrase;
+				}
+			}
+			$kinds[ (string) $kind ] = array(
+				'phrases' => $phrases,
+				'asks'    => ! empty( $entry['asks'] ),
+			);
+		}
+
+		// Take the phrases out longest first, so "how are you doing" goes as
+		// one piece rather than as "how are you" with "doing" left behind.
+		// Whole words only, which is what the padding is for: without it the
+		// thank-you "ta" is found inside "fantastic", and a compliment is
+		// answered as thanks.
+		usort(
+			$every,
+			static function ( $a, $b ) {
+				return substr_count( $b, ' ' ) <=> substr_count( $a, ' ' );
+			}
+		);
+		$rest = ' ' . $words . ' ';
+		foreach ( $every as $phrase ) {
+			do {
+				$before = $rest;
+				$rest   = str_replace( ' ' . $phrase . ' ', ' ', $rest );
+			} while ( $rest !== $before );
+		}
+
+		$allowed = array();
+		foreach ( array_merge( (array) ( $talk['filler'] ?? array() ), self::greetings(), self::GREETING_TRAILERS ) as $word ) {
+			foreach ( explode( ' ', self::plain_words( (string) $word ) ) as $part ) {
+				$allowed[ $part ] = true;
+			}
+		}
+		foreach ( explode( ' ', trim( $rest ) ) as $word ) {
+			if ( '' !== $word && ! isset( $allowed[ $word ] ) ) {
+				return '';
+			}
+		}
+
+		$padded = ' ' . $words . ' ';
+		foreach ( $kinds as $kind => $entry ) {
+			if ( $asked && ! $entry['asks'] ) {
+				continue;
+			}
+			foreach ( $entry['phrases'] as $phrase ) {
+				if ( false !== strpos( $padded, ' ' . $phrase . ' ' ) ) {
+					return $kind;
+				}
+			}
+		}
+
+		return '';
 	}
 
 	/**

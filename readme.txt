@@ -4,7 +4,7 @@ Tags: ai chatbot, chatbot, knowledge base, customer support, live chat
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ Most AI chat plugins have the same problem, and it is not a small one: given a q
 
 1. A visitor asks a question.
 2. Your site, not the AI, searches your knowledge base for passages that match it.
-3. **If nothing matches, no request is sent to the AI at all.** The decline is written by the plugin. There is no model in the loop to be creative with.
+3. **If nothing matches, no request is sent to the AI at all.** The decline is written by the plugin. There is no model in the loop to be creative with. The one exception is general questions about your industry, a switch that stays off until you turn it on (see the FAQ).
 4. If something does match, those passages and only those passages are sent to your chosen AI, along with instructions it cannot edit away: never estimate a price, a date, availability, a turnaround time, a phone number or an email address; if it is not in the passages, you do not have it.
 5. The answer comes back with a link to the page it came from, so the visitor can check it.
 
@@ -29,10 +29,11 @@ Most AI chat plugins have the same problem, and it is not a small one: given a q
 A grounded assistant declines more often than a guessing one. That is the trade, and it makes the moment straight after a decline the most valuable screen in the widget, so the plugin treats it as a feature rather than a failure.
 
 * **A hand-off line** in the assistant's own words: your email, your phone number, whatever you want said.
+* **What it can help with**, in a few words of yours, such as "prices, delivery times and booking", so a visitor who asked something it cannot answer learns what it can.
 * **A button beside it.** Point it at your contact page, an email address, a help desk or a booking link, and it appears the first time the assistant cannot answer. A sentence is easy to read past; a button is one press, and it is in front of the customer at the exact moment they are deciding whether to bother.
 * **Every decline is logged** as a question your site does not answer yet, with an "Answer this" button on the Insights tab.
 
-And it does not decline the easy one: somebody who opens with "hello" gets your greeting back, not "I do not have that detail", and it costs no API call to do it.
+And it does not decline the easy ones. Somebody who opens with "hello" gets your greeting back, and "thanks", "great", "ok", "bye", "how are you" and "are you a bot" each get a short, friendly reply instead of a refusal. None of them costs an API call, and none of the replies says anything about your business you did not configure. A message counts only when it is nothing but small talk, so "thanks, how much is a headshot?" is still a question.
 
 = Where its knowledge comes from =
 
@@ -101,7 +102,7 @@ Reload the page, follow a link and come back, get bounced through a payment gate
 * Keyboard accessible, screen-reader labelled, respects `prefers-reduced-motion`, works in Windows high-contrast mode.
 * Full-screen on phones, the way every chat product people already use behaves.
 * Translation ready.
-* Ten filters for developers, including one to add your own AI provider without forking anything.
+* Eleven filters for developers, including one to add your own AI provider without forking anything.
 
 == External services ==
 
@@ -149,6 +150,16 @@ You are responsible for your own account with whichever provider you choose, and
 = Will it ever invent a price? =
 
 No. When your knowledge base has nothing matching a question, no request reaches the AI. The plugin writes the decline itself. When it does find something, the model receives those passages plus rules it cannot edit away, including an explicit ban on estimating any figure not in front of it. The "tone" box lets you change how it sounds; it cannot delete the rules that keep it honest.
+
+If you switch on general questions (next answer), an unmatched question does reach the AI, with no passages and the same ban, so it can explain your industry without quoting a figure for your business.
+
+= Can it answer general questions about my industry? =
+
+Yes, if you want it to. Out of the box it knows only what you have given it, so "what should I wear for a headshot?" on a photographer's site is declined unless you have written an answer for it. Tick "Let the AI answer general questions about your industry" on the Assistant tab and questions like that are answered briefly, as general advice, and never as something your business offers. Prices, packages, dates, availability, policies and contact details still come only from your knowledge.
+
+The trade: a question that matches nothing now goes to your AI provider, so it uses an API call and counts towards your limits, and keeping your facts out of that reply rests on the AI following its rules rather than on the question never reaching it. That is why it is off by default. Demo mode is not affected.
+
+Those replies have nothing from your business behind them, so the hand-off button follows them, as it follows a decline. The Insights tab counts them as answers and lists the questions under "Answered from general knowledge", apart from the ones it could not answer, with an "Answer this" button beside each: your own answer will always beat a general one.
 
 = Do I need an API key to try it? =
 
@@ -210,6 +221,13 @@ That is the expected behaviour when PHP only ever sees your proxy's address. Use
 
 == Changelog ==
 
+= 1.1.0 =
+* Small talk is answered rather than declined. "Thanks", "great", "ok", "bye", "how are you" and "are you a bot" each get a short, friendly reply, written by the plugin with no API call, where before every one of them was met with "I do not have that detail". A message counts only when it is nothing but small talk, so "thanks, how much is a headshot?" is still a question. Asked who it is, the assistant names your business, says it is not a person, and says it answers from your site's own information. Developers can add another language's small talk, or reword the replies, with the new `curio_small_talk` filter.
+* A friendlier decline. When nothing matches, the assistant says it cannot find that and would rather not guess, then what it can help with, then your hand-off line. "What it can help with" is a new setting on the Assistant tab, a few words such as "prices, delivery times and booking". Leave it blank and the decline goes straight to the hand-off line.
+* New, and off until you turn it on: general questions about your industry. With "Let the AI answer general questions about your industry" ticked on the Assistant tab, "what is a prime lens?" on a photographer's site is answered briefly as general advice instead of declined. Facts about your business, such as prices, dates, availability and policies, still come only from your knowledge, and the ban on inventing them is unchanged. A question that matches nothing is then sent to your AI provider, so it costs an API call and counts towards your limits. The hand-off button follows those replies, since nothing from your business is behind them, and the Insights tab lists them in a new section, "Answered from general knowledge", with the same "Answer this" button as the questions it could not answer. Demo mode is not affected, and left off, questions are answered and declined by the same rules as before.
+* Answers served from the cache are now logged like any other, so the Insights counts include every time a question was asked.
+* `wp curio ask` reports small talk as small talk, and "answered from general knowledge, no passage matched" when that is what happened. `wp curio status` shows both new settings and how many questions were answered from general knowledge.
+
 = 1.0.2 =
 * Replies arrive the way a person's do. The typing indicator stays up for a moment before a fast reply lands, and the reply then appears a word at a time, with a short pause between paragraphs, instead of dropping in as one block. A long reply is scrolled into view from its first line. Screen readers still hear each reply once and in full, and with reduced motion switched on the whole reply appears at once.
 * Demo mode no longer puts "Here is what I have on that:" in front of every answer. The answer you wrote is the reply, as written.
@@ -247,6 +265,9 @@ That is the expected behaviour when PHP only ever sees your proxy's address. Use
 * WP-CLI commands for status, import, export, reindexing, settings, keys and asking a test question.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Answers thanks, goodbyes and "are you a bot" warmly instead of declining them, says what it can help with when it declines, and adds an opt-in switch for general questions about your industry.
 
 = 1.0.2 =
 Fixes every reply failing on the newer Claude models, keeps refreshed model lists, shows why a reply failed, and paces replies like a person.

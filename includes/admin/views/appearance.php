@@ -294,7 +294,7 @@ $curio_avatar  = Options::number( 'avatar_id' );
 					<div class="curio-preview-log">
 						<p class="curio-preview-bubble curio-preview-bot"><?php esc_html_e( 'Hello. How can I help?', 'curio-ai-chat' ); ?></p>
 						<p class="curio-preview-bubble curio-preview-user"><?php esc_html_e( 'Do you cover weekends?', 'curio-ai-chat' ); ?></p>
-						<p class="curio-preview-bubble curio-preview-bot"><?php esc_html_e( 'I do not have that detail. Drop us a line and someone will come straight back to you.', 'curio-ai-chat' ); ?></p>
+						<p class="curio-preview-bubble curio-preview-bot"><?php esc_html_e( 'Sorry, I cannot find that here, and I would rather not guess. Drop us a line and someone will come straight back to you.', 'curio-ai-chat' ); ?></p>
 					</div>
 					<div class="curio-preview-composer">
 						<span><?php esc_html_e( 'Ask a question…', 'curio-ai-chat' ); ?></span>

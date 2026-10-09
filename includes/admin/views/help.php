@@ -49,6 +49,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<h3><?php esc_html_e( 'Will it ever make up a price?', 'curio-ai-chat' ); ?></h3>
 		<p><?php esc_html_e( 'When retrieval finds nothing relevant, no request is sent to the AI at all. The decline is written by this plugin, not by a model asked nicely to behave. When retrieval does find something, the model is given those passages and a set of rules it cannot edit away, including an explicit ban on estimating any figure not in front of it.', 'curio-ai-chat' ); ?></p>
+		<p><?php esc_html_e( 'If you switch on general questions on the Assistant tab, a question that matches nothing is sent to the AI as well, with no passages and the same ban, so it can explain your industry without quoting your business. That part is the AI following its rules rather than never being asked, which is why it is off by default. The Insights tab lists those questions under "Answered from general knowledge", apart from the ones it could not answer, so you can write your own answer to any that come up often.', 'curio-ai-chat' ); ?></p>
 
 		<h3><?php esc_html_e( 'Can I move it, resize it, or match my brand?', 'curio-ai-chat' ); ?></h3>
 		<p><?php esc_html_e( 'The Appearance tab covers colour, corners, size, position, launcher style, avatar and font, with a live preview, and it can read the palette straight out of a block theme. Anything beyond that goes in the custom CSS box.', 'curio-ai-chat' ); ?></p>
@@ -120,8 +121,8 @@ defined( 'ABSPATH' ) || exit;
 		<dt><code>curio_client_ip</code></dt>
 		<dd><?php esc_html_e( 'Essential behind Cloudflare, a load balancer or any reverse proxy: return the real client address, or every visitor is rate limited as though they were one person.', 'curio-ai-chat' ); ?></dd>
 
-		<dt><code>curio_stopwords</code> · <code>curio_greetings</code> · <code>curio_answer</code></dt>
-		<dd><?php esc_html_e( 'Retune retrieval for another language, change what counts as a greeting, or post-process the finished reply.', 'curio-ai-chat' ); ?></dd>
+		<dt><code>curio_stopwords</code> · <code>curio_greetings</code> · <code>curio_small_talk</code> · <code>curio_answer</code></dt>
+		<dd><?php esc_html_e( 'Retune retrieval for another language, change what counts as a greeting or as small talk and what is said back to it, or post-process the finished reply.', 'curio-ai-chat' ); ?></dd>
 	</dl>
 </section>
 

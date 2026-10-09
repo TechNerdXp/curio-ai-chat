@@ -18,7 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * come first, because the cheapest request is the one never made. The cache
  * comes next, because the second cheapest is the one already answered.
  * Retrieval comes before the model, because a question with no matching
- * knowledge is declined locally and never costs a call at all.
+ * knowledge is declined locally and never costs a call at all, unless the
+ * owner has chosen to let general questions about their industry through.
  */
 final class Chat {
 
@@ -75,15 +76,22 @@ final class Chat {
 		// everything below declines what it cannot ground. Answered literally
 		// that makes the first thing most visitors type — a greeting — come
 		// back as a refusal. Greeting back asserts nothing about the business,
-		// so it is the one reply that needs no source, and it costs no API
-		// call to give.
-		if ( Text::is_greeting( $question ) ) {
+		// so it needs no source, and it costs no API call to give.
+		//
+		// The same holds past "hello". "Thanks", "great", "ok", "bye", "how
+		// are you" and "are you a bot" retrieve nothing either, and on a live
+		// site a refusal to each of them read as an assistant that was cold
+		// and a little dim. None of them asks about the business, so they are
+		// answered here in the same way, without retrieval or a call.
+		$reply = Text::is_greeting( $question ) ? Prompt::welcome() : Prompt::small_talk( $question );
+		if ( '' !== $reply ) {
 			$result = array(
-				'answer'   => Prompt::welcome(),
+				'answer'   => $reply,
 				'sources'  => array(),
 				'cached'   => false,
 				'grounded' => false,
 				'declined' => false,
+				'general'  => false,
 			);
 			self::log( $question, $result['answer'], true, 'none', '', array(), 0, 0, $page_url );
 			return self::finish( $result, $question );
@@ -103,6 +111,9 @@ final class Chat {
 		$rows        = Retriever::search( $question, Options::number( 'context_chunks' ) );
 		$has_context = array() !== $rows;
 
+		// The general-knowledge switch is in the seed because an answer
+		// written under one set of rules is not the answer under the other,
+		// and `wp curio set` changes a setting without emptying the cache.
 		$cache_seed = wp_json_encode(
 			array(
 				Text::lower( $question ),
@@ -111,6 +122,7 @@ final class Chat {
 				array_map( static function ( $row ) {
 					return (int) $row['id'];
 				}, $rows ),
+				Options::flag( 'general_knowledge' ),
 			)
 		);
 
@@ -125,6 +137,13 @@ final class Chat {
 				if ( ! array_key_exists( 'declined', $cached ) ) {
 					$cached['declined'] = empty( $cached['grounded'] );
 				}
+				$cached['general'] = ! empty( $cached['general'] );
+
+				// Logged like a fresh reply, at no token cost. Left out, a
+				// question answered from the cache counted once however often
+				// it was asked, and the Insights counts are what the owner
+				// decides which answer to write first from.
+				self::log( $question, (string) $cached['answer'], ! empty( $cached['grounded'] ), $provider->slug(), $model, wp_list_pluck( $rows, 'id' ), 0, 0, $page_url, $cached['general'] );
 
 				return self::finish( $cached, $question );
 			}
@@ -134,13 +153,23 @@ final class Chat {
 		// here rather than sending the question anyway is the difference
 		// between a plugin that cannot invent a price and one that merely asks
 		// a model nicely not to.
-		if ( ! $has_context && 'demo' !== $provider->slug() ) {
+		//
+		// General knowledge is the one exception, and only when the owner
+		// switches it on. "What is a prime lens?" matches no entry on a
+		// photographer's site and is still worth answering, so the question
+		// goes to the provider with no passages and a prompt that says so: it
+		// may answer a general question about the industry and must decline
+		// anything about the business. That is a model asked nicely, which is
+		// exactly why it is off by default. Demo mode has no model to ask and
+		// declines as before.
+		if ( ! $has_context && 'demo' !== $provider->slug() && ! Options::flag( 'general_knowledge' ) ) {
 			$result = array(
 				'answer'   => Prompt::decline(),
 				'sources'  => array(),
 				'cached'   => false,
 				'grounded' => false,
 				'declined' => true,
+				'general'  => false,
 			);
 			self::log( $question, $result['answer'], false, $provider->slug(), $model, array(), 0, 0, $page_url );
 			return self::finish( $result, $question );
@@ -177,14 +206,23 @@ final class Chat {
 			self::clear_failure();
 		}
 
+		// A real model answering with nothing retrieved only happens with
+		// general knowledge on, since the decline above stops everything else.
+		// That reply is an answer: general advice, or the model's own decline
+		// of a question about the business, which carries the hand-off line in
+		// words. Demo mode with nothing retrieved is the other way here, and
+		// that is a decline written without a source.
+		$general = ! $has_context && 'demo' !== $provider->slug();
+
 		$result = array(
 			'answer'   => $text,
 			'sources'  => $sources,
 			'cached'   => false,
 			'grounded' => $has_context,
-			// Nothing was retrieved, so whatever came back is a decline written
-			// without a source. The widget uses this to offer a human.
-			'declined' => ! $has_context,
+			// The widget uses this to offer a human, so only a reply that
+			// declined sets it.
+			'declined' => ! $has_context && ! $general,
+			'general'  => $general,
 		);
 
 		if ( Options::flag( 'cache_answers' ) ) {
@@ -200,7 +238,8 @@ final class Chat {
 			wp_list_pluck( $rows, 'id' ),
 			(int) ( $response['tokens_in'] ?? 0 ),
 			(int) ( $response['tokens_out'] ?? 0 ),
-			$page_url
+			$page_url,
+			$general
 		);
 
 		return self::finish( $result, $question );
@@ -209,11 +248,12 @@ final class Chat {
 	/**
 	 * The last thing that happens to every reply, whichever route produced it.
 	 *
-	 * All four routes out of answer() come through here — a greeting, a decline
-	 * written without a model, a cached answer and a fresh one. A filter that
-	 * only sees some of them is worse than no filter: a site adding an
-	 * "AI generated" notice, or logging replies to its own CRM, would find it
-	 * silently absent from exactly the replies it cared about most.
+	 * All four routes out of answer() come through here — a greeting or other
+	 * small talk, a decline written without a model, a cached answer and a
+	 * fresh one. A filter that only sees some of them is worse than no filter:
+	 * a site adding an "AI generated" notice, or logging replies to its own
+	 * CRM, would find it silently absent from exactly the replies it cared
+	 * about most.
 	 *
 	 * @param array<string,mixed> $result   The answer payload.
 	 * @param string              $question The question asked.
@@ -349,14 +389,16 @@ final class Chat {
 	 * @param int    $tokens_in  Prompt tokens.
 	 * @param int    $tokens_out Completion tokens.
 	 * @param string $page_url   Page the widget was on.
+	 * @param bool   $general    Whether the AI answered it from general knowledge, nothing having matched.
 	 * @return void
 	 */
-	private static function log( string $question, string $answer, bool $answered, string $provider, string $model, array $matched, int $tokens_in, int $tokens_out, string $page_url ): void {
+	private static function log( string $question, string $answer, bool $answered, string $provider, string $model, array $matched, int $tokens_in, int $tokens_out, string $page_url, bool $general = false ): void {
 		Conversation_Log::record(
 			array(
 				'question'   => $question,
 				'answer'     => $answer,
 				'answered'   => $answered,
+				'general'    => $general,
 				'provider'   => $provider,
 				'model'      => $model,
 				'matched'    => $matched,

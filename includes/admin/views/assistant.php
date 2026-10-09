@@ -32,6 +32,7 @@ $curio_pages = wp_dropdown_pages(
 			'header_subtitle',
 			'welcome_message',
 			'contact_line',
+			'help_topics',
 			'persona',
 			'input_placeholder',
 			'handoff_type',
@@ -40,6 +41,7 @@ $curio_pages = wp_dropdown_pages(
 			'handoff_url',
 			'handoff_label',
 			'handoff_always',
+			'general_knowledge',
 			'greeting_bubble',
 			'greeting_bubble_text',
 		)
@@ -98,7 +100,7 @@ $curio_pages = wp_dropdown_pages(
 	<div class="curio-card">
 		<h2><?php esc_html_e( 'When it cannot help', 'curio-ai-chat' ); ?></h2>
 		<p class="curio-lede">
-			<?php esc_html_e( 'An assistant that will not guess declines more often than one that will. That is the trade this plugin is built around, and it makes the moment straight after a decline the most valuable screen in the widget. Two settings cover it: what the assistant says, and what the customer can press.', 'curio-ai-chat' ); ?>
+			<?php esc_html_e( 'An assistant that will not guess declines more often than one that will. That is the trade this plugin is built around, and it makes the moment straight after a decline the most valuable screen in the widget. Three settings cover it: what the assistant says, what it offers instead, and what the customer can press.', 'curio-ai-chat' ); ?>
 		</p>
 
 		<table class="form-table" role="presentation">
@@ -110,6 +112,14 @@ $curio_pages = wp_dropdown_pages(
 						<strong><?php esc_html_e( 'The single most valuable field on this page.', 'curio-ai-chat' ); ?></strong>
 						<?php esc_html_e( 'This is what the assistant says when it cannot help. Without it, a customer with a question you have not covered gets a dead end instead of your phone number.', 'curio-ai-chat' ); ?>
 					</p>
+				</td>
+			</tr>
+
+			<tr>
+				<th scope="row"><label for="curio-help-topics"><?php esc_html_e( 'What it can help with', 'curio-ai-chat' ); ?></label></th>
+				<td>
+					<input type="text" id="curio-help-topics" class="large-text" name="<?php echo esc_attr( Admin::name( 'help_topics' ) ); ?>" value="<?php echo esc_attr( Options::text( 'help_topics' ) ); ?>" maxlength="200" placeholder="<?php esc_attr_e( 'prices, delivery times and booking', 'curio-ai-chat' ); ?>" />
+					<p class="description"><?php esc_html_e( 'Finishes the sentence "I can help with" when the assistant has to say no, so somebody who asked what it cannot answer learns what it can. Keep it short, and keep it to things your knowledge really covers. Leave it blank and the assistant goes straight to the hand-off line.', 'curio-ai-chat' ); ?></p>
 				</td>
 			</tr>
 
@@ -203,6 +213,23 @@ $curio_pages = wp_dropdown_pages(
 				</td>
 			</tr>
 		</table>
+	</div>
+
+	<div class="curio-card">
+		<h2><?php esc_html_e( 'General questions', 'curio-ai-chat' ); ?></h2>
+		<p class="curio-lede">
+			<?php esc_html_e( 'Out of the box the assistant knows only what you have given it, so a general question about your line of work, such as what a term means or how to prepare for an appointment, is declined unless you have written an answer for it.', 'curio-ai-chat' ); ?>
+		</p>
+		<?php
+		Admin::checkbox(
+			'general_knowledge',
+			__( 'Let the AI answer general questions about your industry', 'curio-ai-chat' ),
+			__( 'Briefly, as general advice from its own knowledge, and never as something your business offers. Prices, packages, dates, availability, policies and contact details still come only from your knowledge, and the rule against inventing them stays.', 'curio-ai-chat' )
+		);
+		?>
+		<p class="description">
+			<?php esc_html_e( 'What it changes: a question that matches nothing in your knowledge is sent to your AI provider instead of being declined here, so it uses an API call and counts towards your limits, and the reply has no source to link to. The hand-off button follows it, since nothing from your business is behind it, and the Insights tab lists these questions under their own heading. Keeping your facts out of those replies then rests on the AI following its instructions rather than on the question never reaching it, which is why this stays off until you turn it on. Demo mode is not affected.', 'curio-ai-chat' ); ?>
+		</p>
 	</div>
 
 	<div class="curio-card">

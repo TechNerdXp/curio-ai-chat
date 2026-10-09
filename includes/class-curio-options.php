@@ -55,6 +55,7 @@ final class Options {
 			'header_subtitle'          => '',
 			'welcome_message'          => '',
 			'contact_line'             => '',
+			'help_topics'              => '',
 			'persona'                  => '',
 			'input_placeholder'        => '',
 
@@ -70,6 +71,10 @@ final class Options {
 			'context_chunks'           => 4,
 			'history_turns'            => 4,
 			'show_sources'             => true,
+			// Off by default, because on is a different promise: a question
+			// that matches nothing reaches the provider instead of being
+			// declined here. That is the owner's trade to make, not ours.
+			'general_knowledge'        => false,
 			'cache_answers'            => true,
 			'cache_ttl'                => 24,
 			'rate_limit'               => 12,
@@ -276,7 +281,7 @@ final class Options {
 		$temperature        = isset( $input['temperature'] ) ? (float) $input['temperature'] : $defaults['temperature'];
 		$out['temperature'] = max( 0.0, min( 1.0, round( $temperature, 2 ) ) );
 
-		foreach ( array( 'business_name', 'header_subtitle', 'contact_line', 'input_placeholder', 'launcher_label', 'greeting_bubble_text', 'handoff_label' ) as $key ) {
+		foreach ( array( 'business_name', 'header_subtitle', 'contact_line', 'help_topics', 'input_placeholder', 'launcher_label', 'greeting_bubble_text', 'handoff_label' ) as $key ) {
 			$out[ $key ] = sanitize_text_field( (string) ( $input[ $key ] ?? '' ) );
 		}
 		foreach ( array( 'welcome_message', 'persona' ) as $key ) {
@@ -344,6 +349,7 @@ final class Options {
 
 		foreach ( array(
 			'show_sources',
+			'general_knowledge',
 			'cache_answers',
 			'enabled',
 			'hide_for_logged_in',

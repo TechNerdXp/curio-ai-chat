@@ -756,9 +756,14 @@
 					trimHistory();
 					writeStore();
 
-					// The server says whether it had anything to ground that
-					// reply in. It did not, so the visitor has just been told no.
-					if ( result.data && result.data.declined ) {
+					// The server says whether that reply turned the visitor
+					// down, or was general advice written with nothing from the
+					// business behind it. Either way a person is the next useful
+					// step: a business question that matched nothing reaches the
+					// model when general knowledge is on, and the model's own
+					// "I do not have that" arrives flagged as general, not as a
+					// decline. It counts as an answer in Insights all the same.
+					if ( result.data && ( result.data.declined || result.data.general ) ) {
 						showHandoff();
 					}
 				}, beat( answer, started ) );
